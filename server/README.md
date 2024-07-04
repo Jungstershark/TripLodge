@@ -20,4 +20,4 @@ npm start
 
 ## API Endpoints
 ## Acknowledgements
-1. We refer to [50.003 Lecture 5.1](https://sutd50003.github.io/notes/l5_1_expressjs_backend_mongo/#to-make-the-express-app-es6-compatible-optional) to make the Express app ES6 compatible and enable Babel
+1. We refer to [50.003 Lecture 5.1](https://sutd50003.github.io/notes/l5_1_expressjs_backend_mongo/#to-make-the-express-app-es6-compatible-optional) to make the Express app ES6 compatible.
