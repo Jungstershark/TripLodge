@@ -1,0 +1,1 @@
+Hi guys please remember to cd into api **AND** client and do `npm install` for both folders after you git clone to install the dependencies for both apps. They are git ignored as they should not be pushed to github.
