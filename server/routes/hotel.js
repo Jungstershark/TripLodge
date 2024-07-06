@@ -9,7 +9,7 @@ router.get('/:id', async function(req, res, next) {
   const apiUrl = `${ascendaAPI.baseUrl}${ascendaAPI.endpoints.getHotelInfo(hotelId)}`
   try {
     const response = await axios.get(apiUrl);
-    console.log(response.data);
+    res.json(response.data);
   } catch (error) {
       res.status(500).json({ error: error.message });
   } 

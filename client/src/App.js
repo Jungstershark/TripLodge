@@ -1,20 +1,35 @@
-import React from 'react'
-import Badge from '@mui/material/Badge';
-import Stack from '@mui/material/Stack';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import MailIcon from '@mui/icons-material/Mail';
+import React, { useState } from 'react';
+import './App.css'
+import Button from '@mui/material/Button';
+
+const fetchAPI = async () => {
+  const response = await fetch('/hotel/diH7');
+  const data = await response.json();
+  return data.name;
+};
 
 function App() {
+  const [data, setData] = useState('');
+
+  const fetchData = () => {
+    fetchAPI()
+      .then(apiData => {
+        setData(apiData); // Update state with fetched data
+      });
+  };
+
+  const handleClick = () => {
+    setData('');
+  }
+
   return (
-    <Stack spacing={2} direction="row">
-      <Badge badgeContent={4} color="secondary">
-        <ShoppingCartIcon color="action" />
-      </Badge>
-      <Badge badgeContent={4} color="success">
-        <MailIcon color="action" />
-      </Badge>
-    </Stack>
-  )
+    <div className='center'>
+      <p>Hello test</p>
+      <p>{data}</p>
+      <Button variant="contained" onClick={fetchData}>Fetch API</Button>
+      <button onClick={handleClick}>Reset</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
