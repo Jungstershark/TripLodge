@@ -1,7 +1,7 @@
 import express, { json } from 'express';
+import 'dotenv/config'
 
 // Routes imports
-import accountRouter from '../routes/account.js'
 import hotelRouter from '../routes/hotel.js'
 
 const app = express();
