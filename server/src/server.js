@@ -2,7 +2,7 @@ import express, { json } from 'express';
 
 // Routes imports
 import accountRouter from '../routes/account.js'
-import bookingRouter from '../routes/booking.js'
+import hotelRouter from '../routes/hotel.js'
 
 const app = express();
 
@@ -14,7 +14,6 @@ app.get('/', async (req, res) => {
     res.json({ status: true, message: "Our node.js app works" })
 });
 
-app.use('/manage-account', accountRouter);
-app.use('/manage-booking', bookingRouter);
+app.use('/hotel', hotelRouter);
 
 app.listen(PORT, () => console.log(`App listening at port ${PORT}`));
