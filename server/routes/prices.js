@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Render the form page with dropdowns
 router.get('/', (req, res) => {
-  res.render('/prices/filterPrices'); // Render the EJS template with dropdowns
+  res.render('prices/filterPrices'); // Render the EJS template with dropdowns
 });
 
 // Handle form submission and fetch hotel prices based on selected filters
@@ -19,7 +19,7 @@ router.get('/results', async (req, res) => {
 
   try {
     const prices = await getHotelPrices({ destination_id, checkin, checkout, lang, currency, guests });
-    res.render('/prices/displayPrices', { prices }); // Render the results on another EJS template
+    res.render('prices/displayPrices', { prices }); // Render the results on another EJS template
   } catch (error) {
     console.error('Error fetching hotel prices:', error.message);
     res.status(500).json({ error: error.message });
