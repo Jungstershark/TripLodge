@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Prices</title>
+</head>
+<body>
+  <h1>Hotel Prices</h1>
+  <% if (prices.length > 0) { %>
+    <ul>
+      <% prices.forEach(price => { %>
+        <li>
+          <h2>Hotel ID: <%= price.id %></h2>
+          <p>Search Rank: <%= price.searchRank %></p>
+          <p>Price Type: <%= price.price_type %></p>
+          <p>Max Cash Payment: <%= price.max_cash_payment %></p>
+          <p>Converted Max Cash Payment: <%= price.coverted_max_cash_payment %></p>
+          <p>Points: <%= price.points %></p>
+          <p>Bonuses: <%= price.bonuses %></p>
+          <% if (price.bonus_programs && price.bonus_programs.length > 0) { %>
+            <p>Bonus Programs: <%= price.bonus_programs.join(', ') %></p>
+          <% } %>
+          <% if (price.bonus_tiers && price.bonus_tiers.length > 0) { %>
+            <p>Bonus Tiers: <%= price.bonus_tiers.join(', ') %></p>
+          <% } %>
+          <p>Lowest Price: <%= price.lowest_price %></p>
+          <p>Price: <%= price.price %></p>
+          <p>Converted Price: <%= price.converted_price %></p>
+          <p>Lowest Converted Price: <%= price.lowest_converted_price %></p>
+          <% if (price.market_rates && price.market_rates.length > 0) { %>
+            <p>Market Rates:</p>
+            <ul>
+              <% price.market_rates.forEach(rate => { %>
+                <li>
+                  <p>Supplier: <%= rate.supplier %></p>
+                  <p>Rate: <%= rate.rate %></p>
+                </li>
+              <% }); %>
+            </ul>
+          <% } %>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No hotels found for the selected criteria.</p>
+  <% } %>
+</body>
+</html>

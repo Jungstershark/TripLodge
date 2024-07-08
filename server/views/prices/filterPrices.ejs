@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Hotel Prices</title>
+</head>
+<body>
+  <form action="/prices/results" method="GET">
+    <label for="destination_id">Destination:</label>
+    <select name="destination_id" id="destination_id">
+      <option value="WD0M">Destination 1</option>
+      <option value="WD1N">Destination 2</option>
+      <!-- Add more options as needed -->
+    </select><br>
+
+    <label for="checkin">Check-in Date:</label>
+    <input type="date" name="checkin" id="checkin" required><br>
+
+    <label for="checkout">Check-out Date:</label>
+    <input type="date" name="checkout" id="checkout" required><br>
+
+    <label for="lang">Language:</label>
+    <select name="lang" id="lang">
+      <option value="en_US">English</option>
+      <option value="zh_CN">Chinese</option>
+      <!-- Add more options as needed -->
+    </select><br>
+
+    <label for="currency">Currency:</label>
+    <select name="currency" id="currency">
+      <option value="SGD">SGD</option>
+      <option value="USD">USD</option>
+      <!-- Add more options as needed -->
+    </select><br>
+
+    <label for="guests">Number of Guests:</label>
+    <input type="text" name="guests" id="guests" required placeholder="e.g., 2|2 for two rooms with two guests each"><br>
+
+    <button type="submit">Search</button>
+  </form>
+</body>
+</html>

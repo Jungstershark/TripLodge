@@ -1,0 +1,22 @@
+//UNTESTED
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Price Details</title>
+</head>
+<body>
+  <h1>Hotel Price Details</h1>
+  <% if (priceDetails) { %>
+    <div>
+      <h2>Hotel ID: <%= priceDetails.id %></h2>
+      <p>Price: <%= priceDetails.price %> <%= priceDetails.currency %></p>
+      <!-- Display more details as needed -->
+    </div>
+  <% } else { %>
+    <p>No details found for the selected hotel.</p>
+  <% } %>
+</body>
+</html>
