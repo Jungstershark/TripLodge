@@ -1,4 +1,3 @@
-
 import fetch from 'node-fetch';
 import { ascendaAPI } from '../config.js';
 
