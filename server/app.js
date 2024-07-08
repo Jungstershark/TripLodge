@@ -12,6 +12,7 @@ import 'dotenv/config'
 // Routes imports
 import hotelRouter from './routes/hotel.js'
 import indexRouter from './routes/index.js';
+import priceRouter from './routes/prices.js';
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use(express.static(path.join(path.dirname(''), 'public')));
 
 app.use('/', indexRouter);
 app.use('/hotel', hotelRouter);
+app.use('/prices', priceRouter);
 
 
 
