@@ -1,64 +1,95 @@
-import fetch from 'node-fetch';
-import { ascendaAPI } from '../config.js';
+import axios from "axios";
 
-async function getHotelsByDestination({ destination_id }) {
-  const apiUrl = `${ascendaAPI.baseUrl}${ascendaAPI.endpoints.hotelInfoByDestination}?destination_id=${destination_id}`;
-  console.log(apiUrl);
+import { ascendaAPI } from "./ascendaApi.js";
 
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    console.log('Response Data:', data);
-
-    if (!data || !data.hotels) {
-      throw new Error('Invalid response from API');
+class Hotel {
+    constructor(id, name, latitude, longtitude, address, rating, categories, description, amenities, image_details) {
+        // parameter names follow JSON response attribute names
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longtitude = longtitude;
+        this.address = address;
+        this.rating = rating;
+        this.categories = categories;
+        this.description = description;
+        this.amenities = amenities;
+        this.imageDetails = image_details;
     }
-
-    return data.hotels; // Return the hotels array
-  } catch (error) {
-    console.error('Error fetching hotels:', error);
-    throw new Error('Error fetching hotels');
-  }
 }
 
-async function getHotelById({ hotel_id }) {
-  const apiUrl = `${ascendaAPI.baseUrl}${ascendaAPI.endpoints.getHotelInfo(hotel_id)}`;
-  console.log(apiUrl);
+/**
+ * Fetch all hotels at specified destination.
+ * @param {string} destination_id - The ID of the destination.
+ * @returns {Promise<Hotel[]>} A promise that resolves to an array of Hotel instances.
+ * @throws Will throw an error if the request fails.
+ */
+async function fetchHotelsByDestination(destination_id) {
+    try {
+        // GET hotels from API
+        const response = await axios.get(ascendaAPI.getHotelsByDestination, {
+            params: {
+                destination_id: destination_id
+            }
+        }); 
+        const hotelsData = response.data; // array: response body (already parsed from the JSON response)
 
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    console.log('Response Data:', data);
-
-    if (!data || !data.hotel) {
-      throw new Error('Invalid response from API');
+        // Convert each hotel data object into a Hotel instance
+        const hotelList = hotelsData.map(hotel => new Hotel(
+            hotel.id,
+            hotel.name,
+            hotel.latitude,
+            hotel.longtitude,
+            hotel.address,
+            hotel.rating,
+            hotel.categories,
+            hotel.description,
+            hotel.amenities,
+            hotel.image_details
+        ));
+        
+        return hotelList;
+    } catch(error) {
+        console.error("Error fetching hotels by destination:", error);
+        throw error;
     }
-
-    return data.hotel; // Return the hotel object
-  } catch (error) {
-    console.error('Error fetching hotel details:', error);
-    throw new Error('Error fetching hotel details');
-  }
 }
 
-async function getAllHotels() {
-  const apiUrl = `${ascendaAPI.baseUrl}${ascendaAPI.endpoints.allHotels}`;
-  console.log(apiUrl);
+/**
+ * Fetch a hotel by its ID.
+ * @param {string} id - The ID of the hotel.
+ * @returns {Promise<Hotel>} A promise that resolves to a Hotel instance.
+ * @throws Will throw an error if the request fails.
+ */
+async function fetchHotel(id) {
+    try {
+        // GET hotel from API
+        const response = await axios.get(ascendaAPI.getHotel(id)); 
+        const hotelData = response.data;
 
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    console.log('Response Data:', data);
-
-    if (!data || !data.hotels) {
-      throw new Error('Invalid response from API');
+        // Convert hotel data object into a Hotel instance
+        const hotel = new Hotel(
+            hotelData.id,
+            hotelData.name,
+            hotelData.latitude,
+            hotelData.longtitude,
+            hotelData.address,
+            hotelData.rating,
+            hotelData.categories,
+            hotelData.description,
+            hotelData.amenities,
+            hotelData.image_details
+        );
+        
+        return hotel;
+    } catch(error) {
+        console.error("Error fetching hotel by ID:", error);
+        throw error;
     }
-
-    return data.hotels; // Return the hotels array
-  } catch (error) {
-    console.error('Error fetching all hotels:', error);
-    throw new Error('Error fetching all hotels');
-  }
 }
 
-export { getHotelsByDestination, getHotelById, getAllHotels };
+// Quick Testing
+// fetchHotel('diH7').then((hotel)=> console.log(hotel.name));
+
+
+export { Hotel, fetchHotelsByDestination, fetchHotel };
