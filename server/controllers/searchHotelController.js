@@ -13,18 +13,24 @@ let hotelListCache = {}; // In-memory cache
 // TODO: handle filtering
 
 async function searchHotelByDestination(req, res, next) {
-    const { id } = req.param;
-    const hotelList = await 
 
-    console.log("WIP");
+    const { id } = req.params;
+    console.log("destination id:", id);
+
+    const hotelList = await fetchHotelsByDestination(id);
+    console.log(hotelList);
+    
     res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
-    // res.send(`${JSON.stringify(staffs)}`);
+    //res.json(hotelList);
+    res.send(`${JSON.stringify(hotelList)}`);
 }
 
 async function searchHotelById(req, res, next) {
-    console.log("WIP");
+    const { id } = req.param;
+    const hotelList = await fetchHotel(id);
+
     res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
-    // res.send(`${JSON.stringify(staffs)}`);
+    res.send(`${JSON.stringify(hotelList)}`);
 }
 
 export { searchHotelByDestination, searchHotelById };

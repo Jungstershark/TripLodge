@@ -47,8 +47,9 @@ async function fetchHotelsByDestination(destination_id) {
             hotel.amenities,
             hotel.image_details
         ));
-        
+
         return hotelList;
+        
     } catch(error) {
         console.error("Error fetching hotels by destination:", error);
         throw error;
@@ -89,7 +90,7 @@ async function fetchHotel(id) {
 }
 
 // Quick Testing
-// fetchHotel('diH7').then((hotel)=> console.log(hotel.name));
+fetchHotel('diH7').then((hotel)=> console.log(hotel.name));
 
 
 export { Hotel, fetchHotelsByDestination, fetchHotel };
