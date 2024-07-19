@@ -20,28 +20,46 @@ class HotelPrice {
  * @param {string} lang - Language code (e.g. "en_US")
  * @param {string} currency - ISO code for currencies (e.g. "SGD")
  * @param {string} guests - Number of guests staying per room. If there are more than one room, append with '|' separator (e.g. "2|2")
- * @param {number} [poll_idx=0] - The index position to start constructing HotelPrice instances from the result array. This is used because this function may be called multiple times to re-poll the API (until completed flag is true)
+ * @param {number} [maxPollCount=10] - Maximum number of times to poll API until response's 'completed' flag is true
+ * @param {number} [pollInterval=500] - Time in milliseconds between each API poll (when response's 'completed' flag is false)
  * @returns {Promise<HotelPrice[]>} A promise that resolves to an array of HotelPrice instances.
  * @throws Will throw an error if the request fails.
  */
-async function fetchHotelPricesByDestination(destination_id, checkin, checkout, lang, currency, guests, poll_idx=0) {
+async function fetchHotelPricesByDestination(destination_id, checkin, checkout, lang, currency, guests, pollInterval=500, maxPollCount=10) {
     try {
-        // GET hotel prices from API
-        const response = await axios.get(ascendaAPI.getHotelPricesByDestination, {
-            params: {
-                destination_id: destination_id,
-                checkin: checkin,
-                checkout: checkout,
-                lang: lang,
-                currency: currency,
-                guests: guests,
-                partner_id: 1
-            }
-        }); 
-        const isFetchComplete = response.data.completed; // TODO: handling if fetch is incomplete
-        const hotelPricesData = response.data.hotels.slice(poll_idx); 
+        
+        let isFetchComplete = false; // whether response is complete
+        let response = null;
+        let pollCount = 0; // number of times API is polled
 
-        // Convert each hotel price data object into a HotelPrice instance (only from poll index onwards)
+        while (!isFetchComplete) {
+            // GET hotel prices from API
+            response = await axios.get(ascendaAPI.getHotelPricesByDestination, {
+                params: {
+                    destination_id: destination_id,
+                    checkin: checkin,
+                    checkout: checkout,
+                    lang: lang,
+                    currency: currency,
+                    guests: guests,
+                    partner_id: 1
+                }
+            });
+
+            isFetchComplete = response.data.completed;
+            pollCount += 1;
+            
+            if (isFetchComplete==false) {
+                if (pollCount >= maxPollCount) { throw new Error("Exceeded API poll limit."); }
+
+                // Repoll after specified interval (in milliseconds)
+                await new Promise(resolve => setTimeout(resolve, pollInterval)); 
+            }
+        }
+
+        const hotelPricesData = response.data.hotels; 
+
+        // Convert each hotel price data object into a HotelPrice instance
         const hotelPricesList = hotelPricesData.map(hotel => new HotelPrice(
             hotel.id,
             hotel.searchRank,
@@ -49,10 +67,9 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
             hotel.market_rates
         ));
         
-        return {
-            isFetchComplete: isFetchComplete,
-            hotelPricesList: hotelPricesList
-        }
+        console.log(`API polled ${pollCount} time(s)`);
+        return hotelPricesList;
+        
     } catch(error) {
         console.error("Error fetching hotel prices by destination:", error);
         throw error;
@@ -61,8 +78,7 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
 
 // Quick Testing
 // fetchHotelPricesByDestination("WD0M","2024-10-01","2024-10-07","en_US","SGD",2).then((result) => {
-//     console.log(result.isFetchComplete);
-//     console.log(result.hotelPricesList.length);
+//     console.log(result.length);
 // });
 
 

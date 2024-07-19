@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { ascendaAPI } from '../../config.js'; // Adjust the path as necessary
+import { ascendaAPI } from '../../../config.js'; // Adjust the path as necessary
 
 async function getHotelPrices({ destination_id, checkin, checkout, lang, currency, guests }) {
   const apiUrl = `${ascendaAPI.baseUrl}${ascendaAPI.endpoints.hotelPricesByDestination}?destination_id=${destination_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=1`;

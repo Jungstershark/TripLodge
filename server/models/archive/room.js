@@ -27,44 +27,26 @@ class Room {
  * @param {string} lang - Language code (e.g. "en_US")
  * @param {string} currency - ISO code for currencies (e.g. "SGD")
  * @param {string} guests - Number of guests staying per room. If there are more than one room, append with '|' separator (e.g. "2|2")
- * @param {number} [maxPollCount=10] - Maximum number of times to poll API until response's 'completed' flag is true
- * @param {number} [pollInterval=500] - Time in milliseconds between each API poll (when response's 'completed' flag is false)
+ * @param {number} [poll_idx=0] - The index position to start constructing HotelPrice instances from the result array. This is used because this function may be called multiple times to re-poll the API (until completed flag is true)
  * @returns {Promise<Room[]>} A promise that resolves to an array of Room instances.
  * @throws Will throw an error if the request fails.
  */
-async function fetchRoomPrices(id, destination_id, checkin, checkout, lang, currency, guests, pollInterval=500, maxPollCount=10) {
+async function fetchRoomPrices(id, destination_id, checkin, checkout, lang, currency, guests, poll_idx=0) {
     try {
-
-        let isFetchComplete = false; 
-        let response = null;
-        let pollCount = 0; // number of times API is polled
-
-        while (!isFetchComplete) {
-            // GET hotel price from API
-            response = await axios.get(ascendaAPI.getHotelPrice(id), {
-                params: {
-                    destination_id: destination_id,
-                    checkin: checkin,
-                    checkout: checkout,
-                    lang: lang,
-                    currency: currency,
-                    guests: guests,
-                    partner_id: 1
-                }
-            }); 
-
-            isFetchComplete = response.data.completed;
-            pollCount += 1;
-
-            if (isFetchComplete==false) {
-                if (pollCount >= maxPollCount) { throw new Error("Exceeded API poll limit."); }
-                
-                // Repoll after specified interval (in milliseconds)
-                await new Promise(resolve => setTimeout(resolve, pollInterval)); 
+        // GET hotel price from API
+        const response = await axios.get(ascendaAPI.getHotelPrice(id), {
+            params: {
+                destination_id: destination_id,
+                checkin: checkin,
+                checkout: checkout,
+                lang: lang,
+                currency: currency,
+                guests: guests,
+                partner_id: 1
             }
-        }
-        
-        const roomPricesData = response.data.rooms;
+        }); 
+        const isFetchComplete = response.data.completed; // TODO: handling if fetch is incomplete
+        const roomPricesData = response.data.rooms.slice(poll_idx);
 
         // Convert each room prices data object into a Room instance
         const roomList = roomPricesData.map(room => new Room(
@@ -80,9 +62,10 @@ async function fetchRoomPrices(id, destination_id, checkin, checkout, lang, curr
             room.market_rates
         ));
         
-        console.log(`API polled ${pollCount} time(s)`);
-        return roomList;
-
+        return {
+            isFetchComplete: isFetchComplete,
+            roomList: roomList
+        }
     } catch(error) {
         console.error("Error fetching room prices of given hotel:", error);
         throw error;
@@ -91,7 +74,8 @@ async function fetchRoomPrices(id, destination_id, checkin, checkout, lang, curr
 
 // Quick Testing
 // fetchRoomPrices("diH7","WD0M","2024-10-01","2024-10-07","en_US","SGD",2).then((result) => {
-//     console.log(result.length);
+//     console.log(result.isFetchComplete);
+//     console.log(result.roomList.length);
 // });
 
 export { Room, fetchRoomPrices };
