@@ -88,3 +88,5 @@ async function fetchHotel(id) {
         throw error;
     }
 }
+
+export { Hotel, fetchHotelsByDestination, fetchHotel };
