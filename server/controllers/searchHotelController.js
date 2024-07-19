@@ -1,7 +1,7 @@
 import { Hotel, fetchHotelsByDestination, fetchHotel } from "../models/hotel.js"; 
 
 // We can set up a cache system like so:
-let hotelListCache = {}; // In-memory cache
+let destinationCache = {}; // In-memory cache
 // Whenever we fetch list of hotels from searchHotelByDestination, we can cache it
 
 
@@ -15,22 +15,25 @@ let hotelListCache = {}; // In-memory cache
 async function searchHotelByDestination(req, res, next) {
 
     const { id } = req.params;
-    console.log("destination id:", id);
-
-    const hotelList = await fetchHotelsByDestination(id);
-    console.log(hotelList);
     
+    // If destination not in cache:
+    if (!destinationCache[id]) {
+        console.log(`Destination ${id} cached`);
+        destinationCache[id] = await fetchHotelsByDestination(id); // add to cache
+    } else {
+        console.log(`Destination ${id} already in cache`);
+    }
+
     res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
-    //res.json(hotelList);
-    res.send(`${JSON.stringify(hotelList)}`);
+    res.json(destinationCache[id]);
 }
 
 async function searchHotelById(req, res, next) {
-    const { id } = req.param;
-    const hotelList = await fetchHotel(id);
-
+    const { id } = req.params;
+    const hotel = await fetchHotel(id);
+    
     res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
-    res.send(`${JSON.stringify(hotelList)}`);
+    res.json(hotel);
 }
 
 export { searchHotelByDestination, searchHotelById };
