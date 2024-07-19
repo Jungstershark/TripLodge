@@ -88,9 +88,3 @@ async function fetchHotel(id) {
         throw error;
     }
 }
-
-// Quick Testing
-fetchHotel('diH7').then((hotel)=> console.log(hotel.name));
-
-
-export { Hotel, fetchHotelsByDestination, fetchHotel };
