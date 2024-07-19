@@ -1,5 +1,5 @@
 import express from 'express';
-import { getHotelsByDestination, getHotelById, getAllHotels } from '../models/hotel.js';
+import { getHotelsByDestination, getHotelById, getAllHotels } from '../../models/hotel.js';
 
 const router = express.Router();
 

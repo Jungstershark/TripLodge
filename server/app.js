@@ -6,13 +6,9 @@ import process from 'process';
 import express, { json } from 'express';
 import 'dotenv/config'
 
-
-// Models imports
-
 // Routes imports
-import hotelRouter from './routes/hotel.js'
+import searchHotelRouter from './routes/searchHotel.js'
 import indexRouter from './routes/index.js';
-import priceRouter from './routes/prices.js';
 
 const app = express();
 
@@ -34,15 +30,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(path.dirname(''), 'public')));
 
-
+// setup routes
 app.use('/', indexRouter);
-app.use('/hotel', hotelRouter);
-app.use('/prices', priceRouter);
-
-
-
-
-
+app.use('/search', searchHotelRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
