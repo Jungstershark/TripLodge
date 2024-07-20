@@ -21,8 +21,8 @@ async function searchHotelByDestination(req, res, next) {
     // Further filter list of hotels accordingly
     const filters = req.body.filters; // filters object (null means no filters)
     const result = filterHotels({
-        hotels: hotelsMap,
-        hotelPrices: hotelPricesMap
+        hotelsMap: hotelsMap,
+        hotelPricesMap: hotelPricesMap
     }, filters);
 
     res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
@@ -49,7 +49,7 @@ async function searchHotelById(req, res, next) {
 }
 
 // Cache System
-let destinationCache = {}; // In-memory cache for list of hotels obtained from fetchHotelsByDestination
+let destinationCache = {}; // In-memory cache for list of hotels obtained from fetchHotelsByDestination (persists as long as server is running)
 async function getCacheHotelsByDestination(id) {
     if (!destinationCache[id]) { // If destination not in cache
         // Save to cache
@@ -65,9 +65,29 @@ async function getCacheHotelsByDestination(id) {
 function filterHotels(hotelInfo, filters) {
     // hotelInfo will be an object with two key-value pairs: a map of hotels & a map of hotel prices
     // Note: both maps likely not of the same length because the latter is obtained with further constraints (e.g. check in and check out date)
+    const {hotelsMap, hotelPricesMap} = hotelInfo;
     
+    // We search for valid hotels amongst the HotelPrices instances since those are further constrained (we only use map of hotels to get hotel info)
+
     // Possible filters: by ratings, guest ratings, price range, amenities (need to discuss further)
-    const {ratingFloor, priceRange, amenities} = filters;
+    const {ratingFloor, priceCeil, amenities} = filters;
+
+    // Convert the values in the hotel prices map (which will be the HotelPrice instances) into an array so that we can use filter() method
+    const filteredHotelPricesArray = Array.from(hotelPricesMap.values()).filter(hotelPrice => hotelPrice.price < priceCeil);
+    filteredHotelPricesArray.filter(hotelPrice => {
+        const hotel = hotelsMap.get(hotelPrice.id); // hotel object
+        return hotel.categories.overall.score >= ratingFloor;
+    })
+    // TODO: filter properly
+
+    const result = []; // array
+    for (const hotelPrice of filteredHotelPricesArray) {
+        result.push({
+            hotel: hotelsMap.get(hotelPrice.id),
+            price: hotelPrice.price
+        })
+    }
+    return result;
 }
 
 export { searchHotelByDestination, searchHotelById };
