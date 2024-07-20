@@ -22,7 +22,7 @@ class HotelPrice {
  * @param {string} guests - Number of guests staying per room. If there are more than one room, append with '|' separator (e.g. "2|2")
  * @param {number} [maxPollCount=10] - Maximum number of times to poll API until response's 'completed' flag is true
  * @param {number} [pollInterval=500] - Time in milliseconds between each API poll (when response's 'completed' flag is false)
- * @returns {Promise<HotelPrice[]>} A promise that resolves to an array of HotelPrice instances.
+ * @returns {Promise<Map<string, Hotel>>} A Promise that resolves to a Map with Hotel id as keys and HotelPrice objects as values.
  * @throws Will throw an error if the request fails.
  */
 async function fetchHotelPricesByDestination(destination_id, checkin, checkout, lang, currency, guests, pollInterval=500, maxPollCount=10) {
@@ -59,16 +59,20 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
 
         const hotelPricesData = response.data.hotels; 
 
-        // Convert each hotel price data object into a HotelPrice instance
-        const hotelPricesList = hotelPricesData.map(hotel => new HotelPrice(
+        // Convert each hotel price data object into a HotelPrice instance and populate the Map
+        const hotelPricesMap = hotelPricesData.reduce((map, hotel) => {
+            const hotelPrice = new HotelPrice(
             hotel.id,
             hotel.searchRank,
             hotel.price,
             hotel.market_rates
-        ));
+            );
+            map.set(hotelPrice.id, hotelPrice);
+            return map;
+        }, new Map());
         
         console.log(`API polled ${pollCount} time(s)`);
-        return hotelPricesList;
+        return hotelPricesMap;
         
     } catch(error) {
         console.error("Error fetching hotel prices by destination:", error);
@@ -78,7 +82,7 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
 
 // Quick Testing
 // fetchHotelPricesByDestination("WD0M","2024-10-01","2024-10-07","en_US","SGD",2).then((result) => {
-//     console.log(result.length);
+//     console.log(result);
 // });
 
 

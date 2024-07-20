@@ -3,12 +3,12 @@ import axios from "axios";
 import { ascendaAPI } from "./ascendaApi.js";
 
 class Hotel {
-    constructor(id, name, latitude, longtitude, address, rating, categories, description, amenities, image_details) {
+    constructor(id, name, latitude, longitude, address, rating, categories, description, amenities, image_details) {
         // parameter names follow JSON response attribute names
         this.id = id;
         this.name = name;
         this.latitude = latitude;
-        this.longtitude = longtitude;
+        this.longitude = longitude;
         this.address = address;
         this.rating = rating;
         this.categories = categories;
@@ -21,7 +21,7 @@ class Hotel {
 /**
  * Fetch all hotels at specified destination.
  * @param {string} destination_id - The ID of the destination.
- * @returns {Promise<Hotel[]>} A promise that resolves to an array of Hotel instances.
+ * @returns {Promise<Map<string, Hotel>>} A Promise that resolves to a Map with Hotel id as keys and Hotel objects as values.
  * @throws Will throw an error if the request fails.
  */
 async function fetchHotelsByDestination(destination_id) {
@@ -34,21 +34,30 @@ async function fetchHotelsByDestination(destination_id) {
         }); 
         const hotelsData = response.data; // array: response body (already parsed from the JSON response)
 
-        // Convert each hotel data object into a Hotel instance
-        const hotelList = hotelsData.map(hotel => new Hotel(
-            hotel.id,
-            hotel.name,
-            hotel.latitude,
-            hotel.longtitude,
-            hotel.address,
-            hotel.rating,
-            hotel.categories,
-            hotel.description,
-            hotel.amenities,
-            hotel.image_details
-        ));
+        // Convert each hotel data object into a Hotel instance and populate the Map
+        const hotelsMap = hotelsData.reduce((map, hotelData) => {
+            // Create a new Hotel instance
+            const hotel = new Hotel(
+            hotelData.id,
+            hotelData.name,
+            hotelData.latitude,
+            hotelData.longitude,  
+            hotelData.address,
+            hotelData.rating,
+            hotelData.categories,
+            hotelData.description,
+            hotelData.amenities,
+            hotelData.image_details
+            );
+            
+            // Add the Hotel instance to the map with the id as the key
+            map.set(hotel.id, hotel);
+            
+            // Return the updated map to be used as the accumulator in the next iteration
+            return map;
+        }, new Map()); // Initial value for the accumulator
 
-        return hotelList;
+        return hotelsMap;
         
     } catch(error) {
         console.error("Error fetching hotels by destination:", error);
@@ -73,7 +82,7 @@ async function fetchHotel(id) {
             hotelData.id,
             hotelData.name,
             hotelData.latitude,
-            hotelData.longtitude,
+            hotelData.longitude,
             hotelData.address,
             hotelData.rating,
             hotelData.categories,
@@ -88,3 +97,5 @@ async function fetchHotel(id) {
         throw error;
     }
 }
+
+export { Hotel, fetchHotelsByDestination, fetchHotel };
