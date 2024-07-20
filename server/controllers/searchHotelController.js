@@ -2,11 +2,6 @@ import { Hotel, fetchHotelsByDestination, fetchHotel } from "../models/hotel.js"
 import { HotelPrice, fetchHotelPricesByDestination } from "../models/hotelPrice.js";
 import { Room, fetchRoomPrices } from "../models/room.js";
 
-// We can set up a cache system like so:
-let destinationCache = {}; // In-memory cache
-// Whenever we fetch list of hotels from searchHotelByDestination, we can cache it
-
-
 // Arguments in URL path (e.g. /:id) can be taken from req.params (e.g. req.params.id)
 // Query arguments (e.g. /hotel?id=1) can be taken from req.query (e.g. req.query.id)
 // Arguments in POST request body can be taken from req.body (e.g. req.body.name)
@@ -20,24 +15,15 @@ async function searchHotelByDestination(req, res, next) {
     const {checkin, checkout, lang, currency, guests} = req.body;
     
     // Get list of hotels (and prices) from given destination
-    if (!destinationCache[id]) { // If destination not in cache
-        // Make API fetch calls concurrently:
-        const [hotelsMap, hotelPricesMap] = await Promise.all([fetchHotelsByDestination(id), 
-            fetchHotelPricesByDestination(id, checkin, checkout, lang, currency, guests)]);
-
-        // Save to cache
-        destinationCache[id] = {
-            hotels: hotelsMap,
-            hotelPrices: hotelPricesMap 
-        }; 
-        console.log(`Destination ${id} cached`);
-    } else {
-        console.log(`Cache accessed: destination ${id}`);
-    }
+    const [hotelsMap, hotelPricesMap] = await Promise.all([getCacheHotelsByDestination(id), 
+        fetchHotelPricesByDestination(id, checkin, checkout, lang, currency, guests)]); // concurrent API fetch calls
 
     // Further filter list of hotels accordingly
     const filters = req.body.filters; // filters object (null means no filters)
-    const result = filterHotels(destinationCache[id], filters);
+    const result = filterHotels({
+        hotels: hotelsMap,
+        hotelPrices: hotelPricesMap
+    }, filters);
 
     res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
     res.json(result);
@@ -62,10 +48,26 @@ async function searchHotelById(req, res, next) {
     res.json(result);
 }
 
+// Cache System
+let destinationCache = {}; // In-memory cache for list of hotels obtained from fetchHotelsByDestination
+async function getCacheHotelsByDestination(id) {
+    if (!destinationCache[id]) { // If destination not in cache
+        // Save to cache
+        destinationCache[id] = await fetchHotelsByDestination(id);
+        console.log(`Destination ${id} cached`);
+    } else {
+        console.log(`Cache accessed: destination ${id}`);
+    }
+
+    return destinationCache[id];
+}
+
 function filterHotels(hotelInfo, filters) {
-    /**
-     * Filter
-     */
+    // hotelInfo will be an object with two key-value pairs: a map of hotels & a map of hotel prices
+    // Note: both maps likely not of the same length because the latter is obtained with further constraints (e.g. check in and check out date)
+    
+    // Possible filters: by ratings, guest ratings, price range, amenities (need to discuss further)
+    const {ratingFloor, priceRange, amenities} = filters;
 }
 
 export { searchHotelByDestination, searchHotelById };
