@@ -1,7 +1,7 @@
 import React from 'react';
 import PageHeader from '../pageHeader/pageHeader';
 import SearchBar from '../searchBar/searchBar';
-import FilterSection from './filterSection';
+import FilterSection from './filterSection/filterSection.js';
 import HotelList from './hotelList/hotelList';
 import './hotelsearch.css'; 
 

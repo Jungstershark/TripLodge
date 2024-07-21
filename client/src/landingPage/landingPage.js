@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeader from './pageHeader.js';
+import PageHeader from '../pageHeader/pageHeader.js';
 import SearchBar from '../searchBar/searchBar.js';
 import './landingPage.css';
 

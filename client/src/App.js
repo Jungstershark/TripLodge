@@ -1,7 +1,7 @@
 import React from 'react';
 // import YourDetail from './yourDetails';
-import LandingPage from '../landingPage';
-import HotelSearch from '../hotelSearch/hotelsearch';
+import LandingPage from './landingPage/landingPage.js';
+import HotelSearch from './hotelSearchPage/hotelsearch.js';
 
 
 
