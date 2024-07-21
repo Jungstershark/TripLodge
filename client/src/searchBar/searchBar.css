@@ -35,8 +35,9 @@
     font-size: 16px;
 }
 
-.date-picker-input {
-    width: 200px;
+.date-picker-input input {
+    width: 300px;
+    background-color: white !important;
 }
 
 .search-button {
@@ -57,33 +58,4 @@
     justify-content: center;
     margin: 0 auto;
     width: fit-content;
-}
-
-.destination-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    max-height: 300px;
-    overflow-y: auto;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.destination-item {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-}
-
-.destination-item:hover {
-    background-color: #f0f0f0;
-}
-
-.destination-item:last-child {
-    border-bottom: none;
 }
