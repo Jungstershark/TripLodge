@@ -1,0 +1,31 @@
+   
+   .destination-list {
+    position: absolute;
+    top: calc(100% + 5px); /* Ensure the list is slightly below the input field */
+    left: 0;
+    right: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: block; /* Ensure list items are stacked vertically */
+}
+
+.destination-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: block; /* Ensure each item is displayed in a block (vertical) */
+}
+
+.destination-item:hover {
+    background-color: #f0f0f0;
+}
+
+.destination-item:last-child {
+    border-bottom: none;
+}

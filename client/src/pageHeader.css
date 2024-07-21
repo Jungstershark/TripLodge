@@ -1,0 +1,57 @@
+header {
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    gap: 20px;
+}
+
+li {
+    margin-left: 20px;
+}
+
+.Logo {
+    margin-right: auto;
+    margin-left: -10px;
+}
+
+.Logo img {
+    width: 100px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.SGD button {
+    border-radius: 5px;
+    background-color: #242c54;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.ContactUs,
+.SignIn {
+    font-size: 16px;
+    cursor: pointer;
+    
+}
+li a{
+    text-decoration:none;
+    color: #242B59;
+}
+
+li a:hover{
+    color:#766fdc;
+}
