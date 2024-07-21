@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './searchBar.css';
-import DestinationSearch from './destinationSearch';
+import DestinationSearch from '../destinationSearch/destinationSearch';
 import DateInput from './dateInput';
 //import TravellersInput from './TravellersInput';
 

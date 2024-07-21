@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash.debounce';
-import destinations from './destinations.json';
+import destinations from '../destinations.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import './destinationSearch.css';

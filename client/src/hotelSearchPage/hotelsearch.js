@@ -1,8 +1,8 @@
 import React from 'react';
-import PageHeader from './pageHeader';
-import SearchBar from './searchBar';
+import PageHeader from '../pageHeader/pageHeader';
+import SearchBar from '../searchBar/searchBar';
 import FilterSection from './filterSection';
-import HotelList from './hotelList';
+import HotelList from './hotelList/hotelList';
 import './hotelsearch.css'; 
 
 function HotelSearch() {
