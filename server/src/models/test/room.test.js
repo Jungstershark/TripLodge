@@ -1,4 +1,4 @@
-import { fetchRoomPrices, Room } from "../room";
+import { fetchRoomPrices, Room } from "../src/models/room";
 
 describe("room instance test", ()=>{
     test("can create Room instance given parameters", ()=>{

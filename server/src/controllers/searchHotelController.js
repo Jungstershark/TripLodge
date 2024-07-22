@@ -70,6 +70,7 @@ function filterHotels(hotelInfo, filters) {
     // We search for valid hotels amongst the HotelPrices instances since those are further constrained (we only use map of hotels to get hotel info)
 
     // Possible filters: by ratings, guest ratings, price range, amenities (need to discuss further)
+    // Other possible filters: categories, free_cancellation
     const {ratingFloor, priceCeil, amenities} = filters;
 
     // Convert the values in the hotel prices map (which will be the HotelPrice instances) into an array so that we can use filter() method

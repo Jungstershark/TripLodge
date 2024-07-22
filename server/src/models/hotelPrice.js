@@ -80,11 +80,6 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
     }
 }
 
-// Quick Testing
-// fetchHotelPricesByDestination("WD0M","2024-10-01","2024-10-07","en_US","SGD",2).then((result) => {
-//     console.log(result);
-// });
-
 
 export { HotelPrice, fetchHotelPricesByDestination };
 

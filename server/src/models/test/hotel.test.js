@@ -1,6 +1,6 @@
-import { Hotel } from '../hotel';
-import { fetchHotel } from '../hotel';
-import { fetchHotelsByDestination } from '../hotel';
+import { Hotel } from '../src/models/hotel';
+import { fetchHotel } from '../src/models/hotel';
+import { fetchHotelsByDestination } from '../src/models/hotel';
 
 describe("hotel instance test", () =>{
     test("can create Hotel instance with attributes", () => {

@@ -1,4 +1,4 @@
-import { HotelPrice, fetchHotelPricesByDestination } from '../hotelPrice';
+import { HotelPrice, fetchHotelPricesByDestination } from '../src/models/hotelPrice';
 
 describe("fetchHotelPricesByDestination", () => {
     test("can fetch hotel prices given valid parameters", async () => {
@@ -28,3 +28,4 @@ describe("fetchHotelPricesByDestination", () => {
         )).rejects.toThrow("Exceeded API poll limit.");
     });
 });
+
