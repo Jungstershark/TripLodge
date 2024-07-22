@@ -1,25 +1,41 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
-// The port is set to 3300 here, which is where the MySQL container is configured to listen.
-// If you have set up the MySQL container correctly, there should be no issue running this script.
-// 
-// If you encounter issues regarding the port being unavailable, change the port number below AND 
-// the port number in `run_mysql.sh`.
-//
-// In lines 43 and 50 of `run_mysql.sh`:
-// Change 'docker run --name $CONTAINER_NAME -p 3300:3306 -d $IMAGE_NAME:latest'
-// To 'docker run --name $CONTAINER_NAME -p [ANOTHER_PORT_NUMBER]:3306 -d $IMAGE_NAME:latest'
+// Convert the module URL to a file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
-  port: 3300,
+  port: process.env.DB_PORT || 3306,
   user: process.env.DB_USER,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   connectionLimit: 10,
-}).promise();
+});
+
+const initDb = async () => {
+  try {
+    const initSqlPath = path.join(__dirname, 'init.sql');
+    const sql = fs.readFileSync(initSqlPath, 'utf-8');
+    const statements = sql.split(';');
+
+    for (let statement of statements) {
+      if (statement.trim()) {
+        await pool.query(statement);
+      }
+    }
+
+    console.log('Database initialized successfully.');
+  } catch (err) {
+    console.error('Error initializing database:', err);
+  }
+};
 
 const cleanup = async () => {
   try {
@@ -29,4 +45,6 @@ const cleanup = async () => {
   }
 };
 
-export default { pool, cleanup };
+initDb();
+
+export default {pool, cleanup}
