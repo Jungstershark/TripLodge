@@ -27,7 +27,7 @@ describe("hotel instance test", () =>{
         expect(hotelTest.imageDetails).toBe("no image");
     })
 })
-
+  
 describe("hotel api calls test", ()=>{
     test("can fetch hotel given hotel id", async ()=>{
         const hotel = await fetchHotel('diH7');
