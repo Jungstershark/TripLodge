@@ -25,7 +25,7 @@ async function searchHotelByDestination(req, res, next) {
         hotelPricesMap: hotelPricesMap
     }, filters);
 
-    res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.json(result);
 }
 
