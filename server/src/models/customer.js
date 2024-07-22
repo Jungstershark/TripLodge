@@ -82,3 +82,5 @@ async function findOneByCustomerId(){
     throw error;
     }
 }
+
+export {Customer, sync, insertCustomer, findOneByCustomerId}
