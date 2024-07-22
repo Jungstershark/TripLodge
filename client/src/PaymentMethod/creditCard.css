@@ -1,0 +1,72 @@
+.CreditCardContainer{
+    position: relative;
+    background-color:#D9D9D9;
+    padding: 20px;
+    border-radius: 10px;
+    height: 320px;
+    width: 570px;
+}
+
+.NewCard{
+    font-weight: bold;
+}
+
+.CardHolder,.CardNumber,.ExpiryDate,.CardCVC{
+    font-weight: 500;
+    font-size: 17px;
+    padding: 10px;
+}
+
+
+.name,.number,.date,.CVC{
+    border-radius: 5px;
+}
+
+.name,.number{
+    width: 300px;
+    height:30px; 
+}
+.date,.CVC{
+    width: 150px;
+    height: 30px;
+}
+
+.name{
+    position: relative;
+    top: 35px;
+    left: -160px;
+}
+
+.CardNumber{
+    position: relative;
+    top: 40px;
+}
+
+.number{
+    position: relative;
+    top: 35px;
+    left: -115px;
+}
+
+.ExpiryDate{
+    position: relative;
+    top: 80px;
+}
+
+.date{
+    position: relative;
+    top: 30px;
+    left: -98px;
+}
+
+.CardCVC{
+    position: relative;
+    top: 25px;
+    left: 170px;
+}
+
+.CVC{
+    position: relative;
+    top: 29px;
+    left: -43px;
+}

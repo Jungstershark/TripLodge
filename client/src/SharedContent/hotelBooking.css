@@ -1,0 +1,10 @@
+.container{
+    background-color:#D9D9D9;
+    padding: 20px;
+    width:300px;
+    height:150px;
+    margin-left: 20px;
+    border-radius: 10px;
+    position: relative;
+    top: -20px;
+}

@@ -20,12 +20,12 @@ async function searchHotelByDestination(req, res, next) {
 
     // Further filter list of hotels accordingly
     const filters = req.body.filters; // filters object (null means no filters)
-    const result = filterHotels({
+    const result = placeholderFilterHotels({ // TODO: SWITCH AWAY FROM PLACEHOLDER
         hotelsMap: hotelsMap,
         hotelPricesMap: hotelPricesMap
     }, filters);
 
-    res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
     res.json(result);
 }
 
@@ -33,8 +33,6 @@ async function searchHotelById(req, res, next) {
     
     const id = req.params.id; // Hotel ID (not destination id!)
     const {destination_id, checkin, checkout, lang, currency, guests} = req.body;
-
-    //const hotel = await fetchHotel(id);
 
     const [hotel, roomList] = await Promise.all([fetchHotel(id), 
         fetchRoomPrices(id, destination_id, checkin, checkout, lang, currency, guests)]);
@@ -69,8 +67,8 @@ function filterHotels(hotelInfo, filters) {
     
     // We search for valid hotels amongst the HotelPrices instances since those are further constrained (we only use map of hotels to get hotel info)
 
-    // Possible filters: by ratings, guest ratings, price range, amenities (need to discuss further)
-    const {ratingFloor, priceCeil, amenities} = filters;
+    // Possible filters: by ratings, guest ratings, price range, amenities (Other possible filters: categories, free_cancellation)
+    const {starRatingFloor, priceFloor, priceCeil, amenities} = filters;
 
     // Convert the values in the hotel prices map (which will be the HotelPrice instances) into an array so that we can use filter() method
     const filteredHotelPricesArray = Array.from(hotelPricesMap.values()).filter(hotelPrice => hotelPrice.price < priceCeil);
@@ -82,6 +80,20 @@ function filterHotels(hotelInfo, filters) {
 
     const result = []; // array
     for (const hotelPrice of filteredHotelPricesArray) {
+        result.push({
+            hotel: hotelsMap.get(hotelPrice.id),
+            price: hotelPrice.price
+        })
+    }
+    return result;
+}
+
+
+// PLACEHOLDER FOR TESTING
+function placeholderFilterHotels(hotelInfo, filters) {
+    const {hotelsMap, hotelPricesMap} = hotelInfo;
+    const result = []; // array
+    for (const hotelPrice of Array.from(hotelPricesMap.values())) {
         result.push({
             hotel: hotelsMap.get(hotelPrice.id),
             price: hotelPrice.price

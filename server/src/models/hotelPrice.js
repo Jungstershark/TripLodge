@@ -12,7 +12,7 @@ class HotelPrice {
     }
 }
 
-/**
+/** 
  * Fetch hotel prices from a destination. 
  * @param {string} destination_id - The ID of the destination.
  * @param {string} checkin - Check in date in YYYY-MM-DD format
@@ -79,11 +79,6 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
         throw error;
     }
 }
-
-// Quick Testing
-// fetchHotelPricesByDestination("WD0M","2024-10-01","2024-10-07","en_US","SGD",2).then((result) => {
-//     console.log(result);
-// });
 
 
 export { HotelPrice, fetchHotelPricesByDestination };

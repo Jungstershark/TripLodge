@@ -4,7 +4,7 @@ import { searchHotelByDestination, searchHotelById } from '../controllers/search
 
 const router = express.Router();
 
-router.get('/destination/:id', searchHotelByDestination); // Search for list of Hotels
+router.post('/destination/:id', searchHotelByDestination); // Search for list of Hotels
 
 router.get('/hotel/:id', searchHotelById); // Specific hotel details with room information
 

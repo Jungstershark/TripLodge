@@ -1,10 +1,29 @@
-Hi guys please remember to cd into api **AND** client and do `npm install` for both folders after you git clone to install the dependencies for both apps. They are git ignored as they should not be pushed to github.
+# Hotel Booking System
 
-### config.js
-Ascenda api stored here with baseurl and the endpoints.
-Example for api/hotels/:id
-``` javascript
-import { ascendaAPI } from "../config.js";
+## MySQL database setup
 
-const apiUrl = `${ascendaAPI.baseUrl}${ascendaAPI.endpoints.getHotelInfo(hotelId)}`
+You will need to install Docker from https://www.docker.com/products/docker-desktop/. You do not need to create an account.
+
+Run your backend services first.
+
+It is assumed here that:
+- the docker version of mysql will be used
+- bash, git bash or wsl is being used
+
+```bash
+hotel-booking-system $
+hotel-booking-system $ cd server
+hotel-booking-system/server $ npm install
+hotel-booking-system/server $ chmod 755 ./run_mysql.sh
+hotel-booking-system/server $ ./run_mysql.sh start # run mysql docker
+hotel-booking-system/server $ npm run start
+```
+
+You can then run your client (frontend).
+
+```bash
+hotel-booking-system $
+hotel-booking-system $ cd client
+hotel-booking-system/client $ npm install
+hotel-booking-system/client $ npm run start
 ```
