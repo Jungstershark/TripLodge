@@ -1,4 +1,4 @@
-import { fetchRoomPrices, Room } from "../../src/models/room";
+import { fetchRoomPrices, Room } from "../../src/models/room.js";
 
 describe("room instance test", ()=>{
     test("can create Room instance given parameters", ()=>{
