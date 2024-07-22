@@ -10,8 +10,6 @@ function LandingPage() {
       <PageHeader/>
       <h2> Your Perfect Stay, A Click Away! </h2>
       <SearchBar />
-      
-      
 
     </>
   )
