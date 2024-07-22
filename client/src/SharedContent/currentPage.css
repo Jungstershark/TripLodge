@@ -1,0 +1,42 @@
+.currentList {
+    list-style-type: none;
+    margin: 0;
+    padding: 50px;
+    display: flex;
+    gap: 300px;
+    
+
+}
+
+li {
+    font-weight: bold;
+
+}
+
+.BookingDetail,
+.YourDetail,
+.PaymentDetail{
+font-size: 10px;
+}
+
+.line1{
+    position: relative;
+    width: 335px;
+    height: 1px;
+    background-color: rgb(96, 95, 95);
+    top: 68px;
+    left: 168px; 
+}
+
+.line2{
+    position: relative;
+    width: 335px;
+    height: 1px;
+    background-color: rgb(96, 95, 95);
+    top: 68px;
+    left: 560px; 
+}
+
+
+
+

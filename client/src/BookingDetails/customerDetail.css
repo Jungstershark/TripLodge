@@ -1,0 +1,55 @@
+.container3{
+    position: relative;
+    background-color:#D9D9D9;
+    padding: 20px;
+    width: 575px;
+    height:fit-content;
+    margin:20px;
+    border-radius: 10px;
+    top: -710px;
+    right:-360px;
+}
+
+.text{
+    font-weight: 500;
+}
+
+.Name{
+    border-radius: 5px;
+    width: 260px;
+    height: 30px;
+}
+.other{
+    border-radius:5px;
+    width: 350px;
+    height:30px; 
+}
+
+
+input{
+    margin-top: 5px;
+}
+
+.LastNameContainer{
+    position: relative;
+    top: -60px;
+    right: -300px;
+}
+
+.EmailContainer{
+    position: relative;
+    top: -40px;
+}
+
+.CountryContainer{
+    position: relative;
+    top: -20px;
+}
+
+.TelephoneContainer{
+    position: relative;
+    top: -20px;
+}
+
+
+

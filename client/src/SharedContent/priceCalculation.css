@@ -1,0 +1,10 @@
+.container2{
+    position: relative;
+    background-color:#D9D9D9;
+    width:300px;
+    height:200px;
+    margin-left: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    top: 20px;
+}
