@@ -31,5 +31,5 @@ describe("room API call test", ()=>{
     test("can fetch room prices", async ()=>{
         const roomPrice = await fetchRoomPrices("diH7","WD0M","2024-10-01","2024-10-07","en_US","SGD",2)
         expect(roomPrice.length).toBe(41);
-    })
+    }, 10000)
 })
