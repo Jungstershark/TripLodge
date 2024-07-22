@@ -1,4 +1,4 @@
-import { HotelPrice, fetchHotelPricesByDestination } from '../../src/models/hotelPrice';
+import { HotelPrice, fetchHotelPricesByDestination } from '../hotelPrice';
 
 describe("fetchHotelPricesByDestination", () => {
     test("can fetch hotel prices given valid parameters", async () => {
@@ -20,12 +20,9 @@ describe("fetchHotelPricesByDestination", () => {
     });
 
     test("throws an error if API poll limit is exceeded", async () => {
-        // Simulate a scenario where the API would exceed the poll limit
-        // This might require setting up a mock server or using a staging environment
-
+        // Using parameters that will cause the poll limit to be exceeded quickly
         await expect(fetchHotelPricesByDestination(
-            "WD0M", "2024-10-01", "2024-10-07", "en_US", "SGD", "2", 500, 1 // Quick poll limit
+            "WD0M", "2024-10-01", "2024-10-07", "en_US", "SGD", "2", 0, 1
         )).rejects.toThrow("Exceeded API poll limit.");
     });
 });
-
