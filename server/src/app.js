@@ -6,6 +6,7 @@ import process from 'process';
 import express, { json } from 'express';
 import db from './models/db.js';
 import { sync as syncBooking } from './models/booking.js';
+import { sync as syncCustomer } from './models/customer.js';
 import 'dotenv/config'
 
 // Routes imports
@@ -17,6 +18,7 @@ const app = express();
 process.on("SIGINT", db.cleanup);
 process.on("SIGTERM", db.cleanup);
 syncBooking();
+syncCustomer();
 
 app.use(json());
 

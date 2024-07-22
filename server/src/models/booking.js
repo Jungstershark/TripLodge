@@ -130,13 +130,13 @@ async function insertBooking(booking) {
   }
 }
 
-async function findOneByBookingId(bookingId) {
+async function findBookingByCustomerId(customerId) {
   try {
     const [rows, fieldDefs] = await db.pool.query(
       `
-        SELECT * FROM ${tableName} WHERE bookingId = ?
+        SELECT * FROM ${tableName} WHERE customerId = ?
       `,
-      [bookingId]
+      [customerId]
     );
 
     if (rows.length === 0) {
@@ -193,4 +193,4 @@ async function removeBooking(bookingId) {
   }
 }
 
-export { Booking, sync, insertBooking, findOneByBookingId, removeBooking };
+export { Booking, sync, insertBooking, findBookingByCustomerId, removeBooking };
