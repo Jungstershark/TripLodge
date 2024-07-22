@@ -12,7 +12,7 @@ class HotelPrice {
     }
 }
 
-/**
+/** 
  * Fetch hotel prices from a destination. 
  * @param {string} destination_id - The ID of the destination.
  * @param {string} checkin - Check in date in YYYY-MM-DD format
