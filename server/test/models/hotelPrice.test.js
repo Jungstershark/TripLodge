@@ -1,8 +1,6 @@
-import { HotelPrice, fetchHotelPricesByDestination } from '../hotelPrice';
-import jest from 'jest-mock';
+import { fetchHotelPricesByDestination } from '../hotelPrice';
 
 describe("fetchHotelPricesByDestination", () => {
-    // Existing tests remain unchanged
     test("can fetch hotel prices given valid parameters", async () => {
         const hotelPrices = await fetchHotelPricesByDestination(
             "WD0M", "2024-10-01", "2024-10-07", "en_US", "SGD", "2"
@@ -20,7 +18,7 @@ describe("fetchHotelPricesByDestination", () => {
     }, 20000); // 20 seconds timeout
 
     test("throws an error if API poll limit is exceeded", async () => {
-        jest.spyOn(global, 'fetchHotelPricesByDestination').mockImplementation(() => {
+        const mockImplementation = jest.spyOn(require('../hotelPrice'), 'fetchHotelPricesByDestination').mockImplementation(() => {
             throw new Error("Exceeded API poll limit.");
         });
 
@@ -28,6 +26,6 @@ describe("fetchHotelPricesByDestination", () => {
             "WD0M", "2024-10-01", "2024-10-07", "en_US", "SGD", "2", 500, 1
         )).rejects.toThrow("Exceeded API poll limit.");
 
-        global.fetchHotelPricesByDestination.mockRestore();
+        mockImplementation.mockRestore();
     }, 20000); // 20 seconds timeout
 });
