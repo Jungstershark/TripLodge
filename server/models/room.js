@@ -89,10 +89,5 @@ async function fetchRoomPrices(id, destination_id, checkin, checkout, lang, curr
     }
 }
 
-// Quick Testing
-// fetchRoomPrices("diH7","WD0M","2024-10-01","2024-10-07","en_US","SGD",2).then((result) => {
-//     console.log(result.length);
-// });
-
 export { Room, fetchRoomPrices };
 
