@@ -17,7 +17,7 @@ class Hotel {
         this.imageDetails = image_details;
     }
 }
-
+ 
 /**
  * Fetch all hotels at specified destination.
  * @param {string} destination_id - The ID of the destination.

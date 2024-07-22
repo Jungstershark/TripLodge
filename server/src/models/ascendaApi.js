@@ -7,4 +7,4 @@ const ascendaAPI = {
     getHotel: (id) => `${apiUrl}hotels/${id}`
 };
 
-export { ascendaAPI };
+export { ascendaAPI };  
