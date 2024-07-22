@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import process from 'process';
 import express, { json } from 'express';
+import db from './models/db.js';
+import { sync as syncBooking } from './models/booking.js';
 import 'dotenv/config'
 
 // Routes imports
@@ -11,6 +13,10 @@ import searchHotelRouter from './routes/searchHotel.js'
 import indexRouter from './routes/index.js';
 
 const app = express();
+
+process.on("SIGINT", db.cleanup);
+process.on("SIGTERM", db.cleanup);
+syncBooking();
 
 app.use(json());
 
