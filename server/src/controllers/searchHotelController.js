@@ -69,7 +69,7 @@ function filterHotels(hotelInfo, filters) {
 
     // Possible filters: by ratings, guest ratings, price range, amenities (need to discuss further)
     // Other possible filters: categories, free_cancellation
-    const {ratingFloor, priceCeil, amenities} = filters;
+    const {starRatingFloor, priceFloor, priceCeil, amenities} = filters;
 
     // Convert the values in the hotel prices map (which will be the HotelPrice instances) into an array so that we can use filter() method
     const filteredHotelPricesArray = Array.from(hotelPricesMap.values()).filter(hotelPrice => hotelPrice.price < priceCeil);

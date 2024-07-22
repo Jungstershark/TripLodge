@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "start": "node app.js",
+    "start": "node src/app.js",
     "dev": "nodemon --exec node --experimental-modules app.js"
   },
   "jest": {
