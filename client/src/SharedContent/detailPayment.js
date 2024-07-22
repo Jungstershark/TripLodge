@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeader from '../pageHeader.js';
+import PageHeader from '../pageHeader/pageHeader.js';
 import CurrentPage from './currentPage.js';
 import HotelBooking from './hotelBooking.js';
 import HotelDetails from './hotelDetails.js';
