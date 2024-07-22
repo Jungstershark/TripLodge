@@ -15,7 +15,7 @@ describe("fetchHotelPricesByDestination", () => {
         expect(firstHotel).toBeInstanceOf(HotelPrice);
         expect(firstHotel.id).toBeDefined();
         expect(firstHotel.searchRank).toBeDefined();
-        expect(firstHotel.price).toBeDefined();
+        expect(firstHotel.price).toBeDefined(); 
         expect(firstHotel.marketRates).toBeDefined();
     });
 
