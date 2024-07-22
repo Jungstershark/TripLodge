@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FilterSection from './FilterSection';
+import FilterSection from './filterSection';
 
 describe('FilterSection Component', () => {
   test('renders Filter By heading', () => {
