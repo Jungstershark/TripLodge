@@ -1,5 +1,5 @@
 import express from 'express';
-import { dummySearch, searchHotelByDestination, searchHotelById } from '../controllers/searchHotelController.js'; 
+import { searchHotelByDestination, searchHotelById } from '../controllers/searchHotelController.js'; 
 
 
 const router = express.Router();

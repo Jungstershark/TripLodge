@@ -16,10 +16,12 @@ async function testPostRequest() {
 
   try {
     const response = await axios.post(url, data);
-    console.log(response.data);
+    //console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error('Error making POST request:', error);
   }
 }
 
-testPostRequest();
+const hotelList = await testPostRequest();
+console.log(hotelList[0])
