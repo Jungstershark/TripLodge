@@ -1,31 +1,63 @@
-import { HotelPrice, fetchHotelPricesByDestination } from '../../src/models/hotelPrice';
+import axios from 'axios';
 
-describe("fetchHotelPricesByDestination", () => {
-    test("can fetch hotel prices given valid parameters", async () => {
-        // Adjust parameters based on the API's requirements and expected results
+jest.mock('axios');
+
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+describe("hotel prices API calls test", () => {
+    test("can fetch hotel prices given destination id and other parameters", async () => {
+        const mockResponse = {
+            data: {
+                completed: true,
+                hotels: [
+                    {
+                        id: "hotel_123",
+                        searchRank: 1,
+                        price: 200.00,
+                        market_rates: { rateType: "member", rateValue: 180.00 }
+                    }
+                ]
+            }
+        };
+        mockedAxios.get.mockResolvedValueOnce(mockResponse);
+
         const hotelPrices = await fetchHotelPricesByDestination(
             "WD0M", "2024-10-01", "2024-10-07", "en_US", "SGD", "2"
         );
 
-        // Verify that the Map is populated as expected
-        expect(hotelPrices instanceof Map).toBe(true);
-        expect(hotelPrices.size).toBeGreaterThan(0); // Ensure there's at least one hotel price
+        console.log("hotelPrices:", hotelPrices);
 
-        const firstHotel = Array.from(hotelPrices.values())[0];
-        expect(firstHotel).toBeInstanceOf(HotelPrice);
-        expect(firstHotel.id).toBeDefined();
-        expect(firstHotel.searchRank).toBeDefined();
-        expect(firstHotel.price).toBeDefined();
-        expect(firstHotel.marketRates).toBeDefined();
+        expect(mockedAxios.get).toHaveBeenCalledWith(expect.any(String), {
+            params: {
+                destination_id: "WD0M",
+                checkin: "2024-10-01",
+                checkout: "2024-10-07",
+                lang: "en_US",
+                currency: "SGD",
+                guests: "2",
+                partner_id: 1
+            }
+        });
+
+        expect(hotelPrices.length).toBe(1);
+        expect(hotelPrices[0].id).toBe("hotel_123");
+        expect(hotelPrices[0].searchRank).toBe(1);
+        expect(hotelPrices[0].price).toBe(200.00);
+        expect(hotelPrices[0].marketRates).toEqual({ rateType: "member", rateValue: 180.00 });
     });
 
     test("throws an error if API poll limit is exceeded", async () => {
-        // Simulate a scenario where the API would exceed the poll limit
-        // This might require setting up a mock server or using a staging environment
+        const mockResponse = {
+            data: {
+                completed: false
+            }
+        };
+        mockedAxios.get.mockResolvedValueOnce(mockResponse).mockResolvedValueOnce(mockResponse);
 
         await expect(fetchHotelPricesByDestination(
-            "WD0M", "2024-10-01", "2024-10-07", "en_US", "SGD", "2", 500, 1 // Quick poll limit
+            "WD0M", "2024-10-01", "2024-10-07", "en_US", "SGD", "2", 100, 2
         )).rejects.toThrow("Exceeded API poll limit.");
+
+        expect(mockedAxios.get).toHaveBeenCalledTimes(2);
     });
 });
-
