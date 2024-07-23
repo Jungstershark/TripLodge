@@ -49,7 +49,7 @@ class Booking {
 async function insertBooking(booking) {
   try {
     const pool = await db.promisedConnectionPool;
-    const [rows, fieldDefs] = await pool.query(
+    const [result] = await pool.query(
       `
         INSERT INTO ${tableName} (
           status,
@@ -93,6 +93,7 @@ async function insertBooking(booking) {
         booking.payeeId,
       ]
     );
+    return result.insertId; // return bookingId (auto-increment primary key)
   } catch (error) {
     console.error("Database connection failed: " + error);
     throw error;
