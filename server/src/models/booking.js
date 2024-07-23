@@ -46,41 +46,10 @@ class Booking {
   }
 }
 
-async function sync() {
-  try {
-    await db.pool.query(`
-      CREATE TABLE IF NOT EXISTS ${tableName} (
-        bookingId INT AUTO_INCREMENT PRIMARY KEY,
-        status VARCHAR(50),
-        destinationId VARCHAR(50),
-        hotelId VARCHAR(50),
-        roomKey VARCHAR(255),
-        customerId INT,
-        numberOfNights INT,
-        startDate DATE,
-        endDate DATE,
-        numAdults INT,
-        numChildren INT,
-        msgToHotel TEXT,
-        roomTypes TEXT,
-        price DECIMAL(10, 2),
-        guestSalutation VARCHAR(50),
-        guestFirstName VARCHAR(255),
-        guestLastName VARCHAR(255),
-        paymentId INT,
-        payeeId INT,
-        FOREIGN KEY (customerId) REFERENCES Customer(customerId)
-      )
-    `);
-  } catch (error) {
-    console.error("Database connection failed: " + error);
-    throw error;
-  }
-}
-
 async function insertBooking(booking) {
   try {
-    const [rows, fieldDefs] = await db.pool.query(
+    const pool = await db.promisedConnectionPool;
+    const [rows, fieldDefs] = await pool.query(
       `
         INSERT INTO ${tableName} (
           status,
@@ -132,7 +101,8 @@ async function insertBooking(booking) {
 
 async function findBookingByCustomerId(customerId) {
   try {
-    const [rows, fieldDefs] = await db.pool.query(
+    const pool = await db.promisedConnectionPool;
+    const [rows, fieldDefs] = await pool.query(
       `
         SELECT * FROM ${tableName} WHERE customerId = ?
       `,
@@ -174,7 +144,8 @@ async function findBookingByCustomerId(customerId) {
 
 async function removeBooking(bookingId) {
   try {
-    const [result] = await db.pool.query(
+    const pool = await db.promisedConnectionPool;
+    const [result] = await pool.query(
       `
         DELETE FROM ${tableName} WHERE bookingId = ?
       `,
@@ -193,4 +164,4 @@ async function removeBooking(bookingId) {
   }
 }
 
-export { Booking, sync, insertBooking, findBookingByCustomerId, removeBooking };
+export { Booking, insertBooking, findBookingByCustomerId, removeBooking };

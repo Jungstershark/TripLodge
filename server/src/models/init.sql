@@ -1,6 +1,3 @@
--- Create the database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS `hotel`;
-
 -- Drop existing tables if they exist
 DROP TABLE IF EXISTS Booking;
 DROP TABLE IF EXISTS Customer;
