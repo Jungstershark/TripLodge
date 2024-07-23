@@ -91,7 +91,7 @@ async function fetchHotel(id) {
             hotelData.image_details
         );
 
-        console.log(hotel);
+        // console.log(hotel);
         return hotel;
     } catch(error) {
         console.error("Error fetching hotel by ID:", error);
