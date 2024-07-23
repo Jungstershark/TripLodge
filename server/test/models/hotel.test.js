@@ -26,6 +26,7 @@ describe("hotel instance test", () =>{
         expect(hotelTest.description).toBe("This is a very nice hotel");
         expect(hotelTest.amenities).toBe("playground");
         expect(hotelTest.imageDetails).toBe("no image");
+        expect(hotelTest instanceof Hotel).toBe(true);
     })
 })
 

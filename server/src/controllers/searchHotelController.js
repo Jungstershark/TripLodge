@@ -37,7 +37,7 @@ async function searchHotelById(req, res, next) {
     const [hotel, roomList] = await Promise.all([fetchHotel(id), 
         fetchRoomPrices(id, destination_id, checkin, checkout, lang, currency, guests)]);
 
-    result = {
+    const result = {
         hotel: hotel,
         rooms: roomList
     };

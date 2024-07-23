@@ -1,4 +1,5 @@
-import { fetchHotelPricesByDestination } from '../hotelPrice';
+import { HotelPrice, fetchHotelPricesByDestination } from '../../src/models/hotelPrice.js';
+import jest from 'jest-mock';
 
 describe("fetchHotelPricesByDestination", () => {
     test("can fetch hotel prices given valid parameters", async () => {
