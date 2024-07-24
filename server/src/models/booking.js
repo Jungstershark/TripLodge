@@ -187,6 +187,29 @@ async function findBookingByCustomerId(customerId) {
   }
 }
 
+async function updateBookingStatus(bookingId, newStatus) {
+  try {
+    const pool = await db.promisedConnectionPool;
+    const [result] = await pool.query(
+      `
+        UPDATE ${tableName} 
+        SET status = ?
+        WHERE bookingId = ?
+      `,
+      [newStatus, bookingId]
+    );
+
+    if (result.affectedRows === 0) {
+      return null; // No booking found to update
+    }
+
+    return result; // Return the result of the update operation
+  } catch (error) {
+    console.error("Database update failed: " + error);
+    throw error;
+  }
+}
+
 async function removeBooking(bookingId) {
   try {
     const pool = await db.promisedConnectionPool;
@@ -209,4 +232,4 @@ async function removeBooking(bookingId) {
   }
 }
 
-export { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, removeBooking };
+export { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, updateBookingStatus, removeBooking };
