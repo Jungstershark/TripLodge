@@ -2,7 +2,7 @@ import axios from 'axios';
 // temporary
 
 async function testPostRequest() {
-  const url = 'http://localhost:3001/search/destination/WD0M';
+  const url = 'http://localhost:3001/search/destination/xmXl';
   
   // Parameters in POST body
   const data = {
@@ -16,7 +16,6 @@ async function testPostRequest() {
 
   try {
     const response = await axios.post(url, data);
-    //console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error making POST request:', error);

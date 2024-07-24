@@ -24,6 +24,7 @@ async function viewCustomerBookings(req, res, next) {
 
 async function cancelBooking(req, res, next) {
     const id  = req.params.id; // Booking ID
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
 
     // Step 1: Refund via payment gate
 
@@ -89,6 +90,7 @@ async function createBooking(req, res, next) {
     await sendBookingConfirmationEmail(booking, bookedHotel, customerEmailAddress);
 
     // Step 4: respond back with success message
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.json({bookingId: bookingId});
 }
 
