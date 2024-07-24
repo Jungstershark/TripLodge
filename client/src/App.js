@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/HotelSearch" element={<HotelSearch />} />
         <Route path="/Details" element={<YourDetail/>}/>
-        <Route path="/Payment" elemnet={<PaymentPage/>}/>
+        <Route path="/Payment" element={<PaymentPage/>}/>
         {/* Add more routes as needed */}
       </Routes>
     </Router>
