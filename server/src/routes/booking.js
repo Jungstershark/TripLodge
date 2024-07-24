@@ -1,11 +1,12 @@
 import express from 'express';
-// import { searchHotelByDestination, searchHotelById } from '../controllers/searchHotelController.js'; 
+import { viewBooking, viewCustomerBookings, cancelBooking, createBooking } from '../controllers/bookHotelController.js'; 
 
 
 const router = express.Router();
 
-// router.post('/destination/:id', searchHotelByDestination); // Search for list of Hotels
-
-// router.get('/hotel/:id', searchHotelById); // Specific hotel details with room information
+router.get('/view/:id', viewBooking); // View booking
+router.get('/customer/:id', viewCustomerBookings); // View customer's bookings
+router.get('/cancel/:id', cancelBooking); // Cancel booking
+router.post('/create', createBooking); // Create a hotel booking
 
 export default router;
