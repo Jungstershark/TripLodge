@@ -40,6 +40,7 @@ async function cancelBooking(req, res, next) {
 async function createBooking(req, res, next) {
     const {
         customerEmailAddress,
+        // Booking data below:
         destinationId,
         hotelId,
         roomKey,
