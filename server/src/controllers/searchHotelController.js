@@ -18,12 +18,17 @@ async function searchHotelByDestination(req, res, next) {
 
     const result = []; // array
     for (const hotelPrice of Array.from(hotelPricesMap.values())) {
-        result.push({
-            hotel: hotelsMap.get(hotelPrice.id),
-            price: hotelPrice.price
-        })
+        // For some reason, some hotelPrice objects have hotel IDs without corresponding hotel information (from destination search API call)
+        // We will ignore those entries
+
+        if (hotelsMap.has(hotelPrice.id)) { // does this cause slowdown
+            result.push({
+                hotel: hotelsMap.get(hotelPrice.id),
+                price: hotelPrice.price
+            })
+        }
     }
-    // Note: hotelPrice object has distance attribute which hotel object does not have for some reason
+    // Note: hotelPrice instance has distance attribute which hotel instance does not have for some reason (from Ascenda API)
     // If this is useful, will need to extract from hotelPrice
 
     res.set('Access-Control-Allow-Origin', 'http://localhost:3000');

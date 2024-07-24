@@ -100,12 +100,12 @@ async function insertBooking(booking) {
   }
 }
 
-async function findBookingByCustomerId(customerId) {
+async function findBookingByBookingId(bookingId) {
   try {
     const pool = await db.promisedConnectionPool;
     const [rows, fieldDefs] = await pool.query(
       `
-        SELECT * FROM ${tableName} WHERE customerId = ?
+        SELECT * FROM ${tableName} WHERE bookingId = ?
       `,
       [customerId]
     );
@@ -143,6 +143,73 @@ async function findBookingByCustomerId(customerId) {
   }
 }
 
+async function findBookingByCustomerId(customerId) {
+  try {
+    const pool = await db.promisedConnectionPool;
+    const [rows, fieldDefs] = await pool.query(
+      `
+        SELECT * FROM ${tableName} WHERE customerId = ?
+      `,
+      [customerId]
+    );
+
+    if (rows.length === 0) {
+      return null; // No booking found
+    }
+
+    const bookings = rows.map(row => {
+      return new Booking(
+        row.bookingId,
+        row.status,
+        row.destinationId,
+        row.hotelId,
+        row.roomKey,
+        row.customerId,
+        row.numberOfNights,
+        row.startDate,
+        row.endDate,
+        row.numAdults,
+        row.numChildren,
+        row.msgToHotel,
+        row.roomTypes,
+        row.price,
+        row.guestSalutation,
+        row.guestFirstName,
+        row.guestLastName,
+        row.paymentId,
+        row.payeeId 
+      );
+    });
+    return bookings; // array of Booking instances
+  } catch (error) {
+    console.error("Database query failed: " + error);
+    throw error;
+  }
+}
+
+async function updateBookingStatus(bookingId, newStatus) {
+  try {
+    const pool = await db.promisedConnectionPool;
+    const [result] = await pool.query(
+      `
+        UPDATE ${tableName} 
+        SET status = ?
+        WHERE bookingId = ?
+      `,
+      [newStatus, bookingId]
+    );
+
+    if (result.affectedRows === 0) {
+      return null; // No booking found to update
+    }
+
+    return result; // Return the result of the update operation
+  } catch (error) {
+    console.error("Database update failed: " + error);
+    throw error;
+  }
+}
+
 async function removeBooking(bookingId) {
   try {
     const pool = await db.promisedConnectionPool;
@@ -165,4 +232,4 @@ async function removeBooking(bookingId) {
   }
 }
 
-export { Booking, insertBooking, findBookingByCustomerId, removeBooking };
+export { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, updateBookingStatus, removeBooking };

@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-dotenv.config();
+dotenv.config(); // allows us to use process.env to access environment variables
 
 // Convert the module URL to a file path
 const __filename = fileURLToPath(import.meta.url);
