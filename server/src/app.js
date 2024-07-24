@@ -5,12 +5,12 @@ import logger from 'morgan';
 import process from 'process';
 import express, { json } from 'express';
 import db from './models/db.js';
-import 'dotenv/config'
-
+import cors from 'cors';
 // Routes imports
-import searchHotelRouter from './routes/search.js'
+import searchHotelRouter from './routes/search.js';
 import indexRouter from './routes/index.js';
-import bookingRouter from './routes/booking.js'
+import bookingRouter from './routes/booking.js';
+import checkoutRouter from './routes/checkout.js';
 
 const app = express();
 
@@ -18,6 +18,9 @@ process.on("SIGINT", db.cleanup);
 process.on("SIGTERM", db.cleanup);
 
 app.use(json());
+app.use(cors({
+    origin: 'http://localhost:3000', // Your React app URL
+  }));
 
 const PORT = process.env.PORT || 5000;
 
@@ -39,6 +42,7 @@ app.use(express.static(path.join(path.dirname(''), 'public')));
 app.use('/', indexRouter);
 app.use('/search', searchHotelRouter);
 app.use('/booking', bookingRouter);
+app.use('/checkout', checkoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
