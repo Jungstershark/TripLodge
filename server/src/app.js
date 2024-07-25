@@ -11,6 +11,7 @@ import searchHotelRouter from './routes/search.js';
 import indexRouter from './routes/index.js';
 import bookingRouter from './routes/booking.js';
 import checkoutRouter from './routes/checkout.js';
+import webHookRouter from './routes/stripe-webhook.js';
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use('/', indexRouter);
 app.use('/search', searchHotelRouter);
 app.use('/booking', bookingRouter);
 app.use('/checkout', checkoutRouter);
+app.use('/webhook', webHookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

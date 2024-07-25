@@ -1,11 +1,45 @@
 import React from 'react';
 import axios from 'axios';
 
-const Checkout = () => {
+const Checkout = ({
+  customerEmailAddress,
+  destinationId,
+  hotelId,
+  roomKey,
+  customerId,
+  numberOfNights,
+  startDate,
+  endDate,
+  numAdults,
+  numChildren,
+  msgToHotel,
+  roomTypes,
+  price,
+  guestSalutation,
+  guestFirstName,
+  guestLastName
+}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const body = {bookingInformation:{name:"name", gender:"gender" }}; // bookingInformation must be an object where the values are string (i.e. NO nested objects)
+    const body = {bookingInformation:{
+      customerEmailAddress,
+      destinationId,
+      hotelId,
+      roomKey,
+      customerId,
+      numberOfNights,
+      startDate,
+      endDate,
+      numAdults,
+      numChildren,
+      msgToHotel,
+      roomTypes,
+      price,
+      guestSalutation,
+      guestFirstName,
+      guestLastName
+    }}; // bookingInformation must be an object where the values are string (i.e. NO nested objects)
 
     try {
       console.log("button clicked");
