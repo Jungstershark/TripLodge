@@ -1,6 +1,8 @@
 import Stripe from 'stripe';
 import express from 'express';
 import 'dotenv/config'
+import axios from 'axios';
+
 
 const router = express.Router();
 const stripe = Stripe(process.env.STRIPE_TEST_KEY);
@@ -8,39 +10,31 @@ const stripe = Stripe(process.env.STRIPE_TEST_KEY);
 // Stripe sends webhook events as JSON payload but need to get the raw request (see comments below try)
 router.post('/', async (req, res) => { // only requests with the Content-Type: application/json header will be parse as raw Buffer
     const event = req.body;
-    switch (event.type) {
-        case 'checkout.session.completed':
-            const checkoutSession = event.data.object;
-            console.log(checkoutSession);
-            console.log('Booking details: ', checkoutSession.metadata);
-            console.log('Billing email:', checkoutSession.customer_details.email);
-            break;
 
-        case 'charge.succeeded':
-            const chargeSucceedSession = event.data.object;
-            console.log('Charge succeeded:', chargeSucceedSession);
-            break;
+    if (event.type === 'checkout.session.completed'){
+        const checkoutSession = event.data.object;
+        const bookingInformation = checkoutSession.metadata
+        const billingEmail = checkoutSession.customer_details.email
+        const payeeId = checkoutSession.payment_intent
+        const paymentIntentSession = await stripe.paymentIntents.retrieve(payeeId)
+        const paymentId = paymentIntentSession.latest_charge;
 
-        case 'payment_intent.created':
-            const paymentIntentCreated = event.data.object;
-            console.log('Payment intent created:', paymentIntentCreated);
-            break;
+        const combinedBookingInformationForDB = {
+            billingEmail,
+            ...bookingInformation,
+            paymentId,
+            payeeId
+        }
 
-        case 'payment_intent.succeeded':
-            const paymentIntentSucceeded = event.data.object;
-            console.log('Payment intent succeeded:', paymentIntentSucceeded);
-            break;
-
-        case 'charge.updated':
-            const chargeUpdatedSession = event.data.object;
-            console.log('Charge updated:', chargeUpdatedSession);
-            break;
-
-        default:
-            console.log(`Unhandled event type: ${event.type}`);
+        try {
+            // Send the combined booking information to the createBooking route
+            await axios.post('http://localhost:5000/booking/create', combinedBookingInformationForDB);
+        } catch (error) {
+            console.error('Error creating booking:', error);
+        }
     }
 
-    res.json({ received: true });
+    res.sendStatus(200);
 });
 
 export default router;
