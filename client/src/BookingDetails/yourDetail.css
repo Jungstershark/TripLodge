@@ -1,30 +1,28 @@
 .wholepage{
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    height: 160vh; /* Full viewport height */
+    overflow: hidden;
 }
 
 .tick{
-    position: absolute;
+    position: relative;
     width: 40px;
     height: 40px;
-    top: 125px;
-    left: 120px;
+    top:-1685px;
+    left: 115px;
 }
 
 .two{
-    position: absolute;
-    top: 102px;
-    left: 520px;
+    position: relative;
+    top: -1750px;
+    left: 695px;
 }
 
-.three{
-    position: absolute;
-    top: 102px;
-    left: 913px;
-
+h1.three{
+    position: relative;
+    top: -1810px;
+    left: 1275px;
 }
+
 .DetailButton {
     position: relative;
     background-color: #242B59;
@@ -35,8 +33,8 @@
     font-size: 16px;
     margin: 4px 2px;
     border-radius: 30px;
-    top: -720px;
-    left: 810px;
+    top: -980px;
+    left: 1150px;
 }
 .DetailButton:hover{
     background-color: #242B59;
