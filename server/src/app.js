@@ -12,11 +12,24 @@ import indexRouter from './routes/index.js';
 import bookingRouter from './routes/booking.js';
 import checkoutRouter from './routes/checkout.js';
 import webHookRouter from './routes/stripe-webhook.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
-process.on("SIGINT", db.cleanup);
-process.on("SIGTERM", db.cleanup);
+// Ensure proper shutdown and cleanup
+process.on('SIGTERM', () => {
+    server.close(() => {
+        console.log('Process terminated');
+        db.cleanup();
+    });
+});
+
+process.on('SIGINT', () => {
+    server.close(() => {
+        console.log('Process interrupted');
+        db.cleanup();
+    });
+});
 
 app.use(json());
 app.use(cors({
@@ -45,6 +58,7 @@ app.use('/search', searchHotelRouter);
 app.use('/booking', bookingRouter);
 app.use('/checkout', checkoutRouter);
 app.use('/webhook', webHookRouter);
+app.use('/api/auth', authRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
