@@ -15,6 +15,7 @@ function PageHeader() {
             <li className="Logo">
                 <button onClick={handleLogoClick} className="logobutton">
                 <img src={process.env.PUBLIC_URL + "/Ascenda_Blue_Logo.jpg"} alt="Error displaying logo" />
+                </button>
             </li>
             <li className="SignIn">
                 <Link to="/login">Sign in</Link>
