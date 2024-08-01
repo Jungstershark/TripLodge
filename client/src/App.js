@@ -8,7 +8,7 @@ import Checkout from './CheckoutPage/checkout.js';
 import Success from './CheckoutPage/Success.jsx';
 import Cancel from './CheckoutPage/Cancel.jsx';
 import Login from './UserAuth/loginPage/loginPage.js';
-// import Signup from './UserAuth/signupPage/signupPage.js';
+import Signup from './UserAuth/signupPage/signupPage.js';
 // import ForgotPassword from './UserAuth/signupPage/signupPage.js'
 
 function App() {
@@ -41,8 +41,8 @@ function App() {
         <Route path="/success" element={<Success/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
         <Route path="/login" element={<Login/>}/>
-        {/* <Route path="/signup" element={<Signup/>}/>
-        <Route path="/forgot-password" element={<ForgotPassword/>}/> */}
+        <Route path="/signup" element={<Signup/>}/>
+        {/* <Route path="/forgot-password" element={<ForgotPassword/>}/> */}
         {/* Add more routes as needed */}
       </Routes>
     </Router>
