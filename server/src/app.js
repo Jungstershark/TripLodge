@@ -36,15 +36,12 @@ app.use(cors({
     origin: 'http://localhost:3000', // Your React app URL
 }));
 
-const PORT = process.env.PORT || 5005;
+const PORT = process.env.PORT || 5000;
 
 app.get('/', async (req, res) => {
     res.json({ status: true, message: "Our node.js app works" })
 });
 
-// view engine setup
-app.set('views', path.join(path.resolve(), 'views'));
-app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -70,11 +67,14 @@ app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-    
-    // render the error page
+
+    // send error response as JSON
     res.status(err.status || 500);
-    res.render('error');
+    res.json({
+        success: false,
+        message: err.message
     });
+});
 
 app.listen(PORT, () => console.log(`App listening at port ${PORT}`));
 
