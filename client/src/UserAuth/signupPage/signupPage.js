@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PageHeader from '../../pageHeader/pageHeader';
 import { validateEmail, validatePassword } from '../validation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import authService from '../authServices/authServices';
 import {
   InputLabel,
   InputAdornment,
@@ -20,9 +21,12 @@ function Signup() {
     confirmPassword: '',
     showPassword: false,
     showConfirmPassword: false,
+    username: '',
+    hp: '',
     passwordStrength: '',
     error: ''
   });
+  const navigate = useNavigate();
 
   const handlePasswordChange = (prop) => (event) => {
     const value = event.target.value;
@@ -49,9 +53,9 @@ function Signup() {
     event.preventDefault();
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    const { email, password, confirmPassword } = values;
+    const { email, password, confirmPassword, username, hp } = values;
     if (!validateEmail(email)) {
       setValues((prevValues) => ({ ...prevValues, error: 'Please enter a valid email address.' }));
       return;
@@ -65,8 +69,23 @@ function Signup() {
       return;
     }
     setValues((prevValues) => ({ ...prevValues, error: '' }));
-    // Handle signup logic here
-    console.log('Email:', email, 'Password:', password);
+
+    try {
+      const data = await authService.register(email, password, username, hp);
+      if (data.success) {
+        console.log('Registration successful');
+        navigate('/');  // Redirect to the desired page upon successful registration
+      } else {
+        setValues((prevValues) => ({ ...prevValues, error: data.message }));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      if (error.response && error.response.data) {
+        setValues((prevValues) => ({ ...prevValues, error: error.response.data.message }));
+      } else {
+        setValues((prevValues) => ({ ...prevValues, error: 'An error occurred. Please try again later.' }));
+      }
+    }
   };
 
   return (
@@ -76,6 +95,28 @@ function Signup() {
         <form className="signup-form" onSubmit={handleSignup}>
           <h2>Sign Up</h2>
           {values.error && <p className="error-message">{values.error}</p>}
+          <div className="form-group">
+            <InputLabel htmlFor="username">Username</InputLabel>
+            <Input
+              id="username"
+              type="text"
+              value={values.username}
+              onChange={handlePasswordChange('username')}
+              fullWidth
+              required
+            />
+          </div>
+          <div className="form-group">
+            <InputLabel htmlFor="hp">Phone Number</InputLabel>
+            <Input
+              id="hp"
+              type="text"
+              value={values.hp}
+              onChange={handlePasswordChange('hp')}
+              fullWidth
+              required
+            />
+          </div>
           <div className="form-group">
             <InputLabel htmlFor="email">Email</InputLabel>
             <Input
