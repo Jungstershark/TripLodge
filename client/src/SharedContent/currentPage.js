@@ -4,27 +4,22 @@ import { Circle } from 'react-awesome-shapes/dist/shapes/circle';
 
 function CurrentPage() {
     return(
-        <currentlist>
+        <div className='currentpage'>
+            <div className='SelectionGrp'>
+                <div className='YourSelection'>Your Selection</div>
+                <Circle position ='relative' top="10px" left='55px' color="#BEC7E6"    size={['50px', '50px', '50px', '50px']} />
+            </div>
             <div className='line1'></div>
+            <div className='DetailGrp'>
+                <div className='YourDetails'>Your Details</div>
+                <Circle position ='relative'  top='-25px' left="340px" color="#BEC7E6" size={['50px', '50px', '50px', '50px']} />
+            </div>
             <div className='line2'></div>
-            <ul className='currentList'>
-                <li className='BookingDetail'>
-                    <Circle position ='relative' top ='-2px' left= '10px' color="#D9D9D9" size={['41px', '41px', '41px', '41px']} />
-                    Booking Details
-                </li>
-                
-                <li className='YourDetail'>
-                    <Circle position ='relative' top='-2px' left='5px' color="#D9D9D9" size={['41px', '41px', '41px', '41px']} />
-                    Your Details
-                </li>
-                
-                <li className='PaymentDetail'>
-                    <Circle position ='relative' top='-2px' left='10px' color="#D9D9D9" size={['41px', '41px', '41px', '41px']} />
-                    Payment Details
-                </li>
-            </ul>
-        </currentlist>
-
+            <div className='CompletedGrp'>
+                <div className='Completed'>Completed</div>
+                <Circle position ='relative' top="-60px" left="630px" color="#BEC7E6" size={['50px', '50px', '50px', '50px']} />
+            </div>
+        </div>
     );
 }
 export default CurrentPage;

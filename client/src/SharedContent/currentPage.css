@@ -1,40 +1,38 @@
-.currentList {
-    list-style-type: none;
-    margin: 0;
-    padding: 50px;
-    display: flex;
-    gap: 300px;
-    
-
-}
-
-li {
+.YourDetails,.YourSelection,.Completed{
     font-weight: bold;
-
+}
+.YourSelection{
+    position: relative;
+    top: 90px;
+    left:90px;
+}
+.YourDetails{
+    position: relative;
+    top: 20px;
+    left: 665px;
 }
 
-.BookingDetail,
-.YourDetail,
-.PaymentDetail{
-font-size: 10px;
+.Completed{
+    position: relative;
+    top: -50px;
+    left: 1240px;
 }
-
 .line1{
     position: relative;
-    width: 335px;
+    width: 500px;
     height: 1px;
     background-color: rgb(96, 95, 95);
-    top: 68px;
-    left: 168px; 
+    top: -5px;
+    left: 165px; 
 }
 
 .line2{
     position: relative;
-    width: 335px;
+    width: 500px;
     height: 1px;
     background-color: rgb(96, 95, 95);
-    top: 68px;
-    left: 560px; 
+    top: -75px;
+    left: 740px; 
 }
 
 

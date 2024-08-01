@@ -1,9 +1,17 @@
 .container1{
     position: relative;
-    background-color:#D9D9D9;
     width:300px;
     height:200px;
     margin-left: 20px;
     border-radius: 10px;
     padding: 20px;
+    top: -65px;
+    left: 70px;
+    background-color: white; 
+    padding: 30px; 
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
 }
