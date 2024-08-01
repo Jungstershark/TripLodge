@@ -53,9 +53,9 @@
 .search-container {
     background-color: rgba(36, 43, 89, 0.7098);
     padding: 20px;
-    border-radius: 10px;
+
     display: flex;
     justify-content: center;
     margin: 0 auto;
-    width: fit-content;
+    width: max;
 }
