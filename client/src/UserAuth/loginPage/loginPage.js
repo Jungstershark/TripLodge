@@ -1,28 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageHeader from '../../pageHeader/pageHeader';
 import { validateEmail, validatePassword } from '../validation';
 import './loginPage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import authService from '../authServices/authServices';  // Import authService
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [formValid, setFormValid] = useState(false);
+  const [loginError, setLoginError] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  useEffect(() => {
+    setEmailError(validateEmail(email) ? '' : 'Please enter a valid email address.');
+    setPasswordError(validatePassword(password) ? '' : 'Password must be at least 8 characters long and include one lowercase letter, one uppercase letter, one digit, and one special character.');
+    setFormValid(validateEmail(email) && validatePassword(password));
+  }, [email, password]);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (!validateEmail(email)) {
-      setError('Please enter a valid email address.');
+    if (!formValid) {
       return;
     }
-    if (!validatePassword(password)) {
-      setError('Password must be at least 8 characters long and include one lowercase letter, one uppercase letter, one digit, and one special character.');
-      return;
+    try {
+      const data = await authService.login(email, password);  // Use authService
+      if (data.success) {
+        console.log('Login successful');
+        navigate('/');  // Redirect to the desired page upon successful login
+      } else {
+        setLoginError(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      if (error.response && error.response.data) {
+        setLoginError(error.response.data.message);  // Display the server error message
+      } else {
+        setLoginError('An error occurred. Please try again later.');
+      }
     }
-    setError('');
-    // Handle login logic here
-    console.log('Email:', email, 'Password:', password);
   };
+  
 
   return (
     <>
@@ -30,8 +50,7 @@ function Login() {
       <div className="login-container">
         <form className="login-form" onSubmit={handleLogin}>
           <h2>Login</h2>
-          {error && <p className="error-message">{error}</p>}
-          <div className="form-group">
+          <div className={`form-group ${emailError ? 'error' : ''}`}>
             <label htmlFor="email">Email:</label>
             <input
               type="email"
@@ -40,8 +59,9 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+            {emailError && <p className="error-message">{emailError}</p>}
           </div>
-          <div className="form-group">
+          <div className={`form-group ${passwordError ? 'error' : ''}`}>
             <label htmlFor="password">Password:</label>
             <input
               type="password"
@@ -50,8 +70,10 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
-          <button type="submit" className="login-button">Next</button>
+          {loginError && <p className="login-error-message">{loginError}</p>}
+          <button type="submit" className="login-button" disabled={!formValid}>Next</button>
           <div className="link-container">
             <Link to="/forgot-password" className="link">Forgot Password?</Link>
             <Link to="/signup" className="link create-account-link">Create account</Link>
