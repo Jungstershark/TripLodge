@@ -12,7 +12,7 @@ import indexRouter from './routes/index.js';
 import bookingRouter from './routes/booking.js';
 import checkoutRouter from './routes/checkout.js';
 import webHookRouter from './routes/stripe-webhook.js';
-import authRoutes from './routes/authRoutes.js';
+import authRoutes from './routes/authRoutes.js';  // Add this line
 
 const app = express();
 
@@ -34,16 +34,16 @@ process.on('SIGINT', () => {
 app.use(json());
 app.use(cors({
     origin: 'http://localhost:3000', // Your React app URL
-  }));
+}));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5005;
 
 app.get('/', async (req, res) => {
     res.json({ status: true, message: "Our node.js app works" })
 });
 
 // view engine setup
-app.set('views', path.join(path.dirname(''), 'views'));
+app.set('views', path.join(path.resolve(), 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -58,7 +58,7 @@ app.use('/search', searchHotelRouter);
 app.use('/booking', bookingRouter);
 app.use('/checkout', checkoutRouter);
 app.use('/webhook', webHookRouter);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);  // Add this line
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
