@@ -4,6 +4,7 @@ import { fetchHotel } from "../models/hotel.js";
 
 async function viewBooking(req, res, next) {
     const id  = req.params.id; // Booking ID
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
         const booking = await findBookingByBookingId(id);
         res.json(booking);
@@ -14,6 +15,7 @@ async function viewBooking(req, res, next) {
 
 async function viewCustomerBookings(req, res, next) {
     const id  = req.params.id; // Customer ID
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
         const bookings = await findBookingByCustomerId(id);
         res.json(bookings);
@@ -26,8 +28,6 @@ async function cancelBooking(req, res, next) {
     const id  = req.params.id; // Booking ID
     res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
 
-    // Step 1: Refund via payment gate
-
     // Step 2: If refund successful (approved), remove booking from database
     try {
         await updateBookingStatus(id, "cancelled");
@@ -38,6 +38,8 @@ async function cancelBooking(req, res, next) {
 }
 
 async function createBooking(req, res, next) {
+    // This controller method is only called once the payment has been processed
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     const {
         customerEmailAddress,
         // Booking data below:
@@ -58,8 +60,6 @@ async function createBooking(req, res, next) {
         guestLastName,
         paymentId,
         payeeId} = req.body;
-
-    // Step 1: Process payment
 
     // Step 2: If payment successful, create booking
     const booking = Booking(null, // bookingId: dummy value (will be generated on database insertion)
@@ -91,7 +91,6 @@ async function createBooking(req, res, next) {
     await sendBookingConfirmationEmail(booking, bookedHotel, customerEmailAddress);
 
     // Step 4: respond back with success message
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.json({bookingId: bookingId});
 }
 
