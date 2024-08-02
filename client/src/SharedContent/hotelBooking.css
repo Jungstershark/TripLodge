@@ -1,10 +1,26 @@
 .container{
-    background-color:#D9D9D9;
-    padding: 20px;
+    position: relative;
+    top: -80px;
+    left: 90px;
     width:300px;
     height:150px;
-    margin-left: 20px;
-    border-radius: 10px;
-    position: relative;
-    top: -20px;
+    background-color: white; 
+    padding: 30px; 
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;  #center of column */
+    /* align-items: center; #center of row */
 }
+
+.hotelname {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.hoteldescription {
+    font-size: 18px;
+}
+

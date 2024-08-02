@@ -41,7 +41,7 @@ async function createBooking(req, res, next) {
     // This controller method is only called once the payment has been processed
     res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     const {
-        customerEmailAddress,
+        billingEmail,
         // Booking data below:
         destinationId,
         hotelId,
@@ -62,7 +62,7 @@ async function createBooking(req, res, next) {
         payeeId} = req.body;
 
     // Step 2: If payment successful, create booking
-    const booking = Booking(null, // bookingId: dummy value (will be generated on database insertion)
+    const booking = new Booking(null, // bookingId: dummy value (will be generated on database insertion)
         "confirmed", // status
         destinationId,
         hotelId,
@@ -88,7 +88,7 @@ async function createBooking(req, res, next) {
 
     // Step 3: Send booking confirmation email
     const bookedHotel = await fetchHotel(booking.hotelId); // To get the details of the booked hotel
-    await sendBookingConfirmationEmail(booking, bookedHotel, customerEmailAddress);
+    await sendBookingConfirmationEmail(booking, bookedHotel, billingEmail);
 
     // Step 4: respond back with success message
     res.json({bookingId: bookingId});

@@ -16,8 +16,8 @@ CREATE TABLE Customer (
 CREATE TABLE Booking (
     bookingID INT AUTO_INCREMENT PRIMARY KEY,
     status VARCHAR(50),
-    destinationID VARCHAR(50),
-    hotelID VARCHAR(50),
+    destinationID VARCHAR(255),
+    hotelID VARCHAR(255),
     roomKey VARCHAR(255),
     customerID INT,
     numberOfNights INT,
@@ -31,8 +31,8 @@ CREATE TABLE Booking (
     guestSalutation VARCHAR(50),
     guestFirstName VARCHAR(255),
     guestLastName VARCHAR(255),
-    paymentID INT,
-    payeeID INT,
+    paymentID VARCHAR(255),
+    payeeID VARCHAR(255),
     FOREIGN KEY (customerID) REFERENCES Customer(customerId)
 );
 

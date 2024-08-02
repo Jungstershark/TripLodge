@@ -1,0 +1,331 @@
+.HotelDetailPage{
+    overflow:hidden;
+    height: 280vh;
+}
+
+.HotelDetailSearchBar{
+    margin-top: 30px;
+}
+
+.HotelPictures{
+    position: relative;
+    left: 40px;
+}
+
+.Hotel1Detail{
+    position: relative;
+    width: 550px;
+    height: 300px;
+    margin-top: 50px;
+    margin-right: 2.5px;
+    left: 150px;
+}
+
+.Pool,.Lobby,.Bedroom,.Dinning{
+    width: 260px;
+    height: 149px;
+}
+
+.Lobby,.Bedroom{
+    margin-top: 50px;
+    margin-left: 2.5px;
+}
+
+.Lobby{
+    position: relative;
+    top: -354px;
+    left: 700px;
+}
+
+.Bedroom{
+    position: relative;
+    top: -151.5px;
+    left: 148px;
+}
+
+.Pool,.Dinning{
+    margin-left: 2.5px;
+}
+
+.Pool{
+    position: relative;
+    left: 147px;
+}
+
+.Dinning{
+    position: relative;
+    left: -114.5px;
+}
+
+.MapnLocation{
+    position: relative;
+    top: -150px;
+    left: 1000px;
+
+}
+
+.ExploreArea{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.MapContainer{
+    background-color: white;
+    border-radius: 10px; 
+    width: fit-content; 
+    border: 1px solid #d3d3d3;
+    margin-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+.Map{
+    width: 300px;
+    height: 200px;
+}
+.Location{
+    font-size: 13px;
+    padding: 5px;
+}
+.HotelDetails{
+    position: relative;
+    top: -475px;
+    left: 190px;
+}
+
+.numberrating{
+    text-align: center;
+    font-size: 15px;
+    width: 25px;
+    height: fit-content;
+    background-color: rgb(16, 164, 16);
+    color: white;
+    padding:5px;
+    border-radius: 5px;
+}
+
+.wordrating{
+    position: relative;
+    font-weight: bold;
+    font-size: 25px;
+    top: -30px;
+    left: 50px;
+}
+
+.reviews{
+    position: relative;
+    text-decoration: underline;
+    color: #007BFF; 
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    padding-bottom: 10px;
+    top: -10px;
+}
+
+.reviews:hover{
+    cursor: pointer;
+    color: #0056b3; 
+}
+
+.Bar,.Swimming,.Breakfast,.FrontDesk{
+    width: 25px;
+    height: 25px;
+}
+.AirCon,.Gym{
+    width: 40px;
+    height: 40px;
+}
+
+.Bar{
+    position: relative;
+    top: 5px;
+    margin-right: 15px;
+}
+
+.SwimmingContainer{
+    margin-top: 10px;
+}
+
+.Swimming{
+    position: relative;
+    top: 5px;
+    margin-right: 15px;
+}
+
+.AirCon{
+    position: relative;
+    top: 15px;
+    margin-right: 5px;
+}
+
+.AirConContainer{
+    position: relative;
+    top: -10px;
+    left: -7px;
+}
+
+.Gym{
+    position: relative;
+    top: 15px;
+    margin-right: 5px;
+}
+
+.GymContainer{
+    position: relative;
+    top: -125px;
+    left: 300px;
+}
+
+.Breakfast{
+    position: relative;
+    margin-right: 15px;
+    top: 5px;
+}
+
+.BreakfastContainer{
+    position: relative;
+    top: -115px;
+    left: 305px;
+}
+
+.FrontDesk{
+    position: relative;
+    margin-right: 15px;
+    top: 5px;
+}
+
+.FrontDeskContainer{
+    position: relative;
+    top: -110px;
+    left: 305px;
+}
+
+.AllRoom,.OneBed,.TwoBeds{
+    position:relative;
+    width: 150px;
+    height: 40px;
+    background-color: #242B59;
+    opacity: 70%;
+    border-width: 1px;
+    border-radius: 20px;
+    margin-left: 20px;
+    top: -20px;
+    left: -20px;
+    color: white;
+}
+
+
+.AllRoom:hover{
+    opacity: 90%;    
+    cursor: pointer;
+}
+
+.OneBed:hover{
+    opacity: 90%;     
+    cursor: pointer;
+}
+
+.TwoBeds:hover{
+    opacity: 90%;     
+    cursor: pointer;
+}
+
+.Room1,.Room2,.Room3{
+    background-color: white; 
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); 
+    width: fit-content;
+    height: 550px;
+}
+
+.Room2{
+    position: relative;
+    top:-550px;
+    left: 400px;
+}
+
+.Room3{
+    position: relative;
+    top: -1100px;
+    left: 800px;
+}
+
+.Onsuite,.NormalRoom,.QueenBed{
+    width: 350px;
+    height: 200px;
+    padding-bottom: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;  
+}
+
+
+.RoomDetail{
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.wifi,.squareft,.bed{
+    position: relative;
+    width: 25px;
+    height: 25px;
+    top: 5px;
+    margin-right: 10px;
+
+}
+
+
+.cityview{
+    position: relative;
+    width: 40px;
+    height: 40px;
+    top: 15px;
+}
+
+.wificontainer{
+    position: relative;
+    top: 5px;
+    left: 10px;
+}
+
+.citycontainer{
+    position: relative;
+    top: -5px;
+    left: 4px;
+}
+
+.squareftcontainer{
+    position: relative;
+    top:2px;
+    left: 10px;
+}
+
+.bedcontainer{
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+
+.Price{
+    position: relative;
+    top: 40px;
+    padding:10px;
+}
+
+.Reserve{
+    position: relative;
+    font-size: 17px;
+    background-color: #242B59 ;
+    color: white;
+    opacity: 70%;
+    border-width: 1px;
+    width: 100px;
+    height: 30px;
+    top: 60px;
+    left: 110px;
+}
+
+.Reserve:hover{
+    opacity: 90%;
+    cursor: pointer;
+}

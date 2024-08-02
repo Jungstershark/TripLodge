@@ -1,23 +1,32 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import './pageHeader.css';
 
-function PageHeader(){
-    return(
+function PageHeader() {
+    const navigate = useNavigate();
+
+    const handleLogoClick = () =>{
+        navigate("/");
+    }
+    return (
         <header>
-            <ul>
-                <li className="Logo"><img src={process.env.PUBLIC_URL + "./Ascenda_Blue_Logo.jpg"} alt="Error displaying logo"></img></li>
-                <li className="SignIn">
-                    <a href="#signin">Sign in</a>
-                </li>
-                <li className="ContactUs">
-                    <a href="#contactus">Contact Us</a>
-                </li>
-                <li className="SGD"><button>SGD ▼</button></li>
-            </ul>
-        
+        <ul>
+            <li className="Logo">
+                <button onClick={handleLogoClick} className="logobutton">
+                <img src={process.env.PUBLIC_URL + "/Ascenda_Blue_Logo.jpg"} alt="Error displaying logo" />
+                </button>
+            </li>
+            <li className="SignIn">
+                <Link to="/login">Sign in</Link>
+            </li>
+            <li className="ContactUs">
+                <a href="#contactus">Contact Us</a>
+            </li>
+            <li className="SGD"><button>SGD ▼</button></li>
+        </ul>
         </header>
-
     );
-
 }
+
 export default PageHeader;
