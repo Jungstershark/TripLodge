@@ -68,4 +68,32 @@ async function findOneByCustomerId(){
     }
 }
 
-export {Customer, insertCustomer, findOneByCustomerId}
+async function findUserByEmail(email) {
+  try {
+    const pool = await db.promisedConnectionPool;
+    const [rows] = await pool.query(
+      `
+        SELECT * FROM ${tableName} WHERE email = ?
+      `,
+      [email]
+    );
+
+    if (rows.length === 0) {
+      return null; // No customer found
+    }
+
+    const row = rows[0];
+    return new Customer(
+      row.customerId,
+      row.username,
+      row.email,
+      row.password,
+      row.hp
+    );
+  } catch (error) {
+    console.error('Database query failed: ' + error);
+    throw error;
+  }
+}
+
+export { Customer, insertCustomer, findOneByCustomerId, findUserByEmail };

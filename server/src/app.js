@@ -12,16 +12,29 @@ import indexRouter from './routes/index.js';
 import bookingRouter from './routes/booking.js';
 import checkoutRouter from './routes/checkout.js';
 import webHookRouter from './routes/stripe-webhook.js';
+import authRoutes from './routes/authRoutes.js';  // Add this line
 
 const app = express();
 
-process.on("SIGINT", db.cleanup);
-process.on("SIGTERM", db.cleanup);
+// Ensure proper shutdown and cleanup
+process.on('SIGTERM', () => {
+    server.close(() => {
+        console.log('Process terminated');
+        db.cleanup();
+    });
+});
+
+process.on('SIGINT', () => {
+    server.close(() => {
+        console.log('Process interrupted');
+        db.cleanup();
+    });
+});
 
 app.use(json());
 app.use(cors({
     origin: 'http://localhost:3000', // Your React app URL
-  }));
+}));
 
 const PORT = process.env.PORT || 5000;
 
@@ -29,9 +42,6 @@ app.get('/', async (req, res) => {
     res.json({ status: true, message: "Our node.js app works" })
 });
 
-// view engine setup
-app.set('views', path.join(path.dirname(''), 'views'));
-app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -45,6 +55,7 @@ app.use('/search', searchHotelRouter);
 app.use('/booking', bookingRouter);
 app.use('/checkout', checkoutRouter);
 app.use('/webhook', webHookRouter);
+app.use('/api/auth', authRoutes);  // Add this line
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,11 +67,14 @@ app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-    
-    // render the error page
+
+    // send error response as JSON
     res.status(err.status || 500);
-    res.render('error');
+    res.json({
+        success: false,
+        message: err.message
     });
+});
 
 app.listen(PORT, () => console.log(`App listening at port ${PORT}`));
 

@@ -1,3 +1,67 @@
+.LandingPage{
+    overflow: hidden;
+    height: 150vh;
+
+}
+
 h2{
     text-align:center;
+}
+
+.TopDestination{
+    position: relative;
+    left: 130px;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 20px;
+}
+
+.Hotel1,.Hotel2,.Hotel3,.Hotel4,.Hotel5,.Hotel6{
+    width: 350px;
+    height: 200px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;  
+}
+
+.Hotel1Container,.Hotel2Container,.Hotel3Container,.Hotel4Container,.Hotel5Container,.Hotel6Container{
+    background-color: white;
+    border-radius: 10px; 
+    width: fit-content; 
+    border: 1px solid #d3d3d3;
+    margin-top: 20px;
+}
+
+.Hotel1Container{
+    position:relative;
+    left: 150px;
+}
+
+.Hotel2Container{
+    position: relative;
+    top: -305px;
+    left:550px;
+}
+
+.Hotel3Container{
+    position: relative;
+    top: -608px;
+    left: 950px;
+}
+
+.Hotel4Container{
+    position: relative;
+    top: -580px;
+    left: 150px;
+}
+
+.Hotel5Container{
+    position: relative;
+    top: -883px;
+    left:550px;
+}
+
+.Hotel6Container{
+    position: relative;
+    top: -1187px;
+    left: 950px;
 }
