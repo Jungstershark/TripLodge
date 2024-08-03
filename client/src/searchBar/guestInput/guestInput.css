@@ -1,0 +1,72 @@
+.input-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 10px;
+    color: #242c54; /* Adjust color as needed */
+  }
+  
+  .input-icon-container .input-field {
+    padding-left: 35px; /* Adjust the padding to make space for the icon */
+    flex: 1;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .guest-dropdown {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .guest-option {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .guest-counter {
+    display: flex;
+    align-items: center;
+  }
+  
+  .guest-counter button {
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .guest-counter span {
+    margin: 0 10px;
+  }
+  
+  .done-button {
+    width: 100%;
+    padding: 10px;
+    background: #0071c2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 0 0 5px 5px;
+  }
+  
