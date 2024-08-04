@@ -1,6 +1,10 @@
 import { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, updateBookingStatus, removeBooking } from "../models/booking.js";
 import { sendBookingConfirmationEmail } from "./sendEmailController.js";
 import { fetchHotel } from "../models/hotel.js"; 
+import Stripe from 'stripe';
+import 'dotenv/config'
+
+const stripe = Stripe(process.env.STRIPE_TEST_KEY);
 
 async function viewBooking(req, res, next) {
     const id  = req.params.id; // Booking ID
@@ -94,5 +98,64 @@ async function createBooking(req, res, next) {
     res.json({bookingId: bookingId});
 }
 
-export { viewBooking, viewCustomerBookings, cancelBooking, createBooking };
+async function createStripeCheckout(req, res, next) {
+    const session = await stripe.checkout.sessions.create({
+    line_items: [
+        {
+        price_data: {
+            currency: 'usd',
+            product_data: {
+            name: 'T-shirt',
+            }, 
+            unit_amount: 2000,
+        },
+        quantity: 1,
+        },
+    ],
+    metadata: req.body.bookingInformation, // metadata must be single object where values are strings (i.e. NO nested objects)
+    mode: 'payment',
+    success_url: `${process.env.CLIENT_URL}/success`,
+    cancel_url: `${process.env.CLIENT_URL}/cancel`,
+    });
+    // console.log("Receive booking information: ", bookingInformation);
+  res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.send(session);
+}
+
+async function stripeWebhook(req, res, next) {
+    const event = req.body;
+
+    switch(event.type){
+        case('checkout.session.completed'):
+            const checkoutSession = event.data.object;
+            const bookingInformation = checkoutSession.metadata
+            const billingEmail = checkoutSession.customer_details.email
+            const payeeId = checkoutSession.payment_intent
+            const paymentIntentSession = await stripe.paymentIntents.retrieve(payeeId)
+            const paymentId = paymentIntentSession.latest_charge;
+
+            const combinedBookingInformationForDB = {
+                billingEmail,
+                ...bookingInformation,
+                paymentId,
+                payeeId
+            }
+
+            try {
+                // Send the combined booking information to the createBooking route
+                await axios.post('http://localhost:5000/booking/create', combinedBookingInformationForDB);
+            } catch (error) {
+                console.error('Error creating booking:', error);
+            }
+            break;
+        case('payment_intent.created'):
+            const paymentIntentCreatedSession = event.data.object;
+            paymentIntentCreatedSession.receipt_email = process.env.MAIL_USER;
+            console.log(paymentIntentCreatedSession);
+    }
+
+    res.sendStatus(200);
+}
+
+export { viewBooking, viewCustomerBookings, cancelBooking, createBooking, createStripeCheckout, stripeWebhook };
 
