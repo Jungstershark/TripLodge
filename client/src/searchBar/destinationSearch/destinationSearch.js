@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import debounce from 'lodash.debounce';
+import React, { useState, useEffect } from 'react';
 import destinations from './destinations.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
@@ -9,32 +8,24 @@ const DestinationSearch = ({ query, setQuery }) => {
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // Debounce the search input to improve performance
-  const handleSearch = useCallback(
-    debounce((searchTerm) => {
-      const lowerSearchTerm = searchTerm.toLowerCase();
-      const results = destinations.filter(destination =>
-        destination.term && destination.term.toLowerCase().includes(lowerSearchTerm)
+  useEffect(() => {
+    if (query) {
+      const filtered = destinations.filter(destination =>
+        destination.term && destination.term.toLowerCase().startsWith(query.toLowerCase())
       );
-      setFilteredDestinations(results);
-    }, 3000),
-    []
-  );
+      setFilteredDestinations(filtered);
+    } else {
+      setFilteredDestinations([]);
+    }
+    setShowSuggestions(query.length > 0);
+  }, [query]);
 
-  // Update the query and trigger the search
   const handleChange = (e) => {
     const searchTerm = e.target.value;
+    console.log('Search Term:', searchTerm); // Debugging log
     setQuery(searchTerm);
-    handleSearch(searchTerm);
-    setShowSuggestions(searchTerm.length > 0);
   };
 
-  // Ensure that the debounced search runs initially and whenever query changes
-  useEffect(() => {
-    handleSearch(query);
-  }, [query, handleSearch]);
-
-  // Handle suggestion click
   const handleSuggestionClick = (term) => {
     setQuery(term);
     setShowSuggestions(false);
@@ -53,9 +44,9 @@ const DestinationSearch = ({ query, setQuery }) => {
       />
       {showSuggestions && filteredDestinations.length > 0 && (
         <ul className="destination-list">
-          {filteredDestinations.map((destination) => (
+          {filteredDestinations.map((destination, index) => (
             <li
-              key={destination.uid}
+              key={`${destination.uid}-${index}`} // Ensure unique keys
               className="destination-item"
               onClick={() => handleSuggestionClick(destination.term)}
             >
