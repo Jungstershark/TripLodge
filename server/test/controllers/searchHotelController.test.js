@@ -1,106 +1,161 @@
 import request from 'supertest';
 import express from 'express';
-import { json } from 'body-parser';
-import { searchHotelById } from '../../src/controllers/searchHotelController';
-import { fetchRoomPrices, Room } from '../../src/models/room';
-import { fetchHotel, Hotel } from '../../src/models/hotel';
+import searchRouter from '../../src/routes/search.js';  
+//import { jest } from '@jest/globals';
 
-// 1. Setup and Configuration
+// Setup the Express app
 const app = express();
-// tells the Express application to use the json middleware.
-// makes the parsed data available on req.body
-app.use(json());
-app.post('/search/:id', searchHotelById);
+app.use(express.json());
+app.use('/search', searchRouter);
 
-// 2.Mock Implementation
-jest.mock('../../src/models/room' , () => ({
-    fetchRoomPrices: jest.fn(), // Jest will create a mock function but without any actual logic.
-    // Jest will create a mock class with the same methods but without any actual logic so for this case need to 
-    // explicitly define or pass a mock Room instance as the mock response
-    Room: class{
-        constructor(id, key, roomNormalizedDescription, free_cancellation, roomDescription, long_description, images, amenities, price, market_rates) {
-            // parameter names follow JSON response attribute names
-            this.hotelId = id; // Hotel ID (not part of response object)
-            this.key = key;
-            this.roomNormalizedDescription = roomNormalizedDescription;
-            this.freeCancellation = free_cancellation;
-            this.roomDescription = roomDescription; // Following handout but is this really necessary? (if we already have normalized description)
-            this.longRoomDescription = long_description;
-            this.images = images;
-            this.amenities = amenities;
-            this.price = price;
-            this.marketRates = market_rates;
-        }
-    }
-}));
-jest.mock('../../src/models/hotel', () => ({
-    fetchHotel: jest.fn(), // just making a mock function for fetchHotel() does not actually mean anything
-    Hotel: class { 
-        constructor(id, name, latitude, longitude, address, rating, categories, description, amenities, image_details) {
-            this.id = id;
-            this.name = name;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.address = address;
-            this.rating = rating;
-            this.categories = categories;
-            this.description = description;
-            this.amenities = amenities;
-            this.imageDetails = image_details;
-        }
-    }
-}));
+// Mock the model's API calling functions
+jest.mock('../../src/models/hotel.js', () => {
+    const actualModule = jest.requireActual('../../src/models/hotel.js');
+    return {
+        ...actualModule,
+        fetchHotelsByDestination: jest.fn(),
+        fetchHotel: jest.fn(),
+        Hotel: actualModule.Hotel // Use the actual Hotel class
+    };
+});
+jest.mock('../../src/models/hotelPrice.js', () => {
+    const actualModule = jest.requireActual('../../src/models/hotelPrice.js');
+    return {
+        ...actualModule,
+        fetchHotelPricesByDestination: jest.fn(),
+        HotelPrice: actualModule.HotelPrice // Use the actual HotelPrice class
+    };
+});
+jest.mock('../../src/models/room.js', () => {
+    const actualModule = jest.requireActual('../../src/models/room.js');
+    return {
+        ...actualModule,
+        fetchRoomPrices: jest.fn(),
+        Room: actualModule.Room  // Use the actual Room class
+    };
+});
 
-// 3. Test cases
-describe('searchHotelController test suite', () => {
+import { Hotel, fetchHotelsByDestination, fetchHotel } from '../../src/models/hotel.js';
+import { HotelPrice, fetchHotelPricesByDestination } from '../../src/models/hotelPrice.js';
+import { Room, fetchRoomPrices } from '../../src/models/room.js';
+
+// Test cases
+describe("Hotel Search API Integration Tests", () => {
     beforeEach(() => {
+        // Clear all mock implementations before each test
         jest.clearAllMocks();
     });
 
-    test('searchHotelById() should return filtered list of hotels', async () => {
-        // It basically just means 'i dont care what this function does just know that mockHotel will be the response'
-        fetchHotel.mockResolvedValue(mockHotel);
-        fetchRoomPrices.mockResolvedValue(mockRoomPricesArray);
+    test("POST /search/destination/:id should return list of hotels for a given destination", async () => {
+        const mockHotelsMap = new Map([
+            [mockHotelOne.id, mockHotelOne],
+            [mockHotelTwo.id, mockHotelTwo],
+        ]);
+        const mockHotelPricesMap = new Map([
+            [mockHotelPriceOne.id, mockHotelPriceOne],
+            [mockHotelPriceTwo.id, mockHotelPriceTwo],
+        ]);
 
-        const response = await request(app)
-            .post('/search/1')
+        fetchHotelsByDestination.mockResolvedValue(mockHotelsMap);
+        fetchHotelPricesByDestination.mockResolvedValue(mockHotelPricesMap);
+
+        const res = await request(app)
+            .post('/search/destination/123')
             .send({
-                destination_id: 'WD0M',
                 checkin: '2024-08-01',
-                checkout: '2024-08-10',
+                checkout: '2024-08-05',
                 lang: 'en',
                 currency: 'USD',
                 guests: 2
             });
 
-        expect(response.status).toBe(200);
-        expect(response.body).toEqual({
-            hotel: mockHotel,
-            rooms: mockRoomPricesArray
-        });
-        expect(fetchHotel).toHaveBeenCalledWith('1');
-        expect(fetchRoomPrices).toHaveBeenCalledWith('1', 'WD0M', '2024-08-01', '2024-08-10', 'en', 'USD', 2);
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual([
+            { hotel: mockHotelOne, price: mockHotelPriceOne.price },
+            { hotel: mockHotelTwo, price: mockHotelPriceTwo.price },
+        ]);
+        expect(fetchHotelsByDestination).toHaveBeenCalledWith('123');
+        expect(fetchHotelPricesByDestination).toHaveBeenCalledWith('123', '2024-08-01', '2024-08-05', 'en', 'USD', 2);
     });
 
+    test("POST /search/hotel/:id should return hotel details with room information", async () => {
+        fetchHotel.mockResolvedValue(mockHotelOne);
+        fetchRoomPrices.mockResolvedValue(mockRooms);
+
+        const res = await request(app)
+            .post('/search/hotel/1')
+            .send({
+                destination_id: '123',
+                checkin: '2024-08-01',
+                checkout: '2024-08-05',
+                lang: 'en',
+                currency: 'USD',
+                guests: 2
+            });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual({
+            hotel: mockHotelOne,
+            rooms: mockRooms,
+        });
+        expect(fetchHotel).toHaveBeenCalledWith('1');
+        expect(fetchRoomPrices).toHaveBeenCalledWith('1', '123', '2024-08-01', '2024-08-05', 'en', 'USD', 2);
+    });
 });
 
 
-// 4. Mock data
-const mockHotel = 
-            new Hotel(
-                '1',
-                'Hotel One',
-                '123.45',
-                '678.90',
-                'Address One',
-                '4.5',
-                ['family', 'leisure'],
-                'Description One',
-                'Pool',
-                [{url:'image1.jpg'}]
-            );
+// Mock data
+const mockHotelOne = new Hotel(
+    '1',
+    'Hotel One',
+    '100.00',
+    '100.00',
+    'Address One',
+    '1.0',
+    {
+        "overall": {"name":"Overall","score":94,"popularity":4.0},
+        "romantic_hotel":{"name":"Romantic Hotel","score":72,"popularity":8.615484615384615},
+        "family_hotel":{"name":"Family Hotel","score":75,"popularity":11.26431404682274},
+        "business_hotel":{"name":"Business Hotel","score":85,"popularity":23.84625384615385}
+    },
+    'Description One',
+    {"airConditioning":true,"clothingIron":true,"continentalBreakfast":true,"dataPorts":true,"hairDryer":true,"kitchen":true,"outdoorPool":true,"parkingGarage":true,"safe":true,"tVInRoom":true,"voiceMail":true},
+    {"suffix":".jpg","count":10,"prefix":"https://d2ey9sqrvkqdfs.cloudfront.net/100A/"}
+);
 
-const mockRoomPricesArray = [
+const mockHotelTwo = new Hotel(
+    '2',
+    'Hotel Two',
+    '200.00',
+    '200.00',
+    'Address Two',
+    '2.0',
+    {
+        "overall": {"name":"Overall","score":94,"popularity":4.0},
+        "romantic_hotel":{"name":"Romantic Hotel","score":72,"popularity":8.615484615384615},
+        "family_hotel":{"name":"Family Hotel","score":75,"popularity":11.26431404682274},
+        "business_hotel":{"name":"Business Hotel","score":85,"popularity":23.84625384615385}
+    },
+    'Description One',
+    {"airConditioning":true,"clothingIron":true,"continentalBreakfast":true,"dataPorts":true,"hairDryer":true,"kitchen":true,"outdoorPool":true,"parkingGarage":true,"safe":true,"tVInRoom":true,"voiceMail":true},
+    {"suffix":".jpg","count":20,"prefix":"https://d2ey9sqrvkqdfs.cloudfront.net/200B/"}
+);
+
+const mockHotelPriceOne = new HotelPrice(
+    '1',
+    0.95,
+    1000.00,
+    [{"supplier":"expedia","rate":1123.3367359488}]
+);
+
+const mockHotelPriceTwo = new HotelPrice(
+    '2',
+    0.95,
+    2000.00,
+    [{"supplier":"expedia","rate":1123.3367359488}]
+);
+
+const mockRooms = [
     new Room(
         1,
         5,
@@ -123,4 +178,4 @@ const mockRoomPricesArray = [
         ["Gym", "Free Wi-Fi", "Dry Cleaning", "Washing Machine"],
         400.00,
         500.00)
-    ];
+];

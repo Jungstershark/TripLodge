@@ -62,10 +62,10 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
         // Convert each hotel price data object into a HotelPrice instance and populate the Map
         const hotelPricesMap = hotelPricesData.reduce((map, hotel) => {
             const hotelPrice = new HotelPrice(
-            hotel.id,
-            hotel.searchRank,
-            hotel.price,
-            hotel.market_rates
+                hotel.id,
+                hotel.searchRank,
+                hotel.price,
+                hotel.market_rates
             );
             map.set(hotelPrice.id, hotelPrice);
             return map;
