@@ -10,8 +10,6 @@ import cors from 'cors';
 import searchHotelRouter from './routes/search.js';
 import indexRouter from './routes/index.js';
 import bookingRouter from './routes/booking.js';
-import checkoutRouter from './routes/checkout.js';
-import webHookRouter from './routes/stripe-webhook.js';
 import authRoutes from './routes/authRoutes.js';  // Add this line
 
 const app = express();
@@ -53,8 +51,6 @@ app.use(express.static(path.join(path.dirname(''), 'public')));
 app.use('/', indexRouter);
 app.use('/search', searchHotelRouter);
 app.use('/booking', bookingRouter);
-app.use('/checkout', checkoutRouter);
-app.use('/webhook', webHookRouter);
 app.use('/api/auth', authRoutes);  // Add this line
 
 // catch 404 and forward to error handler
