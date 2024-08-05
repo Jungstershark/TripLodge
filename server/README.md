@@ -21,13 +21,13 @@ npm start
 ```
 
 ## API Endpoints
-The port has been standardised to be localhost:3001. (This is standardised in the dotenv file). To change the port number to your preferred port edit the dotenv file.
+The port has been standardised to be localhost:5000. (This is standardised in the dotenv file). To change the port number to your preferred port edit the dotenv file.
 
 Current active endpoints that can be tested
 
-localhost:3001/index - (Standard express template)
-localhost:3001/hotel
-localhost:3001/hotel/top3 - (Retrieve top 3 records from the hotel details API)
+localhost:5000/index - (Standard express template)
+localhost:5000/hotel
+localhost:5000/hotel/top3 - (Retrieve top 3 records from the hotel details API)
 
 
 

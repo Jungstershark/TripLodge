@@ -1,10 +1,26 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './filterSection.css';
 import PriceRangeSlider from './priceRangeSlider';
 
 const FilterSection = () => {
   const maxInputRef = useRef(null);
   const minInputRef = useRef(null);
+
+  const [priceRange, setPriceRange] = useState([0, 900]);
+
+  const handleSliderChange = (event, newValue) => {
+    setPriceRange(newValue);
+  };
+
+  const handleMinInputChange = (e) => {
+    const newMin = Math.min(Math.max(0, Number(e.target.value)), priceRange[1]);
+    setPriceRange([newMin, priceRange[1]]);
+  };
+
+  const handleMaxInputChange = (e) => {
+    const newMax = Math.max(Math.min(1000, Number(e.target.value)), priceRange[0]);
+    setPriceRange([priceRange[0], newMax]);
+  };
 
   const focusInput = (ref) => {
     if (ref.current) {
@@ -17,16 +33,29 @@ const FilterSection = () => {
       <h3>Filter By</h3>
       <div className="filter-price">
         <label>Total Price</label>
-        <PriceRangeSlider />
-        {/* <input className="priceRangeBar" type="range" min="0" max="200" /> */}
+        <PriceRangeSlider value={priceRange} onChange={handleSliderChange} />
+        <div className="price-input" onClick={() => focusInput(minInputRef)}>
+          <span>Min</span>
+          <input
+            id="min"
+            type="number"
+            placeholder="$0"
+            ref={minInputRef}
+            value={priceRange[0]}
+            onChange={handleMinInputChange}
+          />
+        </div>
         <div className="price-range">
           <div className="price-input" onClick={() => focusInput(maxInputRef)}>
             <span>Max</span>
-            <input id="max" type="text" placeholder="0" ref={maxInputRef} />
-          </div>
-          <div className="price-input" onClick={() => focusInput(minInputRef)}>
-            <span>Min</span>
-            <input id="min" type="text" placeholder="0" ref={minInputRef} />
+            <input
+              id="max"
+              type="number"
+              placeholder="$900"
+              ref={maxInputRef}
+              value={priceRange[1]}
+              onChange={handleMaxInputChange}
+            />
           </div>
         </div>
       </div>
