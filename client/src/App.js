@@ -46,7 +46,7 @@ function App() {
         <Route path="/cancel" element={<Cancel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
-        <Route path="/hotel" element={<HotelDetailPage/>}/>
+        <Route path="/hotel/:id" element={<HotelDetailPage/>}/>
         <Route path="/cancel-booking" element={<CancelBookingPage />} />
         {/* <Route path="/forgot-password" element={<ForgotPassword/>}/> */}
       </Routes>

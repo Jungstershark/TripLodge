@@ -3,7 +3,7 @@ import './hotelDetails.css';
 
 function HotelDetails(){
     return(
-        <div className="container2">
+        <div className="hoteldetailcontainer">
             <div>Booking Details</div>
         </div>
     )

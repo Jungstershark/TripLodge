@@ -1,4 +1,4 @@
-.container1{
+.hotelnamecontainer{
     position: relative;
     top: -80px;
     left: 90px;
@@ -9,7 +9,6 @@
     border-radius: 10px; 
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
     flex-direction: column;
     /* justify-content: center;  #center of column */
     /* align-items: center; #center of row */

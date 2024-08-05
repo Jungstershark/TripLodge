@@ -2,7 +2,7 @@ import axios from 'axios';
 // temporary
 
 async function testPostRequest() {
-  const url = 'http://localhost:5005/search/destination/xmXl';
+  const url = 'http://localhost:5005/search/hotel/1ugJ';
   
   // Parameters in POST body
   const data = {

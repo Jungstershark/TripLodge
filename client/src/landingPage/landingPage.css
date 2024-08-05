@@ -1,67 +1,106 @@
-.LandingPage{
+.LandingPage {
     overflow: hidden;
-    height: 150vh;
-
-}
-
-h2{
-    text-align:center;
-}
-
-.TopDestination{
+    height: 170vh;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .TopDestination {
     position: relative;
     left: 130px;
     font-weight: bold;
     font-size: 30px;
     margin: 20px;
-}
-
-.Hotel1,.Hotel2,.Hotel3,.Hotel4,.Hotel5,.Hotel6{
+  }
+  
+  .Hotel1, .Hotel2, .Hotel3, .Hotel4, .Hotel5, .Hotel6 {
     width: 350px;
     height: 200px;
     border-top-left-radius: 10px;
-    border-top-right-radius: 10px;  
-}
-
-.Hotel1Container,.Hotel2Container,.Hotel3Container,.Hotel4Container,.Hotel5Container,.Hotel6Container{
+    border-top-right-radius: 10px;
+  }
+  
+  .Hotel1Container, .Hotel2Container, .Hotel3Container, .Hotel4Container, .Hotel5Container, .Hotel6Container {
     background-color: white;
-    border-radius: 10px; 
-    width: fit-content; 
+    border-radius: 10px;
+    width: 350px;
+    height: fit-content;
     border: 1px solid #d3d3d3;
     margin-top: 20px;
-}
+  }
 
-.Hotel1Container{
-    position:relative;
+  .Hotel1Container, .Hotel2Container, .Hotel3Container, .Hotel4Container, .Hotel5Container, .Hotel6Container:hover {
+    cursor: pointer;
+  }
+
+  .hotelname{
+    padding-left:10px;
+    padding-bottom: 5px;
+  }
+  
+  .Hotel1Container {
+    position: relative;
     left: 150px;
-}
-
-.Hotel2Container{
+  }
+  
+  .Hotel2Container {
     position: relative;
-    top: -305px;
-    left:550px;
-}
-
-.Hotel3Container{
+    top: -345px;
+    left: 550px;
+  }
+  
+  .Hotel3Container {
     position: relative;
-    top: -608px;
+    top: -688px;
     left: 950px;
-}
-
-.Hotel4Container{
+  }
+  
+  .Hotel4Container {
     position: relative;
     top: -580px;
     left: 150px;
-}
-
-.Hotel5Container{
+  }
+  
+  .Hotel5Container {
+    word-wrap: break-word;
     position: relative;
-    top: -883px;
-    left:550px;
-}
-
-.Hotel6Container{
+    top: -920px;
+    left: 550px;
+  }
+  
+  .Hotel6Container {
     position: relative;
-    top: -1187px;
+    top: -1286px;
     left: 950px;
-}
+  }
+  
+  .rating {
+    text-align: center;
+    font-size: 15px;
+    width: fit-content;
+    width: 25px;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+  
+  .not-recommended {
+    background-color: yellow;
+    color: black;
+  }
+
+  
+  .recommended,.highly-recommended,.excellent {
+    background-color: green;
+  }
+
+  .ratingdescription{
+    position: relative;
+    top: -25px;
+    left: 55px;
+  }
+  
+  
