@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './landingPage/landingPage.js';
 import HotelSearch from './hotelSearchPage/hotelsearch.js';
-// import YourDetail from './BookingDetails/yourDetail';
+import YourDetail from './BookingDetails/yourDetail';
 // import PaymentPage from './PaymentMethod/paymentPage.js';
 import Checkout from './CheckoutPage/checkout.js';
 import Success from './CheckoutPage/Success.jsx';
@@ -40,7 +40,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/HotelSearch" element={<HotelSearch />} />
-        <AppRoute path="/Details" element={<YourDetail/>}/>
+        <Route path="/Details" element={<YourDetail/>}/>
         <Route path="/checkout" element={<Checkout {...sampleProps} />}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
