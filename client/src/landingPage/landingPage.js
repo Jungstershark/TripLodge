@@ -1,10 +1,12 @@
 import React from 'react';
 import PageHeader from '../pageHeader/pageHeader.js';
 import SearchBar from '../searchBar/searchBar.js';
+// import axios from 'axios';
 
 import './landingPage.css';
 
 function LandingPage() {
+  
   return (
     <>
       <div className='LandingPage'>

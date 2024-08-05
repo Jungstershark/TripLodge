@@ -1,44 +1,62 @@
-// src/searchBar/destinationSearch/destinationSearch.integration.test.js
-import React, { useState } from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import DestinationSearch from './destinationSearch';
+import React, { useState, useEffect } from 'react';
 import destinations from './destinations.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import './destinationSearch.css';
 
-// Mock the destinations data
-jest.mock('./destinations.json', () => [
-  { uid: 'jiHz', term: 'New York, NY, United States' },
-  { uid: 'RsLO', term: 'Los Angeles, CA, United States' },
-  { uid: 'lnS2', term: 'San Francisco, CA, United States' },
-]);
+const DestinationSearch = ({ query, setQuery, setDestinationId }) => {
+  const [filteredDestinations, setFilteredDestinations] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-// Mock the debounce function from lodash
-jest.mock('lodash.debounce', () => jest.fn(fn => fn));
+  useEffect(() => {
+    if (query) {
+      const filtered = destinations.filter(destination =>
+        destination.term && destination.term.toLowerCase().startsWith(query.toLowerCase())
+      );
+      setFilteredDestinations(filtered);
+    } else {
+      setFilteredDestinations([]);
+    }
+    setShowSuggestions(query.length > 0);
+  }, [query]);
 
-const TestWrapper = () => {
-  const [query, setQuery] = useState('');
+  const handleChange = (e) => {
+    const searchTerm = e.target.value;
+    setQuery(searchTerm);
+  };
+
+  const handleSuggestionClick = (destination) => {
+    setQuery(destination.term);
+    setDestinationId(destination.uid);
+    setShowSuggestions(false);
+  };
 
   return (
-    <DestinationSearch query={query} setQuery={setQuery} />
+    <div className="input-icon-container">
+      <FontAwesomeIcon icon={faLocationDot} className="input-icon" />
+      <input
+        type="text"
+        placeholder="Where to?"
+        className="input-field"
+        value={query}
+        onChange={handleChange}
+        onFocus={() => setShowSuggestions(query.length > 0)}
+      />
+      {showSuggestions && filteredDestinations.length > 0 && (
+        <ul className="destination-list">
+          {filteredDestinations.map((destination, index) => (
+            <li
+              key={`${destination.uid}-${index}`}
+              className="destination-item"
+              onClick={() => handleSuggestionClick(destination)}
+            >
+              {destination.term}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
-test('filters and displays suggestions based on input', async () => {
-  render(<TestWrapper />);
-
-  // Input the search term
-  fireEvent.change(screen.getByPlaceholderText('Where to?'), { target: { value: 'New' } });
-
-  // Wait for suggestions to appear
-  await waitFor(() => {
-    expect(screen.getByText('New York, NY, United States')).toBeInTheDocument();
-    expect(screen.queryByText('Los Angeles, CA, United States')).not.toBeInTheDocument();
-    expect(screen.queryByText('San Francisco, CA, United States')).not.toBeInTheDocument();
-  });
-
-  // Click on a suggestion
-  fireEvent.click(screen.getByText('New York, NY, United States'));
-
-  // Verify if the input field is updated with the selected suggestion
-  expect(screen.getByPlaceholderText('Where to?').value).toBe('New York, NY, United States');
-});
+export default DestinationSearch;

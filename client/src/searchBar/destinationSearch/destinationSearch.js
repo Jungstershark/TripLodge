@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import './destinationSearch.css';
 
-const DestinationSearch = ({ query, setQuery }) => {
+const DestinationSearch = ({ query, setQuery, setDestinationId }) => {
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -22,12 +22,12 @@ const DestinationSearch = ({ query, setQuery }) => {
 
   const handleChange = (e) => {
     const searchTerm = e.target.value;
-    console.log('Search Term:', searchTerm); // Debugging log
     setQuery(searchTerm);
   };
 
-  const handleSuggestionClick = (term) => {
-    setQuery(term);
+  const handleSuggestionClick = (destination) => {
+    setQuery(destination.term);
+    setDestinationId(destination.uid);
     setShowSuggestions(false);
   };
 
@@ -46,9 +46,9 @@ const DestinationSearch = ({ query, setQuery }) => {
         <ul className="destination-list">
           {filteredDestinations.map((destination, index) => (
             <li
-              key={`${destination.uid}-${index}`} // Ensure unique keys
+              key={`${destination.uid}-${index}`}
               className="destination-item"
-              onClick={() => handleSuggestionClick(destination.term)}
+              onClick={() => handleSuggestionClick(destination)}
             >
               {destination.term}
             </li>

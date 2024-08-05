@@ -1,33 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageHeader from '../pageHeader/pageHeader';
 import SearchBar from '../searchBar/searchBar';
 import FilterSection from './filterSection/filterSection.js';
 import HotelList from './hotelList/hotelList';
-import './hotelsearch.css'; 
+import './hotelsearch.css';
 
 function HotelSearch() {
-  const hotels = [
-    {
-      name: 'Hotel Name 1',
-      description: 'Hotel Description 1'
-    },
-    {
-      name: 'Hotel Name 2',
-      description: 'Hotel Description 2'
-    },
-    {
-      name: 'Hotel Name 3',
-      description: 'Hotel Description 3'
-    }
-  ];
+  const [destinationId, setDestinationId] = useState(null);
+  const [checkin, setCheckin] = useState('');
+  const [checkout, setCheckout] = useState('');
+  const [guests, setGuests] = useState('');
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleSearch = (queryParams) => {
+    setCheckin(formatDate(queryParams.checkin));
+    setCheckout(formatDate(queryParams.checkout));
+    setGuests(`${queryParams.adults}|${queryParams.children}`);
+  };
 
   return (
-    <> 
+    <>
       <PageHeader />
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
       <div className="container">
-        <FilterSection />
-        <HotelList hotels={hotels} />
+        <FilterSection setDestinationId={setDestinationId} />
+        {destinationId && (
+          <HotelList
+            destinationId={destinationId}
+            checkin={checkin}
+            checkout={checkout}
+            lang="en" // Assuming default language
+            currency="USD" // Assuming default currency
+            guests={guests}
+          />
+        )}
       </div>
     </>
   );
