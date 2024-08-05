@@ -23,7 +23,6 @@ const promisedConnectionPool = new Promise((resolve, reject) => {
     try {
       // Connect to mysql server
       const connection = await mysql.createConnection(sqlConfig);
-  
       // Create database if it does not exist
       await connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`);
       await connection.end();

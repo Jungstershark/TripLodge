@@ -15,13 +15,13 @@
   }
   
   .input-icon-container .input-field {
-    padding-left: 35px; /* Adjust the padding to make space for the icon */
-    flex: 1;
-    border: 1px solid #ccc;
+    padding-left: 2rem;
+    margin-top: 0.1rem;
     outline: none;
-    border-radius: 5px;
+    border-radius: 0.4rem;
     font-size: 16px;
     cursor: pointer;
+    width: 14rem;
   }
   
   .guest-dropdown {

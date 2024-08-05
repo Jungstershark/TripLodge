@@ -39,8 +39,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/HotelSearch" element={<HotelSearch />} />
-        <Route path="/Details" element={<YourDetail/>}/>
+        <Route path="/hotelSearch" element={<HotelSearch />} />
+        <Route path="/details" element={<YourDetail/>}/>
         <Route path="/checkout" element={<Checkout {...sampleProps} />}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/cancel" element={<Cancel/>}/>

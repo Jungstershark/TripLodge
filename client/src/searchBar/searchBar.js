@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './searchBar.css';
 import DestinationSearch from './destinationSearch/destinationSearch';
 import DateRangePickerComponent from './datePicker/datePicker';
 import GuestInput from './guestInput/guestInput';
-import HotelList from '../hotelSearchPage/hotelList/hotelList';
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -13,7 +14,8 @@ const SearchBar = () => {
     startDate: new Date(),
     endDate: null,
   });
-  const [searchParams, setSearchParams] = useState(null);
+  
+  const navigate = useNavigate();
 
   const formatGuests = (guests) => {
     const totalGuests = guests.adults + guests.children;
@@ -28,33 +30,28 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     if (destinationId && dates.startDate && dates.endDate) {
-      setSearchParams({
+      const searchParams = new URLSearchParams({
         destinationId,
         checkin: dates.startDate.toISOString().split('T')[0],
         checkout: dates.endDate.toISOString().split('T')[0],
         lang: 'en',
-        currency: 'USD',
+        currency: 'SGD',
         guests: formatGuests(guests),
-      });
+      }).toString();
+
+      navigate(`/hotelSearch?${searchParams}`);
     }
   };
 
   return (
-    <>
-      <div className="search-container">
-        <div className="search-bar">
-          <DestinationSearch query={query} setQuery={setQuery} setDestinationId={setDestinationId} />
-          <DateRangePickerComponent dates={dates} setDates={setDates} />
-          <GuestInput guests={guests} setGuests={setGuests} />
-          <button className="search-button" onClick={handleSearch}>Search</button>
-        </div>
+    <div className="search-container">
+      <div className="search-bar">
+        <DestinationSearch query={query} setQuery={setQuery} setDestinationId={setDestinationId} />
+        <DateRangePickerComponent dates={dates} setDates={setDates} />
+        <GuestInput guests={guests} setGuests={setGuests} />
+        <SearchIcon className="search-icon" fontSize='large' sx={{ color: '#FFFFFF', cursor: 'pointer' }} onClick={handleSearch} />
       </div>
-      <div className="container">
-        {searchParams && (
-          <HotelList {...searchParams} />
-        )}
-      </div>
-    </>
+    </div>
   );
 };
 

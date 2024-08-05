@@ -1,23 +1,29 @@
-/* App.css */
-.container {
-    display: flex;
-    margin-top: 30px;
-    padding: 5px;
-    align-items:flex-start;
-  }
-  
-.filter-section {
-    flex: 1;
-    max-width: 300px;
-    margin-right: 5px;
+.filter-container {
+  background-color: white;
+  border-radius: 0.8rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow here */
+  display: flex;
+  margin-top: 2rem;
+  margin-left: 20rem;
+  align-items: flex-start;
+  width: fit-content;
+  height: fit-content;
 }
 
-.hotel-list {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding:0;
-  }
-  
-  
+.hotellist-container {
+  display: flex;
+  flex-direction: row; /* Arrange filter and hotel list side by side */
+  gap: 5rem;
+  margin: 1rem; /* Optional: Add margin for spacing */
+}
+
+.hotels {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column; /* Arrange hotels vertically */
+  flex-grow: 1; /* Allow the hotel list to take remaining space */
+}
+
+.hotel-card {
+  margin-bottom: 1rem; /* Space between hotel cards */
+}

@@ -15,7 +15,6 @@ async function searchHotelByDestination(req, res, next) {
     // Get list of hotels (and prices) from given destination
     const [hotelsMap, hotelPricesMap] = await Promise.all([cacheFetchHotelByDestination(id), 
         fetchHotelPricesByDestination(id, checkin, checkout, lang, currency, guests)]); // concurrent API fetch calls
-
     const result = []; // array
     for (const hotelPrice of Array.from(hotelPricesMap.values())) {
         // For some reason, some hotelPrice objects have hotel IDs without corresponding hotel information (from destination search API call)
@@ -31,7 +30,7 @@ async function searchHotelByDestination(req, res, next) {
     // Note: hotelPrice instance has distance attribute which hotel instance does not have for some reason (from Ascenda API)
     // If this is useful, will need to extract from hotelPrice
 
-    res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.json(result);
 }
 

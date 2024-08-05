@@ -5,12 +5,11 @@
 }
 
 .date-picker-input {
-  width: 100%; /* Adjust width as needed */
+  width: 14rem;
   background-color: white;
-  height: 40px; /* Ensure consistency with other inputs */
-  padding: 10px;
+  height: 2.5rem; /* Ensure consistency with other inputs */
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.4rem;
   font-size: 16px;
   cursor: pointer;
 }
@@ -52,7 +51,32 @@
   padding: 0 10px;
 }
 
+.input-icon {
+  position: absolute;
+  left: 10px;
+  color: #242c54; /* Adjust color as needed */
+}
 
+.input-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+  
+.input-icon-container .date-picker-input {
+  padding-left: 2.7rem;
+  margin-top: 0.1rem;
+  outline: none;
+  border-radius: 0.4rem;
+  font-size: 16px;
+  cursor: pointer;
+  width: 14rem;
+}
 
 /*to have more functionality in datePicker
 

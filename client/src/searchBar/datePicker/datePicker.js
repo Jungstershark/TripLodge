@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import { format } from 'date-fns';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import './datePicker.css';
@@ -25,7 +26,7 @@ const DateRangePickerComponent = ({ dates, setDates }) => {
   const formattedDate = `${format(selectionRange.startDate, 'EEE d MMM')} - ${selectionRange.endDate ? format(selectionRange.endDate, 'EEE d MMM') : 'Check-out'}`;
 
   return (
-    <div className="date-range-picker">
+    <div className="date-range-picker input-icon-container">
       <input
         type="text"
         value={formattedDate}
@@ -33,6 +34,7 @@ const DateRangePickerComponent = ({ dates, setDates }) => {
         onClick={() => setShowCalendar(!showCalendar)}
         className="date-picker-input"
       />
+      <CalendarMonthIcon className="input-icon"/>
       {showCalendar && (
         <div className="calendar-container">
           <DateRangePicker

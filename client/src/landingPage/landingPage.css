@@ -1,106 +1,66 @@
 .LandingPage {
     overflow: hidden;
-    height: 170vh;
-  }
-  
-  h2 {
-    text-align: center;
-  }
-  
-  .TopDestination {
-    position: relative;
-    left: 130px;
+    height: 120vh;
+}
+
+h2{
+    color: #846489;
+    font-size: 32px;
+    text-align:center;
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+.heading{
     font-weight: bold;
-    font-size: 30px;
-    margin: 20px;
-  }
-  
-  .Hotel1, .Hotel2, .Hotel3, .Hotel4, .Hotel5, .Hotel6 {
-    width: 350px;
-    height: 200px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-  
-  .Hotel1Container, .Hotel2Container, .Hotel3Container, .Hotel4Container, .Hotel5Container, .Hotel6Container {
-    background-color: white;
-    border-radius: 10px;
-    width: 350px;
-    height: fit-content;
-    border: 1px solid #d3d3d3;
-    margin-top: 20px;
-  }
+    font-size: 28px;
+    padding-top: 3.5rem;
+    padding-bottom: 2.4rem;
+}
 
-  .Hotel1Container, .Hotel2Container, .Hotel3Container, .Hotel4Container, .Hotel5Container, .Hotel6Container:hover {
-    cursor: pointer;
-  }
+.hotel-container{
+    margin-top: 1rem;
+    padding-left: 23rem;
+    padding-right: 23rem;
+}
 
-  .hotelname{
-    padding-left:10px;
-    padding-bottom: 5px;
-  }
-  
-  .Hotel1Container {
-    position: relative;
-    left: 150px;
-  }
-  
-  .Hotel2Container {
-    position: relative;
-    top: -345px;
-    left: 550px;
-  }
-  
-  .Hotel3Container {
-    position: relative;
-    top: -688px;
-    left: 950px;
-  }
-  
-  .Hotel4Container {
-    position: relative;
-    top: -580px;
-    left: 150px;
-  }
-  
-  .Hotel5Container {
-    word-wrap: break-word;
-    position: relative;
-    top: -920px;
-    left: 550px;
-  }
-  
-  .Hotel6Container {
-    position: relative;
-    top: -1286px;
-    left: 950px;
-  }
-  
-  .rating {
+/* Centering the loading content */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
+.loading-content p{
     text-align: center;
-    font-size: 15px;
-    width: fit-content;
-    width: 25px;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    margin-left: 10px;
-  }
-  
-  .not-recommended {
-    background-color: yellow;
-    color: black;
-  }
+}
 
-  
-  .recommended,.highly-recommended,.excellent {
-    background-color: green;
-  }
+.slick-slide {
+    padding: 0 0.5rem; /* Adjust the gap between carousel items */
+}
 
-  .ratingdescription{
-    position: relative;
-    top: -25px;
-    left: 55px;
-  }
-  
-  
+.slick-track {
+    display: flex; /* Flexbox helps align items properly */
+}
+
+.slick-list {
+    margin: 0 auto; /* Center the carousel if needed */
+}
+
+
+/* Media query for screens 1024px and smaller */
+@media (max-width: 1024px) {
+    .hotel-container {
+        padding-left: 8rem; /* Adjust as needed */
+        padding-right: 8rem; /* Adjust as needed */
+    }
+}
+
+/* Media query for screens 600px and smaller (optional) */
+@media (max-width: 600px) {
+    .hotel-container {
+        padding-left: 1rem; /* Adjust as needed */
+        padding-right: 1rem; /* Adjust as needed */
+    }
+}

@@ -45,7 +45,6 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
                     partner_id: 1
                 }
             });
-
             isFetchComplete = response.data.completed;
             pollCount += 1;
             

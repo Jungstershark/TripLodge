@@ -1,19 +1,7 @@
 .search-bar {
   display: flex;
   align-items: center;
-  gap: 20px; /* Increase the gap for better spacing */
-  margin-top: 20px;
-  width: 100%;
-  max-width: 1400px; /* Increase max-width for a wider search bar */
-  margin: 0 auto;
-}
-
-.input-icon-container,
-.date-range-picker,
-.guest-input-container {
-  flex: 1; /* Ensure the elements take available space */
-  max-width: 300px; /* Adjust the width to ensure the elements are wider */
-  margin-right: 20px; /* Add margin to right for spacing */
+  gap: 2rem; /* Increase the gap for better spacing */
 }
 
 .input-icon-container {
@@ -31,43 +19,71 @@
 }
 
 .input-icon-container .input-field {
-  padding-left: 35px;
   flex: 1;
   border: 1px solid #ccc;
   outline: none;
-  border-radius: 5px;
   font-size: 16px;
-  height: 40px; /* Set height to ensure consistency */
+  height: 2.5rem; /* Set height to ensure consistency */
   cursor: pointer;
 }
 
 .input-field {
-  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.8rem;
   width: 100%;
   font-size: 16px;
-  height: 40px; /* Set height to ensure consistency */
+  height: 2.5rem; /* Set height to ensure consistency */
 }
 
-.search-button {
-  padding: 10px 20px;
-  background-color: #0071c2;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  height: 40px; /* Set height to ensure consistency */
+.search-icon{
+  margin-right: 0.3rem;
 }
 
 .search-container {
   background-color: rgba(36, 43, 89, 0.7098);
-  padding: 20px;
-  border-radius: 10px;
+  padding: 1rem;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  border-radius: 0.8rem;
   display: flex;
   justify-content: center;
-  margin: 0 auto;
+  margin: 1.2rem auto;
   width: fit-content;
   max-width: 100%; /* Ensure it takes full width if needed */
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .search-container {
+    padding: 0.8rem; /* Adjust padding for smaller screens */
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .input-field {
+    font-size: 14px; /* Adjust font size for smaller screens */
+    height: 2rem; /* Adjust height for smaller screens */
+  }
+  
+  .search-bar {
+    flex-direction: column; /* Stack items in a column */
+    gap: 1rem; /* Adjust gap for column layout */
+  }
+
+  .input-icon-container {
+    width: 100%; /* Ensure full width for input container */
+  }
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    padding: 0.5rem; /* Further adjust padding for very small screens */
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+
+  .input-field {
+    font-size: 12px; /* Further adjust font size for very small screens */
+    height: 1.8rem; /* Further adjust height for very small screens */
+  }
 }

@@ -2,6 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PageHeader from '../pageHeader/pageHeader.js';
 import SearchBar from '../searchBar/searchBar.js';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
+import Rating from '@mui/material/Rating';
+import Slider from 'react-slick';
+import LinearProgress from '@mui/material/LinearProgress';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import './landingPage.css';
 
 const LandingPage = () => {
@@ -11,7 +21,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     const fetchHotels = async () => {
-      const url = 'http://localhost:5005/search/destination/xmXl';
+      const url = `${process.env.REACT_APP_SERVER_URL}/search/destination/WD0M`;
       const data = {
         checkin: '2024-10-01',
         checkout: '2024-10-07',
@@ -23,7 +33,9 @@ const LandingPage = () => {
       try {
         console.log('Fetching hotels...');
         const response = await axios.post(url, data);
-        setHotels(response.data.slice(0, 6) || []); // Ensure only 6 hotels are set
+        const filteredHotels = response.data.filter(data => data.hotel.rating > 4.5);
+        setHotels(filteredHotels.splice(6, 10) || []);
+        console.log("length: ", filteredHotels.length);
         setLoading(false);
         console.log('Response data:', response.data[0]);
       } catch (error) {
@@ -36,65 +48,154 @@ const LandingPage = () => {
     fetchHotels();
   }, []);
 
-  const getRatingDescription = (rating) => {
-    if (rating < 5) return 'Not Recommended';
-    if (rating < 7) return 'Recommended';
-    if (rating < 8) return 'Highly Recommended';
-    return 'Excellent';
-  };
-
-  const convertRating = (rating) => (rating ? rating * 2 : 'No rating available');
-
-  const getRatingClass = (ratingDescription) => {
-    switch (ratingDescription) {
-      case 'Not Recommended':
-        return 'not-recommended';
-      case 'Recommended':
-        return 'recommended';
-      case 'Highly Recommended':
-        return 'highly-recommended';
-      case 'Excellent':
-        return 'excellent';
-      default:
-        return '';
-    }
-  };
-
-  const handleClick = (hotelId) => {
-    console.log('Hotel clicked:', hotelId);
-    // Perform your action here (e.g., navigate to a new page)
-    window.location.href = `/hotel/${hotelId}`;
-  };
-
-  if (loading) return <div className='Loading'>Loading...</div>;
+  if (loading){
+    return (
+      <div className='loading-container'>
+        <div className='loading-content'>
+          <LinearProgress sx={{ width: 200 }} />
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
   if (error) return <div className='Error'>{error}</div>;
+
+  const topDestSliderSettings = {
+    slidesToShow: 3,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  }
+
+  const SGhotelsliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 2000,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+   
 
   return (
     <div className='LandingPage'>
       <PageHeader />
       <h2>Your Perfect Stay, A Click Away!</h2>
       <SearchBar />
-      <div className='TopDestination'>Top Destinations</div>
-      <div className='Hotels'>
+      <div className='hotel-container'>
+      <div className='heading'>Top Destinations</div>
+      <Slider {...topDestSliderSettings} className='slider-grid'>
+        <Card sx={{ maxWidth: 405}}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="150"
+              image='singapore-jewel-changi-airport.jpg'
+              alt='Singapore'
+            />
+            <CardContent>
+            <Typography gutterBottom variant='h6' component="div">
+              Singapore
+            </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+        <Card sx={{ maxWidth: 405 }}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="150"
+              image='japan-sakura.jpg'
+              alt='Japan'
+            />
+            <CardContent>
+            <Typography gutterBottom variant='h6' component="div">
+              Tokyo
+            </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+        <Card sx={{ maxWidth: 405 }}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="150"
+              image='rome-italy.jpg'
+              alt='Rome'
+            />
+            <CardContent>
+            <Typography gutterBottom variant='h6' component="div">
+              Rome
+            </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Slider>
+      <div className='heading'>Top Hotels in Singapore</div>
+      <Slider {...SGhotelsliderSettings}>
         {hotels.length === 0 ? (
           <div>No hotels found.</div>
         ) : (
           hotels.map((item, index) => {
-            const imageSrc = `${process.env.PUBLIC_URL}/Hotel${index + 1}.jpg`;
-            const rating = convertRating(item.hotel.rating);
-            const ratingDescription = rating !== 'No rating available' ? getRatingDescription(rating) : rating;
-            const ratingClass = getRatingClass(ratingDescription);
+            const imageUrl = item.hotel.imageDetails
+              ? `${item.hotel.imageDetails.prefix}1${item.hotel.imageDetails.suffix}`
+              : 'defaultImage.jpg';
 
             return (
-              <div onClick={() => handleClick(item.hotel.id)} key={index} className={`Hotel${index + 1}Container`}>
-                <img className={`Hotel${index + 1}`} src={imageSrc} alt="Hotel" />
-                <h3 className='hotelname'>{item.hotel.name || 'Hotel Name'}</h3>
-                <div className={`rating ${ratingClass}`}>{rating}</div>
-                <div className='ratingdescription'>{ratingDescription}</div>
-              </div>
+              <Card sx={{ maxWidth: 405}} key={item.hotel.id}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="150"
+                    image={imageUrl}
+                    alt={item.hotel.name || 'Hotel image'}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant='h6' component="div">
+                      {item.hotel.name || 'Hotel Name'}
+                    </Typography>
+                    <Rating name="read-only" value={item.hotel.rating} readOnly />
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             );
           })
         )}
+      </Slider>
       </div>
     </div>
   );

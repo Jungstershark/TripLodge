@@ -52,7 +52,6 @@ async function fetchHotelsByDestination(destination_id) {
             
             // Add the Hotel instance to the map with the id as the key
             map.set(hotel.id, hotel);
-            
             // Return the updated map to be used as the accumulator in the next iteration
             return map;
         }, new Map()); // Initial value for the accumulator
