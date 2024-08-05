@@ -216,4 +216,3 @@ async function getBillingEmail(payeeId){
 }
 
 export { viewBooking, viewCustomerBookings, cancelBooking, createBooking, createStripeCheckout, stripeWebhook, stripeRefund, getBillingEmail };
-

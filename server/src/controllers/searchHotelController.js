@@ -31,7 +31,7 @@ async function searchHotelByDestination(req, res, next) {
     // Note: hotelPrice instance has distance attribute which hotel instance does not have for some reason (from Ascenda API)
     // If this is useful, will need to extract from hotelPrice
 
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.set('Access-Control-Allow-Origin', 'http://localhost:5000');
     res.json(result);
 }
 
