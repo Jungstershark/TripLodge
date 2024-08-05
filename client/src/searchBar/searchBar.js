@@ -15,6 +15,17 @@ const SearchBar = () => {
   });
   const [searchParams, setSearchParams] = useState(null);
 
+  const formatGuests = (guests) => {
+    const totalGuests = guests.adults + guests.children;
+    if (totalGuests === 1) {
+      return '1';
+    } else if (guests.rooms === 1) {
+      return `${totalGuests}`;
+    } else {
+      return Array(guests.rooms).fill(totalGuests).join('|');
+    }
+  };
+
   const handleSearch = () => {
     if (destinationId && dates.startDate && dates.endDate) {
       setSearchParams({
@@ -23,7 +34,7 @@ const SearchBar = () => {
         checkout: dates.endDate.toISOString().split('T')[0],
         lang: 'en',
         currency: 'USD',
-        guests: `${guests.adults}|${guests.children}`,
+        guests: formatGuests(guests),
       });
     }
   };
