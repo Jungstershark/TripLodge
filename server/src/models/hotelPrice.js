@@ -75,8 +75,13 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
         return hotelPricesMap;
         
     } catch(error) {
-        console.error("Error fetching hotel prices by destination:", error);
-        throw error;
+        if (error.response && error.response.status === 422) {
+            console.log('Ascenda API returned a 422 status:', error.response.data);
+            return new Map(); // return empty Map 
+        } else {
+            console.error("Error fetching hotel prices by destination:", error);
+            throw error;
+        }
     }
 }
 

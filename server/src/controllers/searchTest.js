@@ -1,8 +1,20 @@
 import axios from 'axios';
 // temporary
 
+// KS5q
+// 0804 0807
+
+// xmXl
+// const data = {
+//   checkin: '2024-10-01',
+//   checkout: '2024-10-07',
+//   lang: "en_US",
+//   currency: "SGD",
+//   guests: 1
+// };
+
 async function testPostRequest() {
-  const url = 'http://localhost:5005/search/destination/xmXl';
+  const url = 'http://localhost:5000/search/destination/WD0M';
   
   // Parameters in POST body
   const data = {
@@ -10,7 +22,7 @@ async function testPostRequest() {
     checkout: '2024-10-07',
     lang: "en_US",
     currency: "SGD",
-    guests: 1
+    guests: 0
   };
 
 
@@ -23,4 +35,5 @@ async function testPostRequest() {
 }
 
 const hotelList = await testPostRequest();
-console.log(hotelList[1])
+console.log('success');
+console.log(hotelList.length);
