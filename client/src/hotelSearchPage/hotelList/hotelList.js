@@ -27,7 +27,7 @@ const HotelList = ({ destinationId, checkin, checkout, lang, currency, guests })
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log(destinationId)
+  
 
   useEffect(() => {
     const loadHotels = async () => {
@@ -42,6 +42,7 @@ const HotelList = ({ destinationId, checkin, checkout, lang, currency, guests })
           guests
         });
         
+        
 
         // Fetch the list of hotels and their prices
         const response = await axios.post(`http://localhost:5000/search/destination/${destinationId}`, {
@@ -51,7 +52,7 @@ const HotelList = ({ destinationId, checkin, checkout, lang, currency, guests })
           currency,
           guests
         });
-
+        
         console.log('Response data:', response.data); // Log the response data
 
         // Set the hotels state with the fetched data
