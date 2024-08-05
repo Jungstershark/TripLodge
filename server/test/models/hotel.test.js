@@ -1,120 +1,120 @@
-import { Hotel, fetchHotel, fetchHotelsByDestination } from '../../src/models/hotel.js';
 import axios from 'axios';
+import { Hotel, fetchHotelsByDestination, fetchHotel } from '../../src/models/hotel.js';
+import { ascendaAPI } from '../../src/models/ascendaApi.js';
 
-jest.mock('axios')
+// Mock axios
+jest.mock('axios');
 
-describe("hotel instance test", () =>{
-    test("can create Hotel instance with attributes", () => {
-        const hotelTest = new Hotel(
-            1, 
-            "Bling Bling Hotel", 
-            "123", 
-            "456", 
-            "7 North Rd", 
-            "5.0", ["family","leisure"], 
-            "This is a very nice hotel", 
-            "playground", 
-            "no image");
+// Mock data
+const mockHotelData = {
+    id: '1',
+    name: 'Test Hotel',
+    latitude: 1.2345,
+    longitude: 6.7890,
+    address: '123 Test St',
+    rating: 4.5,
+    categories: ['Luxury'],
+    description: 'A test hotel',
+    amenities: ['WiFi', 'Pool'],
+    image_details: { url: 'http://test.com/image.jpg' }
+};
 
-        expect(hotelTest.id).toBe(1);
-        expect(hotelTest.name).toBe("Bling Bling Hotel");
-        expect(hotelTest.latitude).toBe("123");
-        expect(hotelTest.longitude).toBe("456");
-        expect(hotelTest.address).toBe("7 North Rd");
-        expect(hotelTest.rating).toBe("5.0");
-        expect(hotelTest.categories).toEqual(["family", "leisure"]);
-        expect(hotelTest.description).toBe("This is a very nice hotel");
-        expect(hotelTest.amenities).toBe("playground");
-        expect(hotelTest.imageDetails).toBe("no image");
-        expect(hotelTest instanceof Hotel).toBe(true);
-    })
-})
+const mockHotelsData = [mockHotelData, {...mockHotelData, id: '2', name: 'Test Hotel 2'}];
 
+describe('Hotel Model test', () => {
+    let consoleErrorSpy;
 
-beforeEach(() => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    beforeEach(() => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(); // Spying on console.error function call
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+        consoleErrorSpy.mockRestore();
+    });
+
+    describe('Hotel class', () => {
+        test('should create a Hotel instance correctly', () => {
+            const hotel = new Hotel(
+                mockHotelData.id,
+                mockHotelData.name,
+                mockHotelData.latitude,
+                mockHotelData.longitude,
+                mockHotelData.address,
+                mockHotelData.rating,
+                mockHotelData.categories,
+                mockHotelData.description,
+                mockHotelData.amenities,
+                mockHotelData.image_details
+            );
+
+            expect(hotel).toBeInstanceOf(Hotel);
+            expect(hotel.id).toBe(mockHotelData.id);
+            expect(hotel.name).toBe(mockHotelData.name);
+            expect(hotel.latitude).toBe(mockHotelData.latitude);
+            expect(hotel.longitude).toBe(mockHotelData.longitude);
+            expect(hotel.address).toBe(mockHotelData.address);
+            expect(hotel.rating).toBe(mockHotelData.rating);
+            expect(hotel.categories).toEqual(mockHotelData.categories);
+            expect(hotel.description).toBe(mockHotelData.description);
+            expect(hotel.amenities).toEqual(mockHotelData.amenities);
+            expect(hotel.imageDetails).toEqual(mockHotelData.image_details);
+        });
+    });
+
+    describe('fetchHotelsByDestination', () => {
+        test('should fetch hotels and return a Map of Hotel instances', async () => {
+            axios.get.mockResolvedValue({ data: mockHotelsData });
+
+            const result = await fetchHotelsByDestination('destination1');
+
+            expect(axios.get).toHaveBeenCalledWith(
+                ascendaAPI.getHotelsByDestination,
+                { params: { destination_id: 'destination1' } }
+            );
+            expect(result).toBeInstanceOf(Map);
+            expect(result.size).toBe(2);
+            expect(result.get('1')).toBeInstanceOf(Hotel);
+            expect(result.get('1').name).toBe('Test Hotel');
+            expect(result.get('2').name).toBe('Test Hotel 2');
+        });
+
+        test('should throw an error and log it if the request fails', async () => {
+            const error = new Error('Network error');
+            axios.get.mockRejectedValue(error);
+
+            await expect(fetchHotelsByDestination('destination1')).rejects.toThrow('Network error');
+            expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching hotels by destination:', error);
+        });
+    });
+
+    describe('fetchHotel', () => {
+        test('should fetch a single hotel and return a Hotel instance', async () => {
+            axios.get.mockResolvedValue({ data: mockHotelData });
+
+            const id = mockHotelData.id
+            const result = await fetchHotel(id);
+
+            expect(axios.get).toHaveBeenCalledWith(ascendaAPI.getHotel(id));
+            expect(result).toBeInstanceOf(Hotel);
+            expect(result.id).toBe(id);
+            expect(result.name).toBe(mockHotelData.name);
+            expect(result.latitude).toBe(mockHotelData.latitude);
+            expect(result.longitude).toBe(mockHotelData.longitude);
+            expect(result.address).toBe(mockHotelData.address);
+            expect(result.rating).toBe(mockHotelData.rating);
+            expect(result.categories).toEqual(mockHotelData.categories);
+            expect(result.description).toBe(mockHotelData.description);
+            expect(result.amenities).toEqual(mockHotelData.amenities);
+            expect(result.imageDetails).toEqual(mockHotelData.image_details);
+        });
+
+        test('should throw an error and log it if the request fails', async () => {
+            const error = new Error('Network error');
+            axios.get.mockRejectedValue(error);
+
+            await expect(fetchHotel('1')).rejects.toThrow('Network error');
+            expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching hotel by ID:', error);
+        });
+    });
 });
-
-afterEach(() => {
-    console.error.mockRestore();
-});
-
-describe('Hotel API Tests', () => {
-    test('fetchHotelsByDestination should return a map of Hotel instances', async () => {
-        // Mock the API response
-        const mockResponse = {
-            data: [
-                {
-                    id: '1',
-                    name: 'Hotel One',
-                    latitude: '123.45',
-                    longitude: '678.90',
-                    address: 'Address One',
-                    rating: '4.5',
-                    categories: ['family', 'leisure'],
-                    description: 'Description One',
-                    amenities: 'Pool',
-                    image_details: 'image1.jpg'
-                },
-                {
-                    id: '2',
-                    name: 'Hotel Two',
-                    latitude: '234.56',
-                    longitude: '789.01',
-                    address: 'Address Two',
-                    rating: '4.0',
-                    categories: ['business'],
-                    description: 'Description Two',
-                    amenities: 'Gym',
-                    image_details: 'image2.jpg'
-                }
-            ]
-        };
-        axios.get.mockResolvedValue(mockResponse);
-
-        const hotelsMap = await fetchHotelsByDestination('destination-id');
-        
-        // Assert
-        expect(hotelsMap instanceof Map).toBe(true);
-        expect(hotelsMap.size).toBe(2);
-        expect(hotelsMap.get('1')).toBeInstanceOf(Hotel);
-        expect(hotelsMap.get('2')).toBeInstanceOf(Hotel);
-    });
-
-    test('fetchHotel should return a Hotel instance', async () => {
-        // Mock the API response
-        const mockResponse = {
-            data: {
-                id: '1',
-                name: 'Hotel One',
-                latitude: '123.45',
-                longitude: '678.90',
-                address: 'Address One',
-                rating: '4.5',
-                categories: ['family', 'leisure'],
-                description: 'Description One',
-                amenities: 'Pool',
-                image_details: 'image1.jpg'
-            }
-        };
-        axios.get.mockResolvedValue(mockResponse);
-
-        const hotel = await fetchHotel('1');
-
-        expect(hotel).toBeInstanceOf(Hotel);
-        expect(hotel.id).toBe('1');
-        expect(hotel.name).toBe('Hotel One');
-    });
-
-    test('fetchHotelsByDestination handles errors', async () => {
-        // Simulate network error
-        axios.get.mockRejectedValue(new Error('Network Error'));
-        await expect(fetchHotelsByDestination('WD0M')).rejects.toThrow('Network Error');
-    });
-
-    test('fetchHotel handles errors', async () => {
-        // Simulate network error
-        axios.get.mockRejectedValue(new Error('Network Error'));
-        await expect(fetchHotel('diH7')).rejects.toThrow('Network Error');
-    });
-})
