@@ -3,6 +3,8 @@ import axios from 'axios';
 import YourDetail from '../BookingDetails/yourDetail';
 
 const Checkout = ({
+  hotelName,
+  hotelPrice,
   customerEmailAddress,
   destinationId,
   hotelId,
@@ -24,26 +26,30 @@ const Checkout = ({
     event.preventDefault();
     console.log("button clicked in checkout")
 
-    const body = {bookingInformation:{
-      customerEmailAddress,
-      destinationId,
-      hotelId,
-      roomKey,
-      customerId,
-      numberOfNights,
-      startDate,
-      endDate,
-      numAdults,
-      numChildren,
-      msgToHotel,
-      roomTypes,
-      price,
-      guestSalutation,
-      guestFirstName,
-      guestLastName
+    const body = {
+      hotelName,
+      hotelPrice: hotelPrice * 100, 
+      bookingInformation:{
+        customerEmailAddress,
+        destinationId,
+        hotelId,
+        roomKey,
+        customerId,
+        numberOfNights,
+        startDate,
+        endDate,
+        numAdults,
+        numChildren,
+        msgToHotel,
+        roomTypes,
+        price,
+        guestSalutation,
+        guestFirstName,
+        guestLastName
     }}; // bookingInformation must be an object where the values are string (i.e. NO nested objects)
 
     try {
+      console.log("button clicked");
       const response = await axios.post('/checkout/create-session-token', body);
       const session = response.data;
       if (session.url) {

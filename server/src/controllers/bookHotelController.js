@@ -103,11 +103,11 @@ async function createStripeCheckout(req, res, next) {
     line_items: [
         {
         price_data: {
-            currency: 'usd',
+            currency: 'sgd',
             product_data: {
-            name: 'T-shirt',
+                name: req.body.hotelName
             }, 
-            unit_amount: 2000,
+            unit_amount: req.body.hotelPrice,
         },
         quantity: 1,
         },
