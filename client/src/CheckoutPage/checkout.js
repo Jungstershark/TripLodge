@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const Checkout = ({
   hotelName,
-  hotelPrice,
   customerEmailAddress,
   destinationId,
   hotelId,
@@ -25,11 +24,10 @@ const Checkout = ({
     event.preventDefault();
 
     const body = {
-      hotelName,
-      hotelPrice: hotelPrice * 100, 
       bookingInformation:{
         customerEmailAddress,
         destinationId,
+        hotelName,
         hotelId,
         roomKey,
         customerId,

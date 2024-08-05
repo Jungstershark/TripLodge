@@ -7,6 +7,7 @@ class Booking {
     bookingId,
     status,
     destinationId,
+    hotelName,
     hotelId,
     roomKey,
     customerId,
@@ -27,6 +28,7 @@ class Booking {
     this.bookingId = bookingId;
     this.status = status;
     this.destinationId = destinationId;
+    this.hotelName = hotelName;
     this.hotelId = hotelId;
     this.roomKey = roomKey;
     this.customerId = Number(customerId)===0?null:customerId;
@@ -54,6 +56,7 @@ async function insertBooking(booking) {
         INSERT INTO ${tableName} (
           status,
           destinationId,
+          hotelName,
           hotelId,
           roomKey,
           customerId,
@@ -70,11 +73,12 @@ async function insertBooking(booking) {
           guestLastName,
           paymentId,
           payeeId
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? , ? , ?, ?, ?, ?, ?, ?, ?)
       `,
       [
         booking.status,
         booking.destinationId,
+        booking.hotelName,
         booking.hotelId,
         booking.roomKey,
         booking.customerId,
@@ -107,7 +111,7 @@ async function findBookingByBookingId(bookingId) {
       `
         SELECT * FROM ${tableName} WHERE bookingId = ?
       `,
-      [customerId]
+      [bookingId]
     );
 
     if (rows.length === 0) {
@@ -119,6 +123,7 @@ async function findBookingByBookingId(bookingId) {
       row.bookingId,
       row.status,
       row.destinationId,
+      row.hotelName,
       row.hotelId,
       row.roomKey,
       row.customerId,
@@ -162,6 +167,7 @@ async function findBookingByCustomerId(customerId) {
         row.bookingId,
         row.status,
         row.destinationId,
+        row.hotelName,
         row.hotelId,
         row.roomKey,
         row.customerId,

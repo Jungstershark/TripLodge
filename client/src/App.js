@@ -10,13 +10,13 @@ import Cancel from './CheckoutPage/Cancel.jsx';
 import Login from './UserAuth/loginPage/loginPage.js';
 import Signup from './UserAuth/signupPage/signupPage.js';
 import HotelDetailPage from './HotelDetail/hotelDetailPage.js';
+import CancelBookingPage from './CancelBooking/cancelBooking.js';
 // import Signup from './UserAuth/signupPage/signupPage.js';
 // import ForgotPassword from './UserAuth/signupPage/signupPage.js'
 
 function App() {
   const sampleProps = {
     hotelName: "The Fullerton Hotel",
-    hotelPrice: 1000,
     customerEmailAddress: "john.doe@sutd.sg",
     destinationId: "WD0M",
     hotelId: "diH7",
@@ -48,6 +48,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/hotel" element={<HotelDetailPage/>}/>
+        <Route path="/cancel-booking" element={<CancelBookingPage />} />
         {/* <Route path="/forgot-password" element={<ForgotPassword/>}/> */}
         {/* Add more routes as needed */}
       </Routes>
