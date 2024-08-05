@@ -40,8 +40,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/HotelSearch" element={<HotelSearch />} />
-        {/* <Route path="/Details" element={<YourDetail/>}/>
-        <Route path="/Payment" element={<PaymentPage/>}/> */}
+        <AppRoute path="/Details" element={<YourDetail/>}/>
         <Route path="/checkout" element={<Checkout {...sampleProps} />}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
@@ -50,7 +49,6 @@ function App() {
         <Route path="/hotel" element={<HotelDetailPage/>}/>
         <Route path="/cancel-booking" element={<CancelBookingPage />} />
         {/* <Route path="/forgot-password" element={<ForgotPassword/>}/> */}
-        {/* Add more routes as needed */}
       </Routes>
     </Router>
   );
