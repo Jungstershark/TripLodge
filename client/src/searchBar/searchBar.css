@@ -1,236 +1,73 @@
-/* searchBar.css */
 .search-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .input-icon-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 300px; /* Adjusted to prevent overlap in the search bar */
-    cursor: pointer;
-  }
-  
-  .input-icon {
-    position: absolute;
-    left: 10px;
-    color: #242c54; /* Adjust color as needed */
-  }
-  
-  .input-icon-container .input-field {
-    padding-left: 35px; /* Adjust the padding to make space for the icon */
-    flex: 1;
-    border: 1px solid #ccc; /* Added border to match other inputs */
-    outline: none;
-    border-radius: 5px; /* Match the border-radius with other inputs */
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .input-field {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 16px;
-  }
-  
-  .date-picker-input {
-    width: 140px; /* Adjust width to fit your layout */
-    background-color: white;
-  }
-  
-  .date-picker-separator {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: #000;
-  }
-  
-  .search-button {
-    padding: 10px 20px;
-    background-color: #0071c2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .search-container {
-    background-color: rgba(36, 43, 89, 0.7098);
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    width: fit-content;
-  }
-  
-  .guest-dropdown {
-    position: absolute;
-    top: 45px;
-    left: 0;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    z-index: 10;
-  }
-  
-  .guest-option {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .guest-counter {
-    display: flex;
-    align-items: center;
-  }
-  
-  .guest-counter button {
-    border: none;
-    background: none;
-    font-size: 20px;
-    cursor: pointer;
-  }.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .input-icon-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 300px;
-    cursor: pointer;
-  }
-  
-  .input-icon {
-    position: absolute;
-    left: 10px;
-    color: #242c54;
-  }
-  
-  .input-icon-container .input-field {
-    padding-left: 35px;
-    flex: 1;
-    border: 1px solid #ccc;
-    outline: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .input-field {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 16px;
-  }
-  
-  .date-picker-input {
-    width: 140px;
-    background-color: white;
-  }
-  
-  .date-picker-separator {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: #000;
-  }
-  
-  .search-button {
-    padding: 10px 20px;
-    background-color: #0071c2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .search-container {
-    background-color: rgba(36, 43, 89, 0.7098);
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    width: fit-content;
-  }
-  
-  .guest-dropdown {
-    position: absolute;
-    top: 45px;
-    left: 0;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    z-index: 10;
-  }
-  
-  .guest-option {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .guest-counter {
-    display: flex;
-    align-items: center;
-  }
-  
-  .guest-counter button {
-    border: none;
-    background: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  .guest-counter span {
-    margin: 0 10px;
-  }
-  
-  .done-button {
-    width: 100%;
-    padding: 10px;
-    background: #0071c2;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 0 0 5px 5px;
-  }
-  
-  
-  .guest-counter span {
-    margin: 0 10px;
-  }
-  
-  .done-button {
-    width: 100%;
-    padding: 10px;
-    background: #0071c2;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 0 0 5px 5px;
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Increase the gap for better spacing */
+  margin-top: 20px;
+  width: 100%;
+  max-width: 1400px; /* Increase max-width for a wider search bar */
+  margin: 0 auto;
+}
+
+.input-icon-container,
+.date-range-picker,
+.guest-input-container {
+  flex: 1; /* Ensure the elements take available space */
+  max-width: 300px; /* Adjust the width to ensure the elements are wider */
+  margin-right: 20px; /* Add margin to right for spacing */
+}
+
+.input-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  color: #242c54;
+}
+
+.input-icon-container .input-field {
+  padding-left: 35px;
+  flex: 1;
+  border: 1px solid #ccc;
+  outline: none;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 40px; /* Set height to ensure consistency */
+  cursor: pointer;
+}
+
+.input-field {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+  height: 40px; /* Set height to ensure consistency */
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #0071c2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  height: 40px; /* Set height to ensure consistency */
+}
+
+.search-container {
+  background-color: rgba(36, 43, 89, 0.7098);
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 100%; /* Ensure it takes full width if needed */
+}

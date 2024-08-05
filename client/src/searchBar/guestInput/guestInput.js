@@ -18,8 +18,16 @@ const GuestInput = ({ guests, setGuests }) => {
     setGuests({ ...guests, rooms: Math.max(1, guests.rooms + amount) });
   };
 
+  const handleInputClick = () => {
+    setShowDropdown(true);
+  };
+
+  const handleDropdownClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div className="input-icon-container" onClick={() => setShowDropdown(!showDropdown)}>
+    <div className="input-icon-container" onClick={handleInputClick}>
       <FontAwesomeIcon icon={faUser} className="input-icon" />
       <input
         type="text"
@@ -29,7 +37,7 @@ const GuestInput = ({ guests, setGuests }) => {
         value={`${guests.adults} adults · ${guests.children} children · ${guests.rooms} room${guests.rooms > 1 ? 's' : ''}`}
       />
       {showDropdown && (
-        <div className="guest-dropdown">
+        <div className="guest-dropdown" onClick={handleDropdownClick}>
           <div className="guest-option">
             <span>Adults</span>
             <div className="guest-counter">
