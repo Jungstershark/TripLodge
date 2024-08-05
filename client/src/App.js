@@ -15,6 +15,8 @@ import HotelDetailPage from './HotelDetail/hotelDetailPage.js';
 
 function App() {
   const sampleProps = {
+    hotelName: "The Fullerton Hotel",
+    hotelPrice: 1000,
     customerEmailAddress: "john.doe@sutd.sg",
     destinationId: "WD0M",
     hotelId: "diH7",
