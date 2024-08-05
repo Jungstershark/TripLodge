@@ -22,11 +22,11 @@ const FilterSection = () => {
         <div className="price-range">
           <div className="price-input" onClick={() => focusInput(maxInputRef)}>
             <span>Max</span>
-            <input id="max" type="text" ref={maxInputRef} />
+            <input id="max" type="text" placeholder="0" ref={maxInputRef} />
           </div>
           <div className="price-input" onClick={() => focusInput(minInputRef)}>
             <span>Min</span>
-            <input id="min" type="text" ref={minInputRef} />
+            <input id="min" type="text" placeholder="0" ref={minInputRef} />
           </div>
         </div>
       </div>

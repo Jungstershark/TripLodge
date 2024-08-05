@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DateInput from '../searchBar/dateInput';
+import CustomDateRangePicker from '../searchBar/datePicker/datePicker.js';
 import './RoomSearchBar.css'
 
 
@@ -9,7 +9,7 @@ function RoomSearchBar() {
     return (
       <div className="Roomsearch-container">
         <div className="DateInput">
-          <DateInput  dateRange={dateRange} setDateRange={setDateRange} />
+          <CustomDateRangePicker />
         </div>
             <input className="GuestInput" placeholder='No. of Guests?'></input>
 

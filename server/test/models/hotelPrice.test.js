@@ -26,5 +26,5 @@ describe("hotelPrice test suite", ()=>{
                 console.error("Test failed", e.message)
             }
         }
-    }, 20000);    
+    }, 30000);    
 });

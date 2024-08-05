@@ -1,0 +1,130 @@
+/* datePicker.css */
+.date-range-picker {
+  position: relative;
+  width: 100%; /* Ensure it takes the full width of the container */
+}
+
+.date-picker-input {
+  width: 100%; /* Adjust width as needed */
+  background-color: white;
+  height: 40px; /* Ensure consistency with other inputs */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.calendar-container {
+  position: absolute;
+  top: 50px; /* Adjust as necessary to position under the input */
+  z-index: 10;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.calendar-element {
+  z-index: 10;
+}
+
+.apply-button {
+  width: 100%;
+  padding: 10px;
+  background: #0071c2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Hide unnecessary parts of the calendar */
+.rdrDefinedRangesWrapper, 
+.rdrDateDisplayWrapper {
+  display: none;
+}
+
+.rdrMonth {
+  padding: 0 10px;
+}
+
+
+
+/*to have more functionality in datePicker
+
+
+
+
+
+
+.date-range-picker {
+  position: relative;
+  width: 100%; 
+}
+
+.date-picker-input {
+  width: 100%; 
+  background-color: white;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.calendar-container {
+  position: absolute;
+  top: 50px; 
+  z-index: 10;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.calendar-element {
+  z-index: 10;
+}
+
+.apply-button {
+  width: 100%;
+  padding: 10px;
+  background: #0071c2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+
+.rdrDayNumber span {
+  color: #000; 
+}
+
+.rdrDayHovered .rdrDayNumber span {
+  background: rgba(0, 113, 194, 0.2); 
+}
+.rdrDaySelected .rdrDayNumber span,
+.rdrDayStartPreview .rdrDayNumber span,
+.rdrDayEndPreview .rdrDayNumber span {
+  background: #0071c2; 
+  color: white;
+  border-radius: 50%; 
+}
+
+.rdrDayInPreview .rdrDayNumber span {
+  background: rgba(0, 0, 0, 0.1); 
+}
+
+  
+
+
+*/

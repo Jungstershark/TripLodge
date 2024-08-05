@@ -2,10 +2,17 @@ import React from "react";
 import PageHeader from "../pageHeader/pageHeader";
 import SearchBar from "../searchBar/searchBar";
 import RoomSearchBar from "./RoomSearchBar";
+import { useNavigate } from 'react-router-dom';
 import './hotelDetailPage.css'
 
 
 function HotelDetailPage(){
+
+    const navigate= useNavigate();
+    const handleReserveClick = () =>{
+        navigate('/checkout');
+    };
+
     return(
         <div className="HotelDetailPage">
             <PageHeader/>
@@ -90,7 +97,7 @@ function HotelDetailPage(){
                             1 Queen Bed
                         </div>
                         <div className="Price">Price</div>
-                        <button className="Reserve">Reserve</button>
+                        <button className="Reserve" onClick={handleReserveClick}>Reserve</button>
                     </div>
                 </div>
                 <div className="Room2">
@@ -113,7 +120,7 @@ function HotelDetailPage(){
                             1 Twin Bed
                         </div>
                         <div className="Price">Price</div>
-                        <button className="Reserve">Reserve</button>
+                        <button className="Reserve" onClick={handleReserveClick}>Reserve</button>
                     </div>
                     <div className="Room3">
                         <img className="QueenBed" src={process.env.PUBLIC_URL + "./bedroom.jpg"} alt="Error displaying logo"></img>
@@ -135,7 +142,7 @@ function HotelDetailPage(){
                             1 Queen Bed
                         </div>
                         <div className="Price">Price</div>
-                        <button className="Reserve">Reserve</button>
+                        <button className="Reserve" onClick={handleReserveClick}>Reserve</button>
                     </div>
                 </div>
             </div>
