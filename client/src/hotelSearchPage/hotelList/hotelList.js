@@ -1,4 +1,3 @@
-// HotelList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './hotelList.css';
@@ -28,6 +27,7 @@ const HotelList = ({ destinationId, checkin, checkout, lang, currency, guests })
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log(destinationId)
 
   useEffect(() => {
     const loadHotels = async () => {
@@ -41,6 +41,7 @@ const HotelList = ({ destinationId, checkin, checkout, lang, currency, guests })
           currency,
           guests
         });
+        
 
         // Fetch the list of hotels and their prices
         const response = await axios.post(`http://localhost:5000/search/destination/${destinationId}`, {
