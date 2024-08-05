@@ -3,11 +3,11 @@ import { getHotelsByDestination, getHotelById, getAllHotels } from '../../models
 
 const router = express.Router();
 
-router.get('/top3', async (req, res) => {
+router.get('/top6', async (req, res) => {
   try {
     const hotels = await getHotelsByDestination({ destination_id: 'WD0M' });
-    const top3Hotels = hotels.slice(0, 3); // Assuming hotels are sorted by some criteria
-    res.render('hotels', { hotels: top3Hotels });
+    const top6Hotels = hotels.slice(0, 6); // Assuming hotels are sorted by some criteria
+    res.render('hotels', { hotels: top6Hotels });
   } catch (error) {
     console.error('Error fetching hotels:', error);
     res.status(500).json({ error: 'Error fetching hotels' });

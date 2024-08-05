@@ -40,8 +40,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/HotelSearch" element={<HotelSearch />} />
-        {/* <Route path="/Details" element={<YourDetail/>}/>
-        <Route path="/Payment" element={<PaymentPage/>}/> */}
+        <Route path="/Details" element={<YourDetail/>
+        <Route path="/Payment" element={<PaymentPage/>}/>
         <Route path="/checkout" element={<Checkout {...sampleProps} />}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
