@@ -1,6 +1,7 @@
 import { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, updateBookingStatus, removeBooking } from "../models/booking.js";
-import { sendBookingConfirmationEmail } from "./sendEmailController.js";
+import { sendBookingConfirmationEmail, sendCancelBookingEmail } from "./sendEmailController.js";
 import { fetchHotel } from "../models/hotel.js"; 
+import axios from "axios";
 import Stripe from 'stripe';
 import 'dotenv/config'
 
@@ -48,6 +49,7 @@ async function createBooking(req, res, next) {
         billingEmail,
         // Booking data below:
         destinationId,
+        hotelName,
         hotelId,
         roomKey,
         customerId,
@@ -69,6 +71,7 @@ async function createBooking(req, res, next) {
     const booking = new Booking(null, // bookingId: dummy value (will be generated on database insertion)
         "confirmed", // status
         destinationId,
+        hotelName,
         hotelId,
         roomKey,
         customerId,
@@ -105,9 +108,9 @@ async function createStripeCheckout(req, res, next) {
         price_data: {
             currency: 'sgd',
             product_data: {
-                name: req.body.hotelName
+                name: req.body.bookingInformation.hotelName
             }, 
-            unit_amount: req.body.hotelPrice,
+            unit_amount: parseFloat(req.body.bookingInformation.price, 10)*100,
         },
         quantity: 1,
         },
@@ -126,12 +129,21 @@ async function stripeWebhook(req, res, next) {
     const event = req.body;
 
     switch(event.type){
+        case('charge.succeeded'):
+            const chargeSucceededSession = event.data.object;
+            console.log(chargeSucceededSession.id);
+            break;
+
         case('checkout.session.completed'):
             const checkoutSession = event.data.object;
-            const bookingInformation = checkoutSession.metadata
-            const billingEmail = checkoutSession.customer_details.email
-            const payeeId = checkoutSession.payment_intent
-            const paymentIntentSession = await stripe.paymentIntents.retrieve(payeeId)
+            console.log(checkoutSession);
+
+            const bookingInformation = checkoutSession.metadata;
+            const billingEmail = checkoutSession.customer_details.email;
+            const payeeId = checkoutSession.payment_intent;
+            const paymentIntentSession = await stripe.paymentIntents.update(payeeId, {
+                metadata: { customer_billing_email: billingEmail }
+            });
             const paymentId = paymentIntentSession.latest_charge;
 
             const combinedBookingInformationForDB = {
@@ -148,14 +160,60 @@ async function stripeWebhook(req, res, next) {
                 console.error('Error creating booking:', error);
             }
             break;
+            
         case('payment_intent.created'):
             const paymentIntentCreatedSession = event.data.object;
             paymentIntentCreatedSession.receipt_email = process.env.MAIL_USER;
             console.log(paymentIntentCreatedSession);
+            break;
+            
+        case 'refund.created':
+            const refund = stripeEvent.data.object;
+            console.log('Refund Created:', refund);
+            break;
+
+        case 'refund.updated':
+            const updatedRefund = stripeEvent.data.object;
+            console.log('Refund Updated:', updatedRefund);
+            // Update the database with refund details (WIP)
+            break;
     }
 
     res.sendStatus(200);
 }
 
-export { viewBooking, viewCustomerBookings, cancelBooking, createBooking, createStripeCheckout, stripeWebhook };
+async function stripeRefund(req, res, next){
+    try{
+        const bookingId = req.params.bookingId;
+        const paymentId = req.params.paymentId;
+        const refund = await stripe.refunds.create({
+            charge: paymentId
+        });
+        if (refund.status === 'succeeded') {
+            // If refund is successful, remove the booking from the database
+            await axios.get(`http://localhost:5000/booking/cancel/${bookingId}`);
+            const booking = await findBookingByBookingId(bookingId);
+            const bookedHotel = await fetchHotel(booking.hotelId);
+            const billingEmail = await getBillingEmail(booking.payeeId);
+            await sendCancelBookingEmail(booking, bookedHotel, billingEmail);
+            res.status(200).send({ success: true });
+        } else {
+            res.status(500).send({ success: false, message: 'Refund failed' });
+        }
+    } catch (error) {
+        console.error('Error processing refund:', error);
+        res.status(500).send({ success: false, message: 'An error occurred while processing the refund' });
+    }
+}
+
+async function getBillingEmail(payeeId){
+    try{
+        const paymentIntent = await stripe.paymentIntents.retrieve(payeeId)
+        return paymentIntent.metadata.customer_billing_email;
+    }catch(e){
+        console.error('Failed to retrieve billing email address: ', e);
+    }
+}
+
+export { viewBooking, viewCustomerBookings, cancelBooking, createBooking, createStripeCheckout, stripeWebhook, stripeRefund, getBillingEmail };
 

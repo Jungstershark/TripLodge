@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './landingPage/landingPage.js';
 import HotelSearch from './hotelSearchPage/hotelsearch.js';
-// import YourDetail from './BookingDetails/yourDetail';
+import YourDetail from './BookingDetails/yourDetail';
 // import PaymentPage from './PaymentMethod/paymentPage.js';
 import Checkout from './CheckoutPage/checkout.js';
 import Success from './CheckoutPage/Success.jsx';
@@ -10,13 +10,13 @@ import Cancel from './CheckoutPage/Cancel.jsx';
 import Login from './UserAuth/loginPage/loginPage.js';
 import Signup from './UserAuth/signupPage/signupPage.js';
 import HotelDetailPage from './HotelDetail/hotelDetailPage.js';
+import CancelBookingPage from './CancelBooking/cancelBooking.js';
 // import Signup from './UserAuth/signupPage/signupPage.js';
 // import ForgotPassword from './UserAuth/signupPage/signupPage.js'
 
 function App() {
   const sampleProps = {
     hotelName: "The Fullerton Hotel",
-    hotelPrice: 1000,
     customerEmailAddress: "john.doe@sutd.sg",
     destinationId: "WD0M",
     hotelId: "diH7",
@@ -40,16 +40,15 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/HotelSearch" element={<HotelSearch />} />
-        <Route path="/Details" element={<YourDetail/>
-        <Route path="/Payment" element={<PaymentPage/>}/>
+        <Route path="/Details" element={<YourDetail/>}/>
         <Route path="/checkout" element={<Checkout {...sampleProps} />}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/hotel" element={<HotelDetailPage/>}/>
+        <Route path="/cancel-booking" element={<CancelBookingPage />} />
         {/* <Route path="/forgot-password" element={<ForgotPassword/>}/> */}
-        {/* Add more routes as needed */}
       </Routes>
     </Router>
   );
