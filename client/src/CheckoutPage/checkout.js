@@ -4,7 +4,6 @@ import YourDetail from '../BookingDetails/yourDetail';
 
 const Checkout = ({
   hotelName,
-  hotelPrice,
   customerEmailAddress,
   destinationId,
   hotelId,
@@ -27,11 +26,10 @@ const Checkout = ({
     console.log("button clicked in checkout")
 
     const body = {
-      hotelName,
-      hotelPrice: hotelPrice * 100, 
       bookingInformation:{
         customerEmailAddress,
         destinationId,
+        hotelName,
         hotelId,
         roomKey,
         customerId,

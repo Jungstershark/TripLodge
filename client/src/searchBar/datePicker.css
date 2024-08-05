@@ -1,0 +1,68 @@
+/* datePicker.css */
+.date-range-picker {
+  position: relative;
+  width: 100%; /* Ensure it takes the full width of the container */
+}
+
+.date-picker-input {
+  width: 100%; /* Adjust width as needed */
+  background-color: white;
+  height: 40px; /* Ensure consistency with other inputs */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.calendar-container {
+  position: absolute;
+  top: 50px; /* Adjust as necessary to position under the input */
+  z-index: 10;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.calendar-element {
+  z-index: 10;
+}
+
+.apply-button {
+  width: 100%;
+  padding: 10px;
+  background: #0071c2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Custom styles for react-date-range components */
+.rdrDayNumber span {
+  color: #000; /* Default date color */
+}
+
+.rdrDayHovered .rdrDayNumber span {
+  background: rgba(0, 113, 194, 0.2); /* Hover color */
+}
+
+.rdrDaySelected .rdrDayNumber span {
+  background: #0071c2; /* Selected date color */
+  color: white;
+}
+
+.rdrDayStartPreview .rdrDayNumber span,
+.rdrDayEndPreview .rdrDayNumber span {
+  border-radius: 50%; /* Make start and end dates rounded */
+  background: #0071c2; /* Selected date color */
+  color: white;
+}
+
+.rdrDayInPreview .rdrDayNumber span {
+  background: rgba(0, 113, 194, 0.1); /* Range color */
+}
