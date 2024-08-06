@@ -73,11 +73,13 @@
     background-color: white;
     border-radius: 10px; 
     width: fit-content; 
+    height: fit-content;
     border: 1px solid #d3d3d3;
     margin-top: 20px;
     padding-bottom: 20px;
 
 }
+
 
 .Map{
     width: 300px;
@@ -87,21 +89,66 @@
     font-size: 13px;
     padding: 5px;
 }
+
+.HotelName{
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    border: 2px solid transparent;
+}
+
+.HotelDescription{
+    width: 700px;
+    height: fit-content;
+}
+
+.ShowMoreLessButton{
+    position: relative;
+    top: -43px;
+    left: 580px;
+    font-size: 15px;
+    text-decoration: underline;
+    color: #007BFF; 
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 15px;
+
+}
+
+
+.ShowMoreLessButton:hover{
+    cursor: pointer;    
+}
+
 .HotelDetails{
     position: relative;
     top: -475px;
     left: 190px;
 }
 
-.numberrating{
-    text-align: center;
+.Location{
+    margin-top: 5px;
+    margin-left: 5px;
     font-size: 15px;
+    font-weight: 500;
+}
+
+.numberrating{
+    font-weight: 500;
+    text-align: center;
+    font-size: 16px;
     width: 25px;
     height: fit-content;
     background-color: rgb(16, 164, 16);
     color: white;
     padding:5px;
     border-radius: 5px;
+}
+
+.read-only{
+    position: relative;
+    top: -10px;
+    left: -105px;
 }
 
 .wordrating{
@@ -200,8 +247,16 @@
     left: 305px;
 }
 
-.AllRoom,.OneBed,.TwoBeds{
-    position:relative;
+.ChooseYourRoom{
+    position: relative;
+    left: -580px;
+    top: -30px;
+}
+
+.FilterButton {
+    position: relative;
+    top: -20px;
+    left: -20px;
     width: 150px;
     height: 40px;
     background-color: #242B59;
@@ -209,25 +264,23 @@
     border-width: 1px;
     border-radius: 20px;
     margin-left: 20px;
-    top: -20px;
-    left: -20px;
     color: white;
+    text-align: center;
+    line-height: 40px; /* Centers text vertically */
+    cursor: pointer;
+    transition: opacity 0.3s, background-color 0.3s; /* Smooth transition for hover effects */
 }
 
-
-.AllRoom:hover{
-    opacity: 90%;    
-    cursor: pointer;
+/* Hover effect for filter buttons */
+.FilterButton:hover {
+    opacity: 90%;
+    background-color: #1d1f4b; /* Slightly darker background on hover */
 }
 
-.OneBed:hover{
-    opacity: 90%;     
-    cursor: pointer;
-}
-
-.TwoBeds:hover{
-    opacity: 90%;     
-    cursor: pointer;
+/* Active state for filter buttons */
+.FilterButton.active {
+    background-color: #1d1f4b; /* Different background for active state */
+    opacity: 90%; /* Fully opaque when active */
 }
 
 .Room1,.Room2,.Room3{
