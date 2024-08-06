@@ -1,45 +1,22 @@
 import request from 'supertest';
 import express from 'express';
 import searchRouter from '../../src/routes/search.js';  
-//import { jest } from '@jest/globals';
+
+import axios from 'axios'; // Hotel model uses ascenda API
+import { ascendaAPI } from '../../src/models/ascendaApi.js';
+
+import { Hotel } from '../../src/models/hotel.js';
+import { HotelPrice } from '../../src/models/hotelPrice.js';
+import { Room } from '../../src/models/room.js';
 
 // Setup the Express app
 const app = express();
 app.use(express.json());
 app.use('/search', searchRouter);
 
-// Mock the model's API calling functions
-jest.mock('../../src/models/hotel.js', () => {
-    const actualModule = jest.requireActual('../../src/models/hotel.js');
-    return {
-        ...actualModule,
-        fetchHotelsByDestination: jest.fn(),
-        fetchHotel: jest.fn(),
-        Hotel: actualModule.Hotel // Use the actual Hotel class
-    };
-});
-jest.mock('../../src/models/hotelPrice.js', () => {
-    const actualModule = jest.requireActual('../../src/models/hotelPrice.js');
-    return {
-        ...actualModule,
-        fetchHotelPricesByDestination: jest.fn(),
-        HotelPrice: actualModule.HotelPrice // Use the actual HotelPrice class
-    };
-});
-jest.mock('../../src/models/room.js', () => {
-    const actualModule = jest.requireActual('../../src/models/room.js');
-    return {
-        ...actualModule,
-        fetchRoomPrices: jest.fn(),
-        Room: actualModule.Room  // Use the actual Room class
-    };
-});
+// Mock axios
+jest.mock('axios');
 
-import { Hotel, fetchHotelsByDestination, fetchHotel } from '../../src/models/hotel.js';
-import { HotelPrice, fetchHotelPricesByDestination } from '../../src/models/hotelPrice.js';
-import { Room, fetchRoomPrices } from '../../src/models/room.js';
-
-// Test cases
 describe("Hotel Search API Integration Tests", () => {
     beforeEach(() => {
         // Clear all mock implementations before each test
@@ -47,20 +24,25 @@ describe("Hotel Search API Integration Tests", () => {
     });
 
     test("POST /search/destination/:id should return list of hotels for a given destination", async () => {
-        const mockHotelsMap = new Map([
-            [mockHotelOne.id, mockHotelOne],
-            [mockHotelTwo.id, mockHotelTwo],
-        ]);
-        const mockHotelPricesMap = new Map([
-            [mockHotelPriceOne.id, mockHotelPriceOne],
-            [mockHotelPriceTwo.id, mockHotelPriceTwo],
-        ]);
-
-        fetchHotelsByDestination.mockResolvedValue(mockHotelsMap);
-        fetchHotelPricesByDestination.mockResolvedValue(mockHotelPricesMap);
+        
+        // Mock data returned depends on requested endpoint
+        axios.get.mockImplementation((endpoint, params) => {
+            if (endpoint === ascendaAPI.getHotelsByDestination) {
+                // getting hotel info by destination
+                return Promise.resolve({ data: [mockHotelData] }); // only one hotel in list
+            }
+            // else: get hotelPrice by destination
+            return Promise.resolve({data: {
+                searchCompleted: null,
+                completed: true,
+                status: null,
+                currency: "SGD",
+                hotels: [mockPriceData]
+            }});
+        });
 
         const res = await request(app)
-            .post('/search/destination/123')
+            .post(`/search/destination/w0Xm`)
             .send({
                 checkin: '2024-08-01',
                 checkout: '2024-08-05',
@@ -70,22 +52,36 @@ describe("Hotel Search API Integration Tests", () => {
             });
 
         expect(res.statusCode).toBe(200);
+        expect(res.body.length).toBe(1); // only one hotel fetched
         expect(res.body).toEqual([
-            { hotel: mockHotelOne, price: mockHotelPriceOne.price },
-            { hotel: mockHotelTwo, price: mockHotelPriceTwo.price },
+            { hotel: mockHotel, price: mockHotelPrice.price },
         ]);
-        expect(fetchHotelsByDestination).toHaveBeenCalledWith('123');
-        expect(fetchHotelPricesByDestination).toHaveBeenCalledWith('123', '2024-08-01', '2024-08-05', 'en', 'USD', 2);
+        
     });
 
     test("POST /search/hotel/:id should return hotel details with room information", async () => {
-        fetchHotel.mockResolvedValue(mockHotelOne);
-        fetchRoomPrices.mockResolvedValue(mockRooms);
+
+        // Mock data returned depends on requested endpoint
+        axios.get.mockImplementation((endpoint, params) => {
+            if (endpoint === ascendaAPI.getHotel(mockHotelData.id)) {
+                // getting hotel info by id
+                console.log('yipee');
+                return Promise.resolve({ data: mockHotelData }); 
+            }
+            // else: get room by hotel id;
+            return Promise.resolve({data: {
+                searchCompleted: null,
+                completed: true,
+                status: null,
+                currency: "SGD",
+                rooms: [mockRoomData] // just one room in the list
+            }});
+        });
 
         const res = await request(app)
-            .post('/search/hotel/1')
+            .post(`/search/hotel/${mockHotelData.id}`)
             .send({
-                destination_id: '123',
+                destination_id: 'w0Xm',
                 checkin: '2024-08-01',
                 checkout: '2024-08-05',
                 lang: 'en',
@@ -95,87 +91,84 @@ describe("Hotel Search API Integration Tests", () => {
 
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual({
-            hotel: mockHotelOne,
-            rooms: mockRooms,
+            hotel: mockHotel,
+            rooms: [mockRoom], // just one room
         });
-        expect(fetchHotel).toHaveBeenCalledWith('1');
-        expect(fetchRoomPrices).toHaveBeenCalledWith('1', '123', '2024-08-01', '2024-08-05', 'en', 'USD', 2);
     });
 });
 
-
 // Mock data
-const mockHotelOne = new Hotel(
-    '1',
-    'Hotel One',
-    '100.00',
-    '100.00',
-    'Address One',
-    '1.0',
-    {
-        "overall": {"name":"Overall","score":94,"popularity":4.0},
-        "romantic_hotel":{"name":"Romantic Hotel","score":72,"popularity":8.615484615384615},
-        "family_hotel":{"name":"Family Hotel","score":75,"popularity":11.26431404682274},
-        "business_hotel":{"name":"Business Hotel","score":85,"popularity":23.84625384615385}
-    },
-    'Description One',
-    {"airConditioning":true,"clothingIron":true,"continentalBreakfast":true,"dataPorts":true,"hairDryer":true,"kitchen":true,"outdoorPool":true,"parkingGarage":true,"safe":true,"tVInRoom":true,"voiceMail":true},
-    {"suffix":".jpg","count":10,"prefix":"https://d2ey9sqrvkqdfs.cloudfront.net/100A/"}
+const mockHotelData = {
+    id: '123',
+    name: 'Test Hotel',
+    latitude: 1.2345,
+    longitude: 6.7890,
+    address: '123 Test St',
+    rating: 4.5,
+    categories: ['Luxury'],
+    description: 'A test hotel',
+    amenities: ['WiFi', 'Pool'],
+    image_details: { url: 'http://test.com/image.jpg' }
+};
+
+const mockHotel = new Hotel(
+    mockHotelData.id,
+    mockHotelData.name,
+    mockHotelData.latitude,
+    mockHotelData.longitude,
+    mockHotelData.address,
+    mockHotelData.rating,
+    mockHotelData.categories,
+    mockHotelData.description,
+    mockHotelData.amenities,
+    mockHotelData.image_details
 );
 
-const mockHotelTwo = new Hotel(
-    '2',
-    'Hotel Two',
-    '200.00',
-    '200.00',
-    'Address Two',
-    '2.0',
-    {
-        "overall": {"name":"Overall","score":94,"popularity":4.0},
-        "romantic_hotel":{"name":"Romantic Hotel","score":72,"popularity":8.615484615384615},
-        "family_hotel":{"name":"Family Hotel","score":75,"popularity":11.26431404682274},
-        "business_hotel":{"name":"Business Hotel","score":85,"popularity":23.84625384615385}
-    },
-    'Description One',
-    {"airConditioning":true,"clothingIron":true,"continentalBreakfast":true,"dataPorts":true,"hairDryer":true,"kitchen":true,"outdoorPool":true,"parkingGarage":true,"safe":true,"tVInRoom":true,"voiceMail":true},
-    {"suffix":".jpg","count":20,"prefix":"https://d2ey9sqrvkqdfs.cloudfront.net/200B/"}
+const mockPriceData = {
+    id: mockHotelData.id,
+    searchRank: 1,
+    price_type: "multi",
+    max_cash_payment: 965.68,
+    converted_max_cash_payment: 1301.12,
+    points: 32525,
+    bonuses: 0,
+    bonus_programs: [],
+    bonus_tiers: [],
+    lowest_price: 965.68,
+    price: 1301.12,
+    converted_price: 1301.12,
+    lowest_converted_price: 1301.12,
+    market_rates: [{"supplier":"expedia","rate":1118.123406054}]
+}
+
+const mockHotelPrice = new HotelPrice(
+    mockPriceData.id,
+    mockPriceData.searchRank,
+    mockPriceData.price,
+    mockPriceData.market_rates
 );
 
-const mockHotelPriceOne = new HotelPrice(
-    '1',
-    0.95,
-    1000.00,
-    [{"supplier":"expedia","rate":1123.3367359488}]
-);
+const mockRoomData = {
+    key: 'room1',
+    roomNormalizedDescription: 'Standard Room',
+    free_cancellation: true,
+    roomDescription: 'Cozy Standard Room',
+    long_description: 'A comfortable standard room with all amenities',
+    images: ['image1.jpg', 'image2.jpg'],
+    amenities: ['WiFi', 'TV'],
+    price: 100,
+    market_rates: { base: 120, tax: 20 }
+};
 
-const mockHotelPriceTwo = new HotelPrice(
-    '2',
-    0.95,
-    2000.00,
-    [{"supplier":"expedia","rate":1123.3367359488}]
+const mockRoom = new Room(
+    mockHotelData.id, // use the mockHotelData.id for hotel id of this room
+    mockRoomData.key,
+    mockRoomData.roomNormalizedDescription,
+    mockRoomData.free_cancellation,
+    mockRoomData.roomDescription,
+    mockRoomData.long_description,
+    mockRoomData.images,
+    mockRoomData.amenities,
+    mockRoomData.price,
+    mockRoomData.market_rates
 );
-
-const mockRooms = [
-    new Room(
-        1,
-        5,
-        "This room is great!",
-        true,
-        "This room has great WiFi, great shower and comfy bed.",
-        "I am a longer description hehehe, peepeepoopoo nei hou mou.",
-        [{url:"https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg"}],
-        ["Gym", "Free Parking", "Free Wi-Fi", "Dry Cleaning", "Washing Machine"],
-        500.00,
-        550.00),
-    new Room(
-        1,
-        7,
-        "This room is awesome!",
-        false,
-        "This room has great scenery.",
-        "I am a longer description hehehe.",
-        [{url:"https://example.jpg"}],
-        ["Gym", "Free Wi-Fi", "Dry Cleaning", "Washing Machine"],
-        400.00,
-        500.00)
-];
