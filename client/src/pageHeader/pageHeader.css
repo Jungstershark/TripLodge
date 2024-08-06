@@ -1,9 +1,12 @@
+/* /src/pageHeader/pageHeader.css */
+
 header {
     border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    position: relative;
 }
 
 ul {
@@ -15,10 +18,12 @@ ul {
     justify-content: flex-end;
     flex-grow: 1;
     gap: 20px;
+    position: relative;
 }
 
 li {
     margin-left: 20px;
+    position: relative;
 }
 
 .Logo {
@@ -45,21 +50,42 @@ li {
 .SignIn {
     font-size: 16px;
     cursor: pointer;
-    
 }
-li a{
-    text-decoration:none;
+
+li a {
+    text-decoration: none;
     color: #242B59;
 }
 
-li a:hover{
-    color:#766fdc;
+li a:hover {
+    color: #766fdc;
 }
 
-.logobutton{
+.logobutton {
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
     outline: none;
+}
+
+#currency-dropdown {
+    position: absolute;
+    top: 50px; /* Adjust based on your header height */
+    right: 0; /* Align to the right of the button */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: max-content; /* Adjust width as necessary */
+}
+
+#currency-dropdown div {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#currency-dropdown div:hover {
+    background-color: #f0f0f0;
 }
