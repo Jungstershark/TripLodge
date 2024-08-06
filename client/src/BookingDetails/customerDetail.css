@@ -7,11 +7,11 @@
     border-radius: 10px; 
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); 
     max-width: 800px;
-    height: 700px; 
+    height: 760px; 
     margin: auto; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    top: -810px;
-    left: 180px;
+    top:-900px;
+    left: 165px;
 } 
  
 .container3 h1 { 

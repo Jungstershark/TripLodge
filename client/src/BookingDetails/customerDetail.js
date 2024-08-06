@@ -13,11 +13,6 @@ function CustomerDetail(){
                 <div className="text">Last Name*</div>
                 <input className='Name'></input>
             </div>
-            <div className="EmailContainer">
-                <div className="text">Email Adress*</div>
-                <input className='other'></input>
-                <div>Confirmation goes to this adress</div>
-            </div>
             <div className="CountryContainer">
                 <div className="text">Country/Region*</div>
                 <input className="other"></input>

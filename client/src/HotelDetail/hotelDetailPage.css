@@ -247,19 +247,19 @@
     background-color: white; 
     border-radius: 10px; 
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); 
-    width: fit-content;
-    height: 550px;
+    width: 350px;
+    height: 600px;
 }
 
 .Room2{
     position: relative;
-    top:-550px;
+    top:-600px;
     left: 400px;
 }
 
 .Room3{
     position: relative;
-    top: -1100px;
+    top: -1200px;
     left: 800px;
 }
 
@@ -320,9 +320,28 @@
 }
 
 .Price{
+    font-weight: bold;
+    font-size: 17px;
     position: relative;
     top: 40px;
     padding:10px;
+}
+
+.NoOfRoom,.tax{
+    font-size: 12px;
+}
+
+.NoOfRoom{
+    position: relative;
+    top: 30px;
+    left: 10px;
+}
+
+.tax{
+    position: relative;
+    top: 30px;
+    margin-left: 12px;
+    margin-top: 2px;
 }
 
 .Reserve{
