@@ -1,6 +1,6 @@
 import db from "./db.js";
 
-const tableName = "Booking";
+let tableName = "Booking"; // for actual
 
 class Booking {
   constructor(
@@ -238,4 +238,9 @@ async function removeBooking(bookingId) {
   }
 }
 
-export { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, updateBookingStatus, removeBooking };
+// helper function for setting variable name (for test scripts)
+const setTableName = (name) => {
+  tableName = name; 
+};
+
+export { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, updateBookingStatus, removeBooking, setTableName };

@@ -1,0 +1,9 @@
+# Node modules
+node_modules/
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+
+# Environment-specific files
+.env

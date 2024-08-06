@@ -1,3 +1,4 @@
+// searchBar.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './searchBar.css';
@@ -6,7 +7,7 @@ import DateRangePickerComponent from './datePicker/datePicker';
 import GuestInput from './guestInput/guestInput';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = () => {
+const SearchBar = ({id}) => {
   const [query, setQuery] = useState('');
   const [destinationId, setDestinationId] = useState(null);
   const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });

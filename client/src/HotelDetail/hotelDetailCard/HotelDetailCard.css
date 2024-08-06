@@ -1,0 +1,26 @@
+.slick-arrow {
+    border: none; /* Remove default border */
+    height: 40px; /* Size of the button */
+    width: 40px; /* Size of the button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.slick-prev {
+    left: 10px; /* Position left arrow */
+}
+
+.slick-next {
+    right: 10px; /* Position right arrow */
+}
+
+.slick-prev:before, .slick-next:before {
+    display: none; /* Hide default arrows */
+}
+
+.slick-arrow svg {
+    fill: #fff; /* Arrow color (white) */
+}
