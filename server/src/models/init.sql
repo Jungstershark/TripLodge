@@ -40,7 +40,7 @@ CREATE TABLE Booking (
 -- Insert sample data into the Customer table
 INSERT INTO Customer (username, email, password, hp) VALUES
 ('alice_wonder', 'alice@example.com', 'password123', '555-0001'),
-('bob_builder', 'bob@example.com', 'password456', '555-0002'),
+('bob_builder', 'bob@example.com', '$2a$10$jpTFYBb3vJO161vIPTzyMOEahx0rlp/M4Kety9Q9P3JQW1rtmWqq.', '555-0002'),
 ('carol_jones', 'carol@example.com', 'password789', '555-0003');
 
 -- Insert sample data into the Booking table
