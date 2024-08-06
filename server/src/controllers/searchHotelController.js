@@ -10,7 +10,7 @@ import { Room, fetchRoomPrices } from "../models/room.js";
 async function searchHotelByDestination(req, res, next) {
 
     const id  = req.params.id; // Destination ID
-    const {checkin, checkout, lang, currency, guests} = req.body;
+    const {checkin, checkout, lang, currency, guests, limit,page = 1} = req.body;
     
     // Get list of hotels (and prices) from given destination
     const [hotelsMap, hotelPricesMap] = await Promise.all([cacheFetchHotelByDestination(id), 
@@ -27,11 +27,20 @@ async function searchHotelByDestination(req, res, next) {
             })
         }
     }
+    
+    // Apply pagination if limit is provided
+    let paginatedResult = result;
+    if (limit) {
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+        paginatedResult = result.slice(startIndex, endIndex);
+    }
+
     // Note: hotelPrice instance has distance attribute which hotel instance does not have for some reason (from Ascenda API)
     // If this is useful, will need to extract from hotelPrice
 
     res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.json(result);
+    res.json(paginatedResult);
 }
 
 async function searchHotelById(req, res, next) {

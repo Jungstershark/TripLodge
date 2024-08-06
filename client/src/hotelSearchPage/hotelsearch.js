@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import PageHeader from '../pageHeader/pageHeader';
 import SearchBar from '../searchBar/searchBar';
@@ -6,6 +6,7 @@ import FilterSection from './filterSection/filterSection.js';
 import axios from 'axios';
 import './hotelsearch.css';
 import HotelCard from './hotelCard/hotelCard.js';
+import { CircularProgress, Box } from '@mui/material';
 
 function HotelSearch() {
   const location = useLocation();
@@ -14,25 +15,11 @@ function HotelSearch() {
   const [checkin, setCheckin] = useState(null);
   const [checkout, setCheckout] = useState(null);
   const [guests, setGuests] = useState(null);
-  const [page, setPage] = useState(1); // Page state
-  const [hasMore, setHasMore] = useState(true); // State to track if more hotels are available
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  const handleSearch = (queryParams) => {
-    setCheckin(formatDate(queryParams.checkin));
-    setCheckout(formatDate(queryParams.checkout));
-    setGuests(`${queryParams.adults}|${queryParams.children}`);
-    setPage(1); // Reset page when new search is initiated
-    setHotels([]); // Reset hotels list
-    setHasMore(true); // Reset hasMore state
-  };
+  const observer = useRef();
 
   const fetchHotels = async (page) => {
     const queryParams = new URLSearchParams(location.search);
@@ -47,38 +34,92 @@ function HotelSearch() {
     setGuests(guests);
 
     try {
+      setLoading(true);
+      console.log(`Fetching hotels for page ${page}`);
       const response = await axios.post(`http://localhost:5000/search/destination/${destinationId}`, {
         checkin,
         checkout,
         lang: 'en',
         currency: 'SGD',
         guests,
-        page, // Send page parameter
-        limit: 10 // Limit results to 10 per page
+        page,
+        limit: 10
       });
+      console.log(`Received ${response.data.length} hotels`);
       if (response.data.length < 10) {
-        setHasMore(false); // If fewer than 10 results, no more data
+        setHasMore(false);
       }
-      setHotels(prevHotels => [...prevHotels, ...response.data]); // Append new results
+      setHotels(prevHotels => [...prevHotels, ...response.data]);
     } catch (error) {
       console.error('Error fetching hotels:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
+    setHotels([]);
+    setPage(1);
     if (location.search) {
+      fetchHotels(1);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    const handleScrollForFilter = () => {
+      const filterContainer = document.querySelector('.filter-container');
+      if (filterContainer) {
+        if (window.scrollY > 100) {
+          filterContainer.classList.add('bounce');
+        } else {
+          filterContainer.classList.remove('bounce');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollForFilter);
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollForFilter);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScrollForLoadMore = (entries) => {
+      const target = entries[0];
+      if (target.isIntersecting && hasMore && !loading) {
+        console.log('Loading more hotels...');
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    const observerInstance = new IntersectionObserver(handleScrollForLoadMore, {
+      root: null,
+      rootMargin: '100px',
+      threshold: 0.1
+    });
+
+    if (observer.current) {
+      observerInstance.observe(observer.current);
+    }
+
+    return () => {
+      if (observer.current) {
+        observerInstance.unobserve(observer.current);
+      }
+    };
+  }, [hasMore, loading]);
+
+  useEffect(() => {
+    if (page > 1) {
       fetchHotels(page);
     }
-  }, [location.search, page]); // Refetch when location.search or page changes
-
-  const loadMoreHotels = () => {
-    setPage(prevPage => prevPage + 1);
-  };
+  }, [page]); // Fetch hotels when page changes
 
   return (
     <>
       <PageHeader />
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar />
       <div className='hotellist-container'>
         <div className='filter-container'>
           <FilterSection setDestinationId={setDestinationId} />
@@ -87,10 +128,11 @@ function HotelSearch() {
           {hotels.map((item) => (
             <HotelCard key={item.id} hotel={item} hotelImage={`${item.hotel.imageDetails.prefix}1${item.hotel.imageDetails.suffix}`} />
           ))}
-          {hasMore && (
-            <Button onClick={loadMoreHotels} variant="contained" color="primary" sx={{ mt: 2 }}>
-              Load More
-            </Button>
+          <div ref={observer} style={{ height: '1px', background: 'transparent' }}></div>
+          {loading && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', my: 2, maxWidth: 850 }}>
+              <CircularProgress />
+            </Box>
           )}
         </div>
       </div>

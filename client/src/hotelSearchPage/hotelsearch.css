@@ -1,13 +1,25 @@
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6rem); }
+}
+
 .filter-container {
   background-color: white;
   border-radius: 0.8rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow here */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
   display: flex;
   margin-top: 2rem;
   margin-left: 20rem;
   align-items: flex-start;
   width: fit-content;
   height: fit-content;
+  z-index: 100;
+  position: fixed;
+  transition: transform 0.3s ease; /* Smooth transition for other transformations */
+}
+
+.bounce {
+  animation: bounce 0.5s forwards; /* Apply bounce animation */
 }
 
 .hotellist-container {
@@ -19,6 +31,7 @@
 
 .hotels {
   margin-top: 2rem;
+  margin-left: 46rem;
   display: flex;
   flex-direction: column; /* Arrange hotels vertically */
   flex-grow: 1; /* Allow the hotel list to take remaining space */
