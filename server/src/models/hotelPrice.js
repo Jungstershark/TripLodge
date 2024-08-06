@@ -77,6 +77,9 @@ async function fetchHotelPricesByDestination(destination_id, checkin, checkout, 
         if (error.response && error.response.status === 422) {
             console.log('Ascenda API returned a 422 status:', error.response.data);
             return new Map(); // return empty Map 
+        } else if (error.message == "Exceeded API poll limit.") {
+            console.log(error.message);
+            return new Map();
         } else {
             console.error("Error fetching hotel prices by destination:", error);
             throw error;

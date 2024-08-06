@@ -84,8 +84,16 @@ async function fetchRoomPrices(id, destination_id, checkin, checkout, lang, curr
         return roomList;
 
     } catch(error) {
-        console.error("Error fetching room prices of given hotel:", error);
-        throw error;
+        if (error.response && error.response.status === 422) {
+            console.log('Ascenda API returned a 422 status:', error.response.data);
+            return []; 
+        } else if (error.message == "Exceeded API poll limit.") {
+            console.log(error.message);
+            return [];
+        } else {
+            console.error("Error fetching room prices of given hotel:", error);
+            throw error;
+        }
     }
 }
 
