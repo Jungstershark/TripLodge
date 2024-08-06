@@ -17,14 +17,14 @@ const app = express();
 // Ensure proper shutdown and cleanup
 process.on('SIGTERM', () => {
     server.close(() => {
-        console.log('Process terminated');
+        //console.log('Process terminated');
         db.cleanup();
     });
 });
 
 process.on('SIGINT', () => {
     server.close(() => {
-        console.log('Process interrupted');
+        //console.log('Process interrupted');
         db.cleanup();
     });
 });

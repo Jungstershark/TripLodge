@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import PageHeader from "../pageHeader/pageHeader";
 import SearchBar from "../searchBar/searchBar";
 import RoomSearchBar from "./RoomSearchBar";
-import { useParams } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import './hotelDetailPage.css';
 import Amenities from './Amenities/Amenities';
@@ -12,24 +12,41 @@ import HotelDetailCard from './hotelDetailCard/HotelDetailCard';
 
 function HotelDetailPage() {
     const { id } = useParams();  
+    const location = useLocation();
     const [hotel, setHotel] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showMore, setShowMore] = useState(false);
-    const [filter, setFilter] = useState('All'); // State for room filter
+    const [filter, setFilter] = useState('All');
     const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });
-    const [dates, setDates] = useState({
-        startDate: new Date('2024-10-01'),
-        endDate: new Date('2024-10-07')
-    });
+  const [dates, setDates] = useState({ checkin: '', checkout: '' });
+
+  // Extract state from location
+  const { state } = location;
+  const checkinDate = state?.checkin || formatDate(new Date());
+  const checkoutDate = state?.checkout || formatDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
+  const guestsCount = state?.guests || { adults: 1, children: 0, rooms: 1 };
+
+  useEffect(() => {
+    setDates({ checkin: checkinDate, checkout: checkoutDate });
+    setGuests(guestsCount);
+  }, [checkinDate, checkoutDate, guestsCount]);
+
+    // Format date function
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
     useEffect(() => {
         const fetchHotel = async () => {
             const url = `${process.env.REACT_APP_SERVER_URL}/search/hotel/${id}`;
             const data = {
                 destination_id: 'WD0M',
-                checkin: '2024-10-01',
-                checkout: '2024-10-07',
+                checkin: checkinDate,
+                checkout: checkoutDate,
                 lang: 'en_US',
                 guests: 2,
                 currency: 'SGD'
@@ -53,10 +70,8 @@ function HotelDetailPage() {
                 setLoading(false);
             }
         };
-        console.log(hotel);
-        // console.log(hotel.amenities)
         fetchHotel();
-    }, [id]);
+    }, [id, checkinDate, checkoutDate]);
 
     if (loading) {
         return (
@@ -127,14 +142,13 @@ function HotelDetailPage() {
                     <Amenities amenities={hotel.amenities}/>
                     <div className="ChooseRoom">
                         <h1 className='ChooseYourRoom'>Choose Your Room</h1>
-                        <RoomSearchBar />
                         <div>
                             <button className={`FilterButton ${filter === 'All' ? 'active' : ''}`} onClick={() => setFilter('All')}>All</button>
                             <button className={`FilterButton ${filter === 'Executive Suite' ? 'active' : ''}`} onClick={() => setFilter('Executive Suite')}>Executive Suite</button>
                             <button className={`FilterButton ${filter === 'Deluxe' ? 'active' : ''}`} onClick={() => setFilter('Deluxe')}>Deluxe</button>
                             <button className={`FilterButton ${filter === 'Premier' ? 'active' : ''}`} onClick={() => setFilter('Premier')}>Premier</button>
                         </div>
-                        <HotelDetailCard filteredRooms={filteredRooms} hotel={hotel} dates={dates} guests={guests}/>
+                        <HotelDetailCard filteredRooms={filteredRooms} hotel={hotel} dates={{ checkin: checkinDate, checkout: checkoutDate }} guests={guests}/>
                     </div>
                 </div>
             )}

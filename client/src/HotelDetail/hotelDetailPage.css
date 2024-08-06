@@ -1,6 +1,6 @@
 .HotelDetailPage{
     overflow:hidden;
-    height: 280vh;
+    height: 200vh;
 }
 
 .HotelImageContainer{
@@ -208,6 +208,7 @@
 .ChooseYourRoom{
     position: relative;
     margin-top: 6rem;
+    margin-bottom: rem;
     width: fit-content;
     height: fit-content;
 }
