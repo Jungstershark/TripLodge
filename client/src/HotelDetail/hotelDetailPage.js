@@ -23,8 +23,6 @@ function HotelDetailPage() {
         endDate: new Date('2024-10-07')
     });
 
-    console.log("DEBUG: ", guests, dates)
-
     useEffect(() => {
         const fetchHotel = async () => {
             const url = `${process.env.REACT_APP_SERVER_URL}/search/hotel/${id}`;
@@ -48,7 +46,7 @@ function HotelDetailPage() {
                 });
                 const result = await response.json();
                 setLoading(false);
-                setHotel({ ...response.data.hotel, rooms: response.data.rooms });
+                setHotel({ ...result.hotel, rooms: result.rooms });
             } catch (error) {
                 console.error('Error fetching hotel:', error);
                 setError('Failed to load hotel.');
