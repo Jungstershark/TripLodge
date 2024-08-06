@@ -1,28 +1,48 @@
 import React from "react";
 import './customerDetail.css';
 
-function CustomerDetail(){
-    return(
+function CustomerDetail({ onCustomerDetailChange }) {
+    const handleChange = (e) => {
+        onCustomerDetailChange(e.target.name, e.target.value);
+    };
+
+    return (
         <div className="container3">
             <h1>Enter Your Details</h1>
             <div className="FirstNameContainer">
                 <div className="text">First Name*</div>
-                <input className='Name'></input>
+                <input
+                    name="firstName"
+                    className='Name'
+                    onChange={handleChange}
+                />
             </div>
             <div className="LastNameContainer">
                 <div className="text">Last Name*</div>
-                <input className='Name'></input>
+                <input
+                    name="lastName"
+                    className='Name'
+                    onChange={handleChange}
+                />
             </div>
             <div className="CountryContainer">
                 <div className="text">Country/Region*</div>
-                <input className="other"></input>
+                <input
+                    name="country"
+                    className="other"
+                    onChange={handleChange}
+                />
             </div>
             <div className="TelephoneContainer">
-                <div className="text">Telephone (mobile number preferred)* </div>
-                <input className="other"></input>
+                <div className="text">Telephone (mobile number preferred)*</div>
+                <input
+                    name="telephone"
+                    className="other"
+                    onChange={handleChange}
+                />
             </div>
-
         </div>
-    )
+    );
 }
+
 export default CustomerDetail;

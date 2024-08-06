@@ -1,6 +1,5 @@
 .container3 { 
     position: relative;
-    display: flex; 
     flex-direction: column; 
     background-color: white; 
     padding: 30px; 
