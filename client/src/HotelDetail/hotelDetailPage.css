@@ -277,7 +277,9 @@
 .RoomDetail{
     font-size: 16px;
     font-weight: bold;
-    padding-left: 10px;
+    margin-left:2rem;
+    margin-right:2rem;
+    margin-bottom: 1.5rem;
 }
 
 .wifi,.squareft,.bed{
@@ -350,10 +352,11 @@
     color: white;
     opacity: 70%;
     border-width: 1px;
+    border-radius: 0.8rem;
     width: 100px;
     height: 30px;
-    top: 60px;
-    left: 110px;
+    margin-top: 1.2rem;
+    margin-left:7.6rem;
 }
 
 .Reserve:hover{

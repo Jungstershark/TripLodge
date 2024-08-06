@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PageHeader from "../pageHeader/pageHeader";
 import SearchBar from "../searchBar/searchBar";
 import RoomSearchBar from "./RoomSearchBar";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import axios from 'axios';
 import './hotelDetailPage.css';
@@ -12,13 +12,7 @@ import { LinearProgress } from '@mui/material';
 import HotelDetailCard from './hotelDetailCard/HotelDetailCard';
 
 function HotelDetailPage() {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const handleReserveClick = (room) => {
-        const dataToPass = { hotel, room, dates, guests };
-        navigate('/details', { state: dataToPass });
-    };
-
+    const { id } = useParams();  
     const [hotel, setHotel] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -29,6 +23,8 @@ function HotelDetailPage() {
         startDate: new Date('2024-10-01'),
         endDate: new Date('2024-10-07')
     });
+
+    console.log("DEBUG: ", guests, dates)
 
     useEffect(() => {
         const fetchHotel = async () => {
@@ -134,7 +130,7 @@ function HotelDetailPage() {
                             <button className={`FilterButton ${filter === 'Deluxe' ? 'active' : ''}`} onClick={() => setFilter('Deluxe')}>Deluxe</button>
                             <button className={`FilterButton ${filter === 'Premier' ? 'active' : ''}`} onClick={() => setFilter('Premier')}>Premier</button>
                         </div>
-                        <HotelDetailCard filteredRooms={filteredRooms}/>
+                        <HotelDetailCard filteredRooms={filteredRooms} hotel={hotel} dates={dates} guests={guests}/>
                     </div>
                 </div>
             )}
