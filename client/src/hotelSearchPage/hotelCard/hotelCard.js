@@ -1,8 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/material';
 import { Rating } from '@mui/material';
 
-const HotelCard = ({ hotel, hotelImage }) => {
+const HotelCard = ({ hotel, hotelImage, destinationId, checkin, checkout, guests }) => {
+  console.log("I am displaying hotel here", hotel);
+  const navigate = useNavigate();
+
+  const handleCheckAvailability = () => {
+    console.log("I am displaying hotel here", hotel);
+    console.log("This is for the testing", hotel.hotel.id);
+    console.log(`Navigating to /hotel/${hotel.hotel.id}`); // Debugging log
+
+    navigate(`/hotel/${hotel.hotel.id}`, {
+      state: { destinationId, checkin, checkout, guests }
+    });
+  };
+
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', mb: 2, maxWidth: 850 }}>
       <CardMedia
@@ -55,6 +69,7 @@ const HotelCard = ({ hotel, hotelImage }) => {
                   backgroundColor: '#5093E0' // Color on hover
                 }
               }}
+              onClick={handleCheckAvailability}
             >
               Check availability
             </Button>

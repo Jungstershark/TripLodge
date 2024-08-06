@@ -9,7 +9,9 @@ CREATE TABLE Customer (
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    hp VARCHAR(50) NOT NULL
+    hp VARCHAR(50) NOT NULL,
+    resetPasswordToken VARCHAR(255),
+    resetPasswordExpires BIGINT
 );
 
 -- Create the Booking table

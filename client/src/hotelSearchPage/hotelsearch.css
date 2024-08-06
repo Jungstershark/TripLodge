@@ -33,7 +33,7 @@
 
 .hotels {
   margin-top: 2rem;
-  margin-left: 36%;
+  margin-left: 50%;
   display: flex;
   flex-direction: column; /* Arrange hotels vertically */
   flex-grow: 1; /* Allow the hotel list to take remaining space */

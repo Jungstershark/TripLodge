@@ -30,6 +30,8 @@
   import HotelDetailPage from './HotelDetail/hotelDetailPage';
   import CancelBookingPage from './CancelBooking/cancelBooking';
   import UserContext, { UserProvider } from './contexts/UserContext';
+  import ForgotPassword from './UserAuth/forgotPasswordPage/forgotPasswordPage.js';
+  import ResetPassword from './UserAuth/resetPassword/resetPassword.js';
   
   // Component to handle route-based redirection
   function AppRoutes() {
@@ -39,14 +41,15 @@
           <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/hotelSearch" element={<HotelSearch />} />
-              <Route path="/details" element={<YourDetail />} />
-              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout" element={<YourDetail />} />
               <Route path="/success" element={<Success />} />
               <Route path="/cancel" element={<Cancel />} />
               <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
               <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
               <Route path="/hotel/:id" element={<HotelDetailPage />} />
               <Route path="/cancel-booking" element={<CancelBookingPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword/>}/>
+              <Route path="/reset-password/:token" element={<ResetPassword/>}/>
               <Route path="*" element={<Navigate to="/" />} /> {/* Catch-all route */}
           </Routes>
       );

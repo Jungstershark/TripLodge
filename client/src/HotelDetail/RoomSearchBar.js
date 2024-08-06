@@ -55,6 +55,7 @@ function RoomSearchBar() {
       <div className="GuestInput">
         <GuestInput guests={guests} setGuests={setGuests} />
       </div>
+      <button className="SearchButton" onClick={handleSearch}>Search</button>
     </div>
   );
 }

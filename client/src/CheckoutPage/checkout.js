@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import YourDetail from '../BookingDetails/yourDetail';
 
 const Checkout = ({
   hotelName,
@@ -23,7 +22,6 @@ const Checkout = ({
 }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("button clicked in checkout")
 
     const body = {
       bookingInformation:{
@@ -48,7 +46,7 @@ const Checkout = ({
 
     try {
       console.log("button clicked");
-      const response = await axios.post('/checkout/create-session-token', body);
+      const response = await axios.post('/booking/checkout', body);
       const session = response.data;
       if (session.url) {
         window.location.href = session.url; // Redirect to the Stripe checkout page
@@ -62,10 +60,14 @@ const Checkout = ({
 
   return (
     <div>
-        <YourDetail onConfirmBooking={handleSubmit}/>
-        {/* <form onSubmit={handleSubmit}>
+      <head>
+        <title>Buy cool new product</title>
+      </head>
+      <body>
+        <form onSubmit={handleSubmit}>
           <button type="submit">Checkout</button>
-        </form> */}
+        </form>
+      </body>
     </div>
   );
 };
