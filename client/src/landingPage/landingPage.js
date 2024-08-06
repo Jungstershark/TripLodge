@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PageHeader from '../pageHeader/pageHeader.js';
 import SearchBar from '../searchBar/searchBar.js';
@@ -9,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import Slider from 'react-slick';
+import UserSelect from '../pageHeader/UserSelect.js';
 import LinearProgress from '@mui/material/LinearProgress';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -47,6 +49,7 @@ const LandingPage = () => {
 
     fetchHotels();
   }, []);
+
 
   if (loading){
     return (
@@ -177,20 +180,22 @@ const LandingPage = () => {
 
             return (
               <Card sx={{ maxWidth: 405}} key={item.hotel.id}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="150"
-                    image={imageUrl}
-                    alt={item.hotel.name || 'Hotel image'}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant='h6' component="div">
-                      {item.hotel.name || 'Hotel Name'}
-                    </Typography>
-                    <Rating name="read-only" value={item.hotel.rating} readOnly />
-                  </CardContent>
-                </CardActionArea>
+                <Link to={`/hotel/${item.hotel.id}`} style={{ textDecoration: 'none', color:'black'}}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="150"
+                      image={imageUrl}
+                      alt={item.hotel.name || 'Hotel image'}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant='h6' component="div">
+                        {item.hotel.name || 'Hotel Name'}
+                      </Typography>
+                      <Rating name="read-only" value={item.hotel.rating} readOnly />
+                    </CardContent>
+                  </CardActionArea>
+                </Link>
               </Card>
             );
           })
