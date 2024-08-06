@@ -26,9 +26,11 @@ const mockPriceData = {
 const mockHotelPricesData = [mockPriceData, {...mockPriceData, id: 'obxM'}];
 
 describe('HotelPrice Model test', () => {
+    let consoleLogSpy;
     let consoleErrorSpy;
 
     beforeEach(() => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(); // Spying on console.log function call
         consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(); // Spying on console.error function call
     });
 
@@ -107,7 +109,7 @@ describe('HotelPrice Model test', () => {
             expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching hotel prices by destination:', error);
         });
 
-        test('should throw an error if API poll count exceeded', async () => {
+        test('handles "Exceeded API poll limit." error', async () => {
             axios.get.mockResolvedValue({data: {
                 searchCompleted: null,
                 completed: false, // ascendas API poll never completes
@@ -116,7 +118,27 @@ describe('HotelPrice Model test', () => {
                 hotels: mockHotelPricesData
             }});
             
-            await expect(fetchHotelPricesByDestination('destination1', '2024-08-01', '2024-08-05', 'en', 'USD', 2)).rejects.toThrow('Exceeded API poll limit.');
+            const result = await fetchHotelPricesByDestination('destination1', '2024-08-01', '2024-08-05', 'en', 'USD', 2);
+
+            // Check if error message was logged
+            expect(consoleLogSpy).toHaveBeenCalledWith("Exceeded API poll limit.");
+
+            // Should return empty map
+            expect(result).toEqual(new Map());
+        });
+
+        test('handles Ascendas API 422 status (unprocessable inputs)', async () => {
+            axios.get.mockRejectedValue({
+                response: {
+                  status: 422,
+                  data: 'Unprocessable Entity'
+                }
+              });
+            
+            const result = await fetchHotelPricesByDestination('destination1', '2024-08-01', '2024-08-05', 'en', 'USD', 2);
+
+            // Should return empty map
+            expect(result).toEqual(new Map());
         });
     });
 
