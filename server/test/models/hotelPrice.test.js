@@ -36,6 +36,7 @@ describe('HotelPrice Model test', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
+        consoleLogSpy.mockRestore();
         consoleErrorSpy.mockRestore();
     });
 
@@ -100,6 +101,30 @@ describe('HotelPrice Model test', () => {
             expect(hotelPriceOne.marketRates).toEqual(mockHotelPricesData[1].market_rates);
 
         });
+
+        test('should poll API multiple times if API returns not completed', async () => {
+            const incompleteResponse = { data: { completed: false } };
+            const completeResponse = { data: {
+                searchCompleted: null,
+                completed: true,
+                status: null,
+                currency: "SGD",
+                hotels: mockHotelPricesData
+            }};
+            
+            axios.get
+                .mockResolvedValueOnce(incompleteResponse)
+                .mockResolvedValueOnce(incompleteResponse)
+                .mockResolvedValueOnce(completeResponse);
+
+            const result = await fetchHotelPricesByDestination('destination1', '2024-08-01', '2024-08-05', 'en', 'USD', 2);
+            expect(result).toBeInstanceOf(Map);
+            expect(result.size).toBe(2);
+
+            // Check poll count
+            expect(axios.get).toHaveBeenCalledTimes(3);
+            expect(consoleLogSpy).toHaveBeenCalledWith('API polled 3 time(s)');
+        }); 
 
         test('should throw an error and log it if the request fails', async () => {
             const error = new Error('Network error');
