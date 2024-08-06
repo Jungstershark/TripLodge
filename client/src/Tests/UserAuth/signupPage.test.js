@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import Signup from '../../UserAuth/signupPage/signupPage';
 import authService from '../../UserAuth/authServices/authServices';
+import { UserProvider } from '../../contexts/UserContext';
 
 jest.mock('../../UserAuth/authServices/authServices');
 
@@ -13,11 +14,13 @@ describe('Signup Component', () => {
 
   const renderComponent = () => {
     render(
-      <MemoryRouter initialEntries={['/signup']}>
-        <Routes>
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </MemoryRouter>
+      <UserProvider>
+        <MemoryRouter initialEntries={['/signup']}>
+          <Routes>
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </MemoryRouter>
+      </UserProvider>
     );
   };
 
