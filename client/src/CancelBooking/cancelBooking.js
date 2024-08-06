@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './CancelBookingPage.css'; // Import the CSS file
-import axios from 'axios';
 
 const CancelBookingPage = () => {
   const [booking, setBooking] = useState(null);
@@ -40,14 +39,20 @@ const CancelBookingPage = () => {
     if (paymentId && booking) {
       try {
         console.log("button clicked");
-        const response = await axios.post(`/booking/refund/${booking.bookingId}/${paymentId}`);
-        if (response.data.success) {
+        const response = await fetch(`/booking/refund/${booking.bookingId}/${paymentId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        if (data.success) {
           setBooking(prevBooking => ({
             ...prevBooking,
             status: 'cancelled'
           }));
         } else {
-            console.error('Update booking status failed:', response.data.message);
+            console.error('Update booking status failed:', data.message);
         }
       } catch (error) {
         console.error('Refund failed:', error);
