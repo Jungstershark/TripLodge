@@ -51,7 +51,7 @@ function HotelSearch() {
         page,
         limit: 10
       });
-      console.log(`Received ${response.data.length} hotels`);
+      console.log(`Received hotels:`, response.data); // Debugging log
       if (response.data.length < 10) {
         setHasMore(false);
       }
@@ -86,6 +86,7 @@ function HotelSearch() {
       filtered = filtered.filter(hotel => hotel.hotel.guestRating >= ratingThreshold);
     }
 
+    console.log('Filtered hotels:', filtered); // Debugging log
     setFilteredHotels(filtered);
   };
 
@@ -170,7 +171,14 @@ function HotelSearch() {
             <p>No Hotels</p>
           ) : (
             filteredHotels.map((item) => (
-              <HotelCard key={item.id} hotel={item} hotelImage={`${item.hotel.imageDetails.prefix}1${item.hotel.imageDetails.suffix}`} />
+              <HotelCard 
+              key={item.id} 
+              hotel={item} 
+              destinationId={destinationId}  // Added this line
+              checkin={checkin}              // Added this line
+              checkout={checkout}            // Added this line
+              guests={guests}                // Added this line
+              hotelImage={`${item.hotel.imageDetails.prefix}1${item.hotel.imageDetails.suffix}`} />
             ))
           )}
           <div ref={observer} style={{ height: '1px', background: 'transparent' }}></div>

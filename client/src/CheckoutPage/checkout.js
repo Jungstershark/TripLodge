@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import YourDetail from '../BookingDetails/yourDetail';
+import { useLocation } from 'react-router-dom';
 
 const Checkout = ({
   hotelName,
@@ -23,7 +24,7 @@ const Checkout = ({
 }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("button clicked in checkout")
+    console.log("button clicked in yourdetail")
 
     const body = {
       bookingInformation:{

@@ -7,21 +7,150 @@
     position: relative;
     width: 40px;
     height: 40px;
-    top:-1685px;
+    top:-1800px;
     left: 115px;
 }
 
 .two{
     position: relative;
-    top: -1750px;
-    left: 695px;
+    top: -1865px;
+    left: -15px;
+
 }
 
-h1.three{
+.three{
     position: relative;
-    top: -1810px;
-    left: 1275px;
+    top: -1925px;
+    left: 565px;
 }
+
+
+.HotelDetailContainer{
+    position: relative;
+    top: -80px;
+    width:320px;
+    height:fit-content;
+    margin-left: 80px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: white; 
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column;
+}
+
+
+.location{
+    position: relative;
+    top: -10px;
+    font-size: 15px;
+}
+
+.rating{
+    position: relative;
+    top: 10px;
+    left: 100px;
+}
+
+.wordrating{
+    color: rgb(149, 149, 149);
+    margin-top:10px ;
+}
+.numberrating{
+    position: relative;
+    top: 10px;
+}
+
+.BookingDetailContainer{
+    position: relative;
+    top: -80px;
+    width:320px;
+    height:300px;
+    margin-bottom: 20px;
+    margin-left: 80px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: white; 
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column;
+}
+
+.BookingDetail{
+    align-items: center;
+}
+
+.divider{
+    position: relative;
+    top: -75px;
+    left: 145px;
+    font-size: 40px;
+    color: rgb(174, 174, 174);
+}
+
+.CheckOut{
+    position: relative;
+    top: -140px;
+    left: 170px;
+
+}
+
+.NumberOfGuest{
+    position: relative;
+    top: -120px;
+    font-size: 14px;
+}
+
+.HotelRoom{
+    position: relative;
+    top: -120px;
+}
+
+.PriceCalculationContainer{
+    position: relative;
+    top: -80px;
+    width:320px;
+    height:fit-content;
+    margin-left: 80px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: white; 
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column;
+}
+
+
+
+.OGprice{
+    position: relative;
+    top: -20px;
+    text-align: end;
+}
+
+.Taxprice{
+    position: relative;
+    top: -20px;
+    text-align: end;
+}
+
+.TotalSum{
+    font-weight: bold;
+}
+
+.Totalprice{
+    position: relative;
+    top: -20px;
+    text-align: end;
+}
+
+
+
 
 .DetailButton {
     position: relative;
@@ -33,8 +162,8 @@ h1.three{
     font-size: 16px;
     margin: 4px 2px;
     border-radius: 30px;
-    top: -980px;
-    left: 1150px;
+    top: -1170px;
+    left: 1100px;
 }
 .DetailButton:hover{
     background-color: #242B59;
