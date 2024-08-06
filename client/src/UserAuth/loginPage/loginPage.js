@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PageHeader from '../../pageHeader/pageHeader';
 import './loginPage.css';
 import { Link, useNavigate } from 'react-router-dom';
-import authService from '../authServices/authServices'; // Import authService
+import authService from '../authServices/authServices';
 import UserContext from '../../contexts/UserContext';
 
 function Login() {
@@ -11,7 +11,7 @@ function Login() {
   const [formValid, setFormValid] = useState(false);
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
-  const { login: setUser } = useContext(UserContext); // Access login function from context
+  const { login: setUser } = useContext(UserContext);
 
   useEffect(() => {
     setFormValid(email !== '' && password !== '');
@@ -27,7 +27,7 @@ function Login() {
       const data = await authService.login(email, password);
       if (data.success) {
         console.log('Login successful');
-        setUser({ username: data.username, token: data.token }); // Update UserContext
+        setUser({ username: data.username, token: data.token });
         navigate('/');
       } else {
         setLoginError(data.message || 'Invalid email and/or password');

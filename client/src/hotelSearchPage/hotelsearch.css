@@ -27,6 +27,8 @@
   flex-direction: row; /* Arrange filter and hotel list side by side */
   gap: 5rem;
   margin: 1rem; /* Optional: Add margin for spacing */
+  max-width: 1200px;
+  align-items: flex-start;
 }
 
 .hotels {
@@ -39,4 +41,5 @@
 
 .hotel-card {
   margin-bottom: 1rem; /* Space between hotel cards */
+  background: white;
 }
