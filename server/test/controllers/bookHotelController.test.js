@@ -6,12 +6,12 @@ import db from "../../src/models/db.js"; // Booking model uses db
 import dbMock from '../dbTest.js'; // DB for testing
 import Stripe from 'stripe';
 import axios from 'axios'; // Hotel model uses ascenda API
-import { ascendaAPI } from '../../src/models/ascendaApi.js';
 import 'dotenv/config'
 
 import { Booking, insertBooking, findBookingByBookingId, findBookingByCustomerId, updateBookingStatus, removeBooking, setTableName } from "../../src/models/booking.js";
 import { sendBookingConfirmationEmail, sendCancelBookingEmail } from "../../src/controllers/sendEmailController.js";
 import { fetchHotel } from "../../src/models/hotel.js"; 
+import { getBillingEmail } from '../../src/controllers/bookHotelController.js';
 
 // Setup the Express app
 const app = express();
@@ -32,7 +32,8 @@ jest.mock('stripe', () => {
             }
         },
         paymentIntents: {
-            update: jest.fn().mockResolvedValue({latest_charge: 'paymentIdTest'})
+            update: jest.fn().mockResolvedValue({latest_charge: 'paymentIdTest'}),
+            retrieve: jest.fn().mockResolvedValue({metadata: {customer_billing_email: "customer@email.com"}})
         },
         refunds: {
             create: jest.fn().mockResolvedValue({status: 'succeeded'})
@@ -343,6 +344,13 @@ describe("Book Hotel API Integration Tests", () => {
             viewRes = await request(app).get(`/booking/view/${bookingId}`);
             expect(viewRes.body.status).toBe('confirmed');
             
+        });
+    });
+
+    describe("getBillingEmail", () => {
+        test("successfully returns customer billing email", async () => {
+            const email = await getBillingEmail('3');
+            expect(email).toBe("customer@email.com"); // from mock response
         });
     });
 
