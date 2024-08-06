@@ -10,8 +10,8 @@ import Cancel from './CheckoutPage/Cancel.jsx';
 import Login from './UserAuth/loginPage/loginPage.js';
 import Signup from './UserAuth/signupPage/signupPage.js';
 import HotelDetailPage from './HotelDetail/hotelDetailPage.js';
-// import Signup from './UserAuth/signupPage/signupPage.js';
-// import ForgotPassword from './UserAuth/signupPage/signupPage.js'
+import ForgotPassword from './UserAuth/forgotPasswordPage/forgotPasswordPage.js';
+import ResetPassword from './UserAuth/resetPassword/resetPassword.js';
 
 function App() {
   const sampleProps = {
@@ -46,7 +46,8 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/hotel" element={<HotelDetailPage/>}/>
-        {/* <Route path="/forgot-password" element={<ForgotPassword/>}/> */}
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/reset-password/:token" element={<ResetPassword/>}/>
         {/* Add more routes as needed */}
       </Routes>
     </Router>
