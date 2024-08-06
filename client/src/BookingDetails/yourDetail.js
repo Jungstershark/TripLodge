@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import PageHeader from "../pageHeader/pageHeader";
 import CurrentPage from "../SharedContent/currentPage";
 import CustomerDetail from "./customerDetail";
@@ -6,13 +7,66 @@ import { useLocation } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import "./yourDetail.css";
 
-function YourDetail({onConfirmBooking}){
-    const handleSubmit = (event) => {
-        console.log("Confirm Booking button clicked in YourDetail");
-        if (onConfirmBooking) {
-            onConfirmBooking(); // Call the passed function
-        }
-    };
+function YourDetail(){
+
+    const Checkout = ({
+        hotelName,
+        customerEmailAddress,
+        destinationId,
+        hotelId,
+        roomKey,
+        customerId,
+        numberOfNights,
+        startDate,
+        endDate,
+        numAdults,
+        numChildren,
+        msgToHotel,
+        roomTypes,
+        price,
+        guestSalutation,
+        guestFirstName,
+        guestLastName
+      }) => {
+        const handleSubmit = async (event) => {
+          event.preventDefault();
+          console.log("button clicked in yourdetail")
+      
+          const body = {
+            bookingInformation:{
+              customerEmailAddress,
+              destinationId,
+              hotelName,
+              hotelId,
+              roomKey,
+              customerId,
+              numberOfNights,
+              startDate,
+              endDate,
+              numAdults,
+              numChildren,
+              msgToHotel,
+              roomTypes,
+              price,
+              guestSalutation,
+              guestFirstName,
+              guestLastName
+          }}; // bookingInformation must be an object where the values are string (i.e. NO nested objects)
+      
+          try {
+            console.log("button clicked");
+            const response = await axios.post('/checkout/create-session-token', body);
+            const session = response.data;
+            if (session.url) {
+              window.location.href = session.url; // Redirect to the Stripe checkout page
+            } else {
+              console.error('Error creating checkout session:', session);
+            }
+          } catch (error) {
+            console.error('Error submitting form:', error);
+          }
+        };
+    }
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -43,6 +97,8 @@ function YourDetail({onConfirmBooking}){
     }
 
     console.log('This is the details:',location.state)
+
+
 
     return(
         <>
@@ -113,5 +169,4 @@ function YourDetail({onConfirmBooking}){
         </>
     )
 }
-
 export default YourDetail;
