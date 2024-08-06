@@ -47,10 +47,19 @@ describe('Search Hotel Use Case', () => {
     cy.get('.hotels').should('have.length.greaterThan', 0); // Ensure there are hotel cards
     cy.get('.filter-section').should('be.visible'); // Check if filter options are present
     
-    cy.wait(2000);
+    
 
+    // Step 6: Customer filters results by star ratings, guest ratings, and price range
+    cy.get('.price-input').find('#min').type(200);
+
+    cy.get('.star-rating button').contains('5').click();
+
+    cy.wait(3000);
+
+    // Step 7: System retrieves list of filtered matching hotels
+    // Step 8: System displays list of filtered matching hotels
     // Step 9: Customer selects specific hotel from result list
-    cy.contains('div.MuiCardContent-root', 'Parc Sovereign Hotel Tyrwhitt') // Find the hotel name
+    cy.contains('div.MuiCardContent-root', 'Grand Copthorne Waterfront') // Find the hotel name
     .parentsUntil('div.MuiCard-root') // Navigate up to the common ancestor
     .find('button.MuiButton-containedPrimary') // Find the button within this context
     .should('be.visible') // Ensure the button is visible

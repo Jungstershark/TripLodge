@@ -1,6 +1,6 @@
 .LandingPage {
     overflow: hidden;
-    height: 110vh;
+    height: 125vh;
 }
 
 h2{
@@ -19,8 +19,8 @@ h2{
 
 .hotel-container{
     margin-top: 1rem;
-    padding-left: 23rem;
-    padding-right: 23rem;
+    padding-left: 18rem;
+    padding-right: 18rem;
 }
 
 /* Centering the loading content */
