@@ -13,6 +13,9 @@ function HotelDetailPage() {
     const handleReserveClick = (room) => {
         const dataToPass = { hotel, room, dates, guests };
         navigate('/details', { state: dataToPass });
+    const handleReserveClick = (room) => {
+        const dataToPass = { hotel, room, dates, guests };
+        navigate('/details', { state: dataToPass });
     };
 
     const [hotel, setHotel] = useState(null);
@@ -20,6 +23,11 @@ function HotelDetailPage() {
     const [error, setError] = useState(null);
     const [showMore, setShowMore] = useState(false);
     const [filter, setFilter] = useState('All'); // State for room filter
+    const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });
+    const [dates, setDates] = useState({
+        startDate: new Date('2024-10-01'),
+        endDate: new Date('2024-10-07')
+    });
     const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });
     const [dates, setDates] = useState({
         startDate: new Date('2024-10-01'),
@@ -190,6 +198,8 @@ function HotelDetailPage() {
                                     </div>
                                     <button className="Reserve" onClick={()=>handleReserveClick(room)}>Reserve</button>
                                 </div>
+                            ))}
+                        </div>
                             ))}
                         </div>
                     </div>
