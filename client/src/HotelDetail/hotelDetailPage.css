@@ -3,64 +3,23 @@
     height: 280vh;
 }
 
-.HotelDetailSearchBar{
-    margin-top: 30px;
+.HotelImageContainer{
+    margin-left: 14rem;
+    margin-right: 14rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.HotelPictures{
-    position: relative;
-    left: 40px;
-}
-
-.Hotel1Detail{
-    position: relative;
-    width: 550px;
-    height: 300px;
-    margin-top: 50px;
-    margin-right: 2.5px;
-    left: 150px;
-}
-
-.Pool,.Lobby,.Bedroom,.Dinning{
-    width: 260px;
-    height: 149px;
-}
-
-.Lobby,.Bedroom{
-    margin-top: 50px;
-    margin-left: 2.5px;
-}
-
-.Lobby{
-    position: relative;
-    top: -354px;
-    left: 700px;
-}
-
-.Bedroom{
-    position: relative;
-    top: -151.5px;
-    left: 148px;
-}
-
-.Pool,.Dinning{
-    margin-left: 2.5px;
-}
-
-.Pool{
-    position: relative;
-    left: 147px;
-}
-
-.Dinning{
-    position: relative;
-    left: -114.5px;
+.hotel-details-container{
+    margin-top: 12rem;
+    margin-left: 3.3em;
 }
 
 .MapnLocation{
     position: relative;
-    top: -150px;
-    left: 1000px;
+    top: -8.8rem;
+    left: 65rem;
 
 }
 
@@ -94,7 +53,6 @@
     position: relative;
     width: fit-content;
     height: fit-content;
-    border: 2px solid transparent;
 }
 
 .HotelDescription{
@@ -249,9 +207,11 @@
 
 .ChooseYourRoom{
     position: relative;
-    left: -580px;
-    top: -30px;
+    margin-top: 6rem;
+    width: fit-content;
+    height: fit-content;
 }
+
 
 .FilterButton {
     position: relative;

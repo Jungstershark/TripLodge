@@ -1,0 +1,16 @@
+.amenities-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 13rem);
+    gap: 1rem;
+  }
+  
+  .amenity-item {
+    display: flex;
+    align-items: center;
+    gap:1rem;
+  }
+  
+  .amenity-text {
+    font-size: 14px;
+  }
+  

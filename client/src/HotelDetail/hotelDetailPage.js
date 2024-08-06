@@ -6,6 +6,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import axios from 'axios';
 import './hotelDetailPage.css';
+import Amenities from './Amenities/Amenities';
+import QuiltedImageList from './QuiltedImageList';
+import { LinearProgress } from '@mui/material';
 
 function HotelDetailPage() {
     const { id } = useParams();
@@ -36,8 +39,6 @@ function HotelDetailPage() {
                 console.log('Fetching hotel...');
                 const response = await axios.post(url, data);
                 setLoading(false);
-                console.log('Response data:', response.data.hotel);
-                console.log('Response data:', response.data.rooms);
                 setHotel({ ...response.data.hotel, rooms: response.data.rooms });
             } catch (error) {
                 console.error('Error fetching hotel:', error);
@@ -45,7 +46,8 @@ function HotelDetailPage() {
                 setLoading(false);
             }
         };
-
+        console.log(hotel);
+        // console.log(hotel.amenities)
         fetchHotel();
     }, [id]);
 
@@ -53,6 +55,7 @@ function HotelDetailPage() {
         return (
             <div className='loading-container'>
                 <div className='loading-content'>
+                    <LinearProgress sx={{ width: 200 }} />
                     <p>Loading...</p>
                 </div>
             </div>
@@ -88,24 +91,19 @@ function HotelDetailPage() {
     return (
         <div className="HotelDetailPage">
             <PageHeader />
-            <div className="HotelDetailSearchBar">
-                <SearchBar />
+            <SearchBar />
+            <div className='HotelImageContainer'>
+                <QuiltedImageList itemData={hotel}/>
             </div>
-            <div className="HotelPictures">
-                <img className="Hotel1Detail" src={`${process.env.PUBLIC_URL}/Hotel1.jpg`} alt="Hotel" />
-                <img className="Pool" src={`${process.env.PUBLIC_URL}/Pool.jpg`} alt="Pool" />
-                <img className="Bedroom" src={`${process.env.PUBLIC_URL}/Bedroom.jpg`} alt="Bedroom" />
-                <img className="Dinning" src={`${process.env.PUBLIC_URL}/dinning.jpg`} alt="Dinning" />
-                <img className="Lobby" src={`${process.env.PUBLIC_URL}/lobby.jpg`} alt="Lobby" />
-            </div>
-            <div className="MapnLocation">
-                <div className="ExploreArea">Explore The Area</div>
-                <div className="MapContainer">
-                    <img className="Map" src={`${process.env.PUBLIC_URL}/hotelmap.png`} alt="Map" />
-                    <div className="Location">{hotel.address}</div>
+            <div className='hotel-details-container'>
+                <div className="MapnLocation">
+                    <div className="ExploreArea">Explore The Area</div>
+                    <div className="MapContainer">
+                        <img className="Map" src={`${process.env.PUBLIC_URL}/hotelmap.png`} alt="Map" />
+                        <div className="Location">{hotel.address}</div>
+                    </div>
                 </div>
-            </div>
-            {hotel && (
+                {hotel && (
                 <div className="HotelDetails">
                     <h1 className="HotelName">{hotel.name}</h1>
                     <div
@@ -126,33 +124,7 @@ function HotelDetailPage() {
                         <div className="wordrating">{getRatingText(hotel.rating)}</div>
                     </div>
                     <div className="reviews">See all reviews &gt;</div>
-                    <div className="Amenities">
-                        <h3>Popular Amenities</h3>
-                        <div className="BarContainer">
-                            <img className="Bar" src={`${process.env.PUBLIC_URL}/bar.png`} alt="Bar" />
-                            Bar
-                        </div>
-                        <div className="SwimmingContainer">
-                            <img className="Swimming" src={`${process.env.PUBLIC_URL}/swimming.png`} alt="Swimming" />
-                            Pool
-                        </div>
-                        <div className="AirConContainer">
-                            <img className="AirCon" src={`${process.env.PUBLIC_URL}/air-conditioner.png`} alt="Air Conditioning" />
-                            Air Conditioning
-                        </div>
-                        <div className="GymContainer">
-                            <img className="Gym" src={`${process.env.PUBLIC_URL}/gym.png`} alt="Gym" />
-                            Gym
-                        </div>
-                        <div className="BreakfastContainer">
-                            <img className="Breakfast" src={`${process.env.PUBLIC_URL}/coffee.png`} alt="Breakfast Available" />
-                            Breakfast Available
-                        </div>
-                        <div className="FrontDeskContainer">
-                            <img className="FrontDesk" src={`${process.env.PUBLIC_URL}/frontdesk.png`} alt="Front Desk" />
-                            24/7 Front Desk
-                        </div>
-                    </div>
+                    <Amenities amenities={hotel.amenities}/>
                     <div className="ChooseRoom">
                         <h1 className='ChooseYourRoom'>Choose Your Room</h1>
                         <RoomSearchBar />
@@ -189,6 +161,7 @@ function HotelDetailPage() {
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 }
