@@ -30,6 +30,8 @@
   import HotelDetailPage from './HotelDetail/hotelDetailPage';
   import CancelBookingPage from './CancelBooking/cancelBooking';
   import UserContext, { UserProvider } from './contexts/UserContext';
+  import ForgotPassword from './UserAuth/forgotPasswordPage/forgotPasswordPage.js';
+  import ResetPassword from './UserAuth/resetPassword/resetPassword.js';
   
   // Component to handle route-based redirection
   function AppRoutes() {
@@ -47,6 +49,8 @@
               <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
               <Route path="/hotel/:id" element={<HotelDetailPage />} />
               <Route path="/cancel-booking" element={<CancelBookingPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword/>}/>
+              <Route path="/reset-password/:token" element={<ResetPassword/>}/>
               <Route path="*" element={<Navigate to="/" />} /> {/* Catch-all route */}
           </Routes>
       );

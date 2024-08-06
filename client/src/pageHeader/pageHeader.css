@@ -1,9 +1,12 @@
+/* /src/pageHeader/pageHeader.css */
+
 header {
     border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    position: relative;
 }
 
 ul {
@@ -15,10 +18,12 @@ ul {
     justify-content: flex-end;
     flex-grow: 1;
     gap: 20px;
+    position: relative;
 }
 
 li {
     margin-left: 20px;
+    position: relative;
 }
 
 .Logo {
@@ -45,18 +50,18 @@ li {
 .SignIn {
     font-size: 16px;
     cursor: pointer;
-    
 }
-li a{
-    text-decoration:none;
+
+li a {
+    text-decoration: none;
     color: #242B59;
 }
 
-li a:hover{
-    color:#766fdc;
+li a:hover {
+    color: #766fdc;
 }
 
-.logobutton{
+.logobutton {
     background: none;
     border: none;
     padding: 0;
