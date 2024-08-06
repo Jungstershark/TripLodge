@@ -4,10 +4,15 @@
     gap: 1rem;
   }
   
+  .amenities-bar.single-column {
+    grid-template-columns: 1fr;
+    margin-left: 2rem   ;
+  }
+  
   .amenity-item {
     display: flex;
     align-items: center;
-    gap:1rem;
+    gap: 1rem;
   }
   
   .amenity-text {

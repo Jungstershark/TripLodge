@@ -9,6 +9,7 @@ import './hotelDetailPage.css';
 import Amenities from './Amenities/Amenities';
 import QuiltedImageList from './QuiltedImageList';
 import { LinearProgress } from '@mui/material';
+import HotelDetailCard from './hotelDetailCard/HotelDetailCard';
 
 function HotelDetailPage() {
     const { id } = useParams();
@@ -133,37 +134,7 @@ function HotelDetailPage() {
                             <button className={`FilterButton ${filter === 'Deluxe' ? 'active' : ''}`} onClick={() => setFilter('Deluxe')}>Deluxe</button>
                             <button className={`FilterButton ${filter === 'Premier' ? 'active' : ''}`} onClick={() => setFilter('Premier')}>Premier</button>
                         </div>
-                        {/* New container for all rooms */}
-                        <div className="AllRoomsContainer">
-                            {filteredRooms.map((room, index) => (
-                                <div key={index} className={`Room${index + 1}`}>
-                                    <img className="Onsuite" src={`${process.env.PUBLIC_URL}/bedroom1.jpg`} alt={room.roomDescription} />
-                                    <div className="RoomDetail">{room.roomDescription}</div>
-                                    <div className="wificontainer">
-                                        <img className="wifi" src={`${process.env.PUBLIC_URL}/wifi.png`} alt="Free Wifi" />
-                                        Free Wifi
-                                    </div>
-                                    <div className="citycontainer">
-                                        <img className="cityview" src={`${process.env.PUBLIC_URL}/city.png`} alt="City View" />
-                                        City View
-                                    </div>
-                                    <div className="squareftcontainer">
-                                        <img className="squareft" src={`${process.env.PUBLIC_URL}/squareft.png`} alt="Square Ft" />
-                                        20 sq m
-                                    </div>
-                                    <div className="bedcontainer">
-                                        <img className="bed" src={`${process.env.PUBLIC_URL}/bed.png`} alt="Bed" />
-                                        {room.roomDescription}
-                                    </div>
-                                    <div>
-                                        <div className="Price">Price of Room: {room.price}</div>
-                                        <div className="NoOfRoom">1 room</div>
-                                        <div className='tax'>includes taxes & fees</div>
-                                    </div>
-                                    <button className="Reserve" onClick={()=>handleReserveClick(room)}>Reserve</button>
-                                </div>
-                            ))}
-                        </div>
+                        <HotelDetailCard filteredRooms={filteredRooms}/>
                     </div>
                 </div>
             )}

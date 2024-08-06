@@ -9,9 +9,10 @@ import LocalBarIcon from '@mui/icons-material/LocalBar';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import RoomServiceIcon from '@mui/icons-material/RoomService';
 import LockIcon from '@mui/icons-material/Lock';
-import './Amenities.css'
+import WifiIcon from '@mui/icons-material/Wifi';
+import './Amenities.css';
 
-function Amenities({ amenities }) {
+function Amenities({ amenities, HotelDetailCard }) {
   const amenitiesIconMap = {
     dryCleaning: { text: 'Dry Cleaning', component: <DryCleaningIcon /> },
     airConditioning: { text: 'Air Conditioning', component: <AcUnitIcon /> },
@@ -23,12 +24,22 @@ function Amenities({ amenities }) {
     tVInRoom: { text: 'TV', component: <TvIcon /> },
     outdoorPool: { text: 'Pool', component: <PoolIcon /> },
     smokeFree: { text: 'Smoke Free', component: <SmokeFreeIcon /> },
+    'Free WiFi': { text: 'Free Wifi', component: <WifiIcon /> },
+    'Non-Smoking': { text: 'Non-Smoking', component: <SmokeFreeIcon /> },
+    'Air conditioning': { text: 'Air Conditioning', component: <AcUnitIcon /> },
+    'Television': { text: 'Television', component: <TvIcon /> },
+    'Room service (24 hours)': { text: '24/7 Room Service', component: <RoomServiceIcon /> }
   };
 
-  const amenityKeys = Object.keys(amenities);
+  let amenityKeys;
+  if (!HotelDetailCard){
+    amenityKeys = Object.keys(amenities);
+  } else {
+    amenityKeys = amenities;
+  }
 
   return (
-    <div className="amenities-bar">
+    <div className={`amenities-bar ${HotelDetailCard ? 'single-column' : ''}`}>
       {amenityKeys
         .filter((key) => amenitiesIconMap[key])
         .map((key, index) => (
