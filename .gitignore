@@ -1,0 +1,13 @@
+# Node modules
+node_modules/
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+
+# Example code
+cypress/e2e/1-getting-started
+cypress/e2e/2-advanced-examples
+
+# Environment-specific files
+.env

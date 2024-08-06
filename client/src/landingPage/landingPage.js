@@ -118,7 +118,7 @@ const LandingPage = () => {
     <div className='LandingPage'>
       <PageHeader />
       <h2>Your Perfect Stay, A Click Away!</h2>
-      <SearchBar />
+      <SearchBar id="search-bar"/>
       <div className='hotel-container'>
       <div className='heading'>Top Destinations</div>
       <Slider {...topDestSliderSettings} className='slider-grid'>
@@ -179,7 +179,7 @@ const LandingPage = () => {
               : 'defaultImage.jpg';
 
             return (
-              <Card sx={{ maxWidth: 405}} key={item.hotel.id}>
+              <Card sx={{ maxWidth: 405}} key={item.hotel.id} data-cy={`hotel-card-${item.hotel.id}`}>
                 <Link to={`/hotel/${item.hotel.id}`} style={{ textDecoration: 'none', color:'black'}}>
                   <CardActionArea>
                     <CardMedia
