@@ -172,12 +172,12 @@ async function stripeWebhook(req, res, next) {
             break;
             
         case 'refund.created':
-            const refund = stripeEvent.data.object;
+            const refund = event.data.object;
             console.log('Refund Created:', refund);
             break;
 
         case 'refund.updated':
-            const updatedRefund = stripeEvent.data.object;
+            const updatedRefund = event.data.object;
             console.log('Refund Updated:', updatedRefund);
             // Update the database with refund details (WIP)
             break;

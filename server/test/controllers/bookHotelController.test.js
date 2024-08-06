@@ -23,7 +23,6 @@ app.use('/booking', bookingRouter);
 jest.mock('../../src/models/db.js', () => require('../dbTest.js')); // Use mock db connection
 
 // Mock Stripe
-//jest.mock('stripe');
 const mockSession = { id: 'sess_123', url: 'https://checkout.stripe.com/pay/cs_test_123' };
 jest.mock('stripe', () => {
     return jest.fn().mockImplementation(() => ({
@@ -34,9 +33,13 @@ jest.mock('stripe', () => {
         },
         paymentIntents: {
             update: jest.fn().mockResolvedValue({latest_charge: 'paymentIdTest'})
-        }
+        },
+        refunds: {
+            create: jest.fn().mockResolvedValue({status: 'succeeded'})
+        } 
     }));
 });
+
 
 // Mock email sending
 jest.mock('../../src/controllers/sendEmailController');
@@ -63,7 +66,7 @@ describe("Book Hotel API Integration Tests", () => {
     afterAll(async () => {
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
-        await db.cleanup();
+        await db.cleanup(); // tearsdown the test booking table and closes db connection
     });
 
     describe("GET /booking/view/:id", () => {
@@ -138,6 +141,11 @@ describe("Book Hotel API Integration Tests", () => {
             // Verify that status has indeed changed in db
             viewRes = await request(app).get(`/booking/view/${bookingId}`);
             expect(viewRes.body.status).toBe('cancelled'); // Confirm that booking is now set to 'cancelled'
+
+            // Cleanup: set booking (bookingId=1) back to 'confirmed'
+            await updateBookingStatus(bookingId, 'confirmed');
+            viewRes = await request(app).get(`/booking/view/${bookingId}`);
+            expect(viewRes.body.status).toBe('confirmed');
         });
 
         test("should receive failure response if booking cannot be found", async () => {
@@ -269,31 +277,74 @@ describe("Book Hotel API Integration Tests", () => {
             expect(consoleLogSpy).toHaveBeenCalledWith({...sessionDetails.data.object, receipt_email: process.env.MAIL_USER});
         });
 
-        // test("refund created event should log refund message", async () => {
-        //     const sessionDetails = {...mockData, type: 'refund.created'};
-        //     const res = await request(app)
-        //         .post('/booking/webhook')
-        //         .send(sessionDetails); 
+        test("refund created event should log refund message", async () => {
+            const sessionDetails = {...mockData, type: 'refund.created'};
+            const res = await request(app)
+                .post('/booking/webhook')
+                .send(sessionDetails); 
 
-        //     expect(consoleLogSpy).toHaveBeenCalledWith({...sessionDetails.data.object, receipt_email: process.env.MAIL_USER});
-        // });
+            expect(consoleLogSpy).toHaveBeenCalledWith('Refund Created:', sessionDetails.data.object);
+        });
 
-        // test("refund updated event should log refund updated message", async () => {
-        //     const sessionDetails = {...mockData, type: 'refund.updated'};
-        //     const res = await request(app)
-        //         .post('/booking/webhook')
-        //         .send(sessionDetails); 
+        test("refund updated event should log refund updated message", async () => {
+            const sessionDetails = {...mockData, type: 'refund.updated'};
+            const res = await request(app)
+                .post('/booking/webhook')
+                .send(sessionDetails); 
 
-        //     expect(consoleLogSpy).toHaveBeenCalledWith('Refund updated:', sessionDetails.data.object);
-        // });
+            expect(consoleLogSpy).toHaveBeenCalledWith('Refund Updated:', sessionDetails.data.object);
+        });
 
     });
 
-    // describe("POST /booking/refund/:bookingId/:paymentId", () => {
-    //     test("test", async () => {
+    describe("POST /booking/refund/:bookingId/:paymentId", () => {
+        test("successfully process refund", async () => {
+            const bookingId = '1'; // entry in test booking table
+            const paymentId = '456';
 
-    //     });
-    // });
+            // Show that booking with id 1 has status 'confirmed' at first 
+            let viewRes = await request(app).get(`/booking/view/${bookingId}`);
+            expect(viewRes.body.status).toBe('confirmed');
+
+            // Mock ascenda API response (for fetchHotel call)
+            const mockHotelData = {
+                id: '444',
+                name: 'Special Hotel',
+                latitude: 1.2345,
+                longitude: 6.7890,
+                address: '123 Test St',
+                rating: 4.5,
+                categories: ['Luxury'],
+                description: 'A test hotel',
+                amenities: ['WiFi', 'Pool'],
+                image_details: { url: 'http://test.com/image.jpg' }
+            };
+            axios.get.mockResolvedValue({ data: mockHotelData });
+
+            // Test refund endpoint
+            const res = await request(app)
+                .post(`/booking/refund/${bookingId}/${paymentId}`);
+
+            // Refund successful - the booking's status should be cancelled from db
+            expect(axios.get).toHaveBeenCalledWith(`http://localhost:5000/booking/cancel/${bookingId}`);
+            // Because axios is being mocked right now, we manually call cancel booking end point
+            const cancelRes = await request(app).get(`/booking/cancel/${bookingId}`);
+            expect(cancelRes.statusCode).toBe(200);
+            expect(cancelRes.text).toBe("Success: booking cancelled"); // Already tested in previous tests, can assume that booking is now set to 'cancelled'
+            // Confirm that booking is now set to 'cancelled'
+            viewRes = await request(app).get(`/booking/view/${bookingId}`);
+            expect(viewRes.body.status).toBe('cancelled');
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toEqual({ success: true });
+
+            // Cleanup: set booking back to 'confirmed'
+            await updateBookingStatus(bookingId, 'confirmed');
+            viewRes = await request(app).get(`/booking/view/${bookingId}`);
+            expect(viewRes.body.status).toBe('confirmed');
+            
+        });
+    });
 
 });
 
