@@ -12,30 +12,12 @@ import { LinearProgress } from '@mui/material';
 import HotelDetailCard from './hotelDetailCard/HotelDetailCard';
 
 function HotelDetailPage() {
-<<<<<<< HEAD
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const handleReserveClick = (room) => {
-        const dataToPass = { hotel, room, dates, guests };
-        navigate('/details', { state: dataToPass });
-    const handleReserveClick = (room) => {
-        const dataToPass = { hotel, room, dates, guests };
-        navigate('/details', { state: dataToPass });
-    };
-
-=======
     const { id } = useParams();  
->>>>>>> 385258db3eb5df233dec209a5951f7ee602e7efd
     const [hotel, setHotel] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showMore, setShowMore] = useState(false);
     const [filter, setFilter] = useState('All'); // State for room filter
-    const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });
-    const [dates, setDates] = useState({
-        startDate: new Date('2024-10-01'),
-        endDate: new Date('2024-10-07')
-    });
     const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });
     const [dates, setDates] = useState({
         startDate: new Date('2024-10-01'),
@@ -148,43 +130,7 @@ function HotelDetailPage() {
                             <button className={`FilterButton ${filter === 'Deluxe' ? 'active' : ''}`} onClick={() => setFilter('Deluxe')}>Deluxe</button>
                             <button className={`FilterButton ${filter === 'Premier' ? 'active' : ''}`} onClick={() => setFilter('Premier')}>Premier</button>
                         </div>
-<<<<<<< HEAD
-                        {/* New container for all rooms */}
-                        <div className="AllRoomsContainer">
-                            {filteredRooms.map((room, index) => (
-                                <div key={index} className={`Room${index + 1}`}>
-                                    <img className="Onsuite" src={`${process.env.PUBLIC_URL}/bedroom1.jpg`} alt={room.roomDescription} />
-                                    <div className="RoomDetail">{room.roomDescription}</div>
-                                    <div className="wificontainer">
-                                        <img className="wifi" src={`${process.env.PUBLIC_URL}/wifi.png`} alt="Free Wifi" />
-                                        Free Wifi
-                                    </div>
-                                    <div className="citycontainer">
-                                        <img className="cityview" src={`${process.env.PUBLIC_URL}/city.png`} alt="City View" />
-                                        City View
-                                    </div>
-                                    <div className="squareftcontainer">
-                                        <img className="squareft" src={`${process.env.PUBLIC_URL}/squareft.png`} alt="Square Ft" />
-                                        20 sq m
-                                    </div>
-                                    <div className="bedcontainer">
-                                        <img className="bed" src={`${process.env.PUBLIC_URL}/bed.png`} alt="Bed" />
-                                        {room.roomDescription}
-                                    </div>
-                                    <div>
-                                        <div className="Price">Price of Room: {room.price}</div>
-                                        <div className="NoOfRoom">1 room</div>
-                                        <div className='tax'>includes taxes & fees</div>
-                                    </div>
-                                    <button className="Reserve" onClick={()=>handleReserveClick(room)}>Reserve</button>
-                                </div>
-                            ))}
-                        </div>
-                            ))}
-                        </div>
-=======
                         <HotelDetailCard filteredRooms={filteredRooms} hotel={hotel} dates={dates} guests={guests}/>
->>>>>>> 385258db3eb5df233dec209a5951f7ee602e7efd
                     </div>
                 </div>
             )}
