@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import Slider from 'react-slick';
+import UserSelect from '../pageHeader/UserSelect.js';
 import LinearProgress from '@mui/material/LinearProgress';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
