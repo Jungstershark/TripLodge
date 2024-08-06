@@ -4,7 +4,6 @@ import SearchBar from "../searchBar/searchBar";
 import RoomSearchBar from "./RoomSearchBar";
 import { useNavigate, useParams } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
-import axios from 'axios';
 import './hotelDetailPage.css';
 
 function HotelDetailPage() {
@@ -34,11 +33,18 @@ function HotelDetailPage() {
 
             try {
                 console.log('Fetching hotel...');
-                const response = await axios.post(url, data);
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
                 setLoading(false);
-                console.log('Response data:', response.data.hotel);
-                console.log('Response data:', response.data.rooms);
-                setHotel({ ...response.data.hotel, rooms: response.data.rooms });
+                console.log('Response data:', result.hotel);
+                console.log('Response data:', result.rooms);
+                setHotel({ ...result.hotel, rooms: result.rooms });
             } catch (error) {
                 console.error('Error fetching hotel:', error);
                 setError('Failed to load hotel.');
