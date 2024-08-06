@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PageHeader from "../pageHeader/pageHeader";
 import CurrentPage from "../SharedContent/currentPage";
@@ -9,6 +10,7 @@ import "./yourDetail.css";
 
 function YourDetail() {
     const location = useLocation();
+    const navigate = useNavigate();
     const { hotel, room, dates, guests } = location.state || {};
 
     const [customerDetails, setCustomerDetails] = useState({
@@ -59,7 +61,7 @@ function YourDetail() {
 
         try {
             console.log("button clicked");
-            const response = await axios.post('/checkout/create-session-token', body);
+            const response = await axios.post('/booking/checkout', body);
             const session = response.data;
             if (session.url) {
                 window.location.href = session.url; // Redirect to the Stripe checkout page
@@ -85,7 +87,8 @@ function YourDetail() {
     };
 
     if (!hotel || !room || !dates) {
-        return <div className="Error">Error: Missing booking details.</div>;
+        navigate("/");
+        return <></>
     }
 
     const pricecalculation = (price) => {
