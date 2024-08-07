@@ -4,13 +4,12 @@ import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/mate
 import { Rating } from '@mui/material';
 
 const HotelCard = ({ hotel, hotelImage, destinationId, checkin, checkout, guests }) => {
-  console.log("I am displaying hotel here", hotel);
   const navigate = useNavigate();
 
   const handleCheckAvailability = () => {
-    console.log("I am displaying hotel here", hotel);
-    console.log("This is for the testing", hotel.hotel.id);
-    console.log(`Navigating to /hotel/${hotel.hotel.id}`); // Debugging log
+    // console.log("I am displaying hotel here", hotel);
+    // console.log("This is for the testing", hotel.hotel.id);
+    // console.log(`Navigating to /hotel/${hotel.hotel.id}`); // Debugging log
 
     navigate(`/hotel/${hotel.hotel.id}`, {
       state: { destinationId, checkin, checkout, guests }

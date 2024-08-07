@@ -13,6 +13,21 @@ function YourDetail() {
     const navigate = useNavigate();
     const { hotel, room, dates, guests } = location.state || {};
 
+    function getNumberOfNights(startDateString, endDateString) {
+        // Create Date objects from date strings
+        const start = new Date(startDateString);
+        const end = new Date(endDateString);
+    
+        // Calculate the difference in milliseconds
+        const differenceInTime = end.getTime() - start.getTime();
+    
+        // Convert milliseconds to days
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    
+        // Return the difference as an integer
+        return Math.floor(differenceInDays);
+    }
+
     const [customerDetails, setCustomerDetails] = useState({
         firstName: '',
         lastName: '',
@@ -44,16 +59,16 @@ function YourDetail() {
                 hotelName: hotel.name,
                 hotelId: hotel.id,
                 roomKey: room.key,
-                customerId: 'exampleId', // Replace with actual data source
-                numberOfNights: dates.numberOfNights,
-                startDate: dates.startDate,
-                endDate: dates.endDate,
+                customerId: null, 
+                numberOfNights: getNumberOfNights(dates.checkin, dates.checkout),
+                startDate: dates.checkin,
+                endDate: dates.checkout,
                 numAdults: guests.adults,
                 numChildren: guests.children,
-                msgToHotel: 'No special requests',
+                msgToHotel: '',
                 roomTypes: room.type,
                 price: room.price,
-                guestSalutation: 'Mr.', // Replace with actual data source
+                guestSalutation: '',
                 guestFirstName: customerDetails.firstName,
                 guestLastName: customerDetails.lastName
             }
@@ -118,7 +133,7 @@ function YourDetail() {
                     <div className="CheckIn">
                         <div>Check-In</div>
                         <div className="CheckInDate">
-                            <h3>{formatDate(dates.startDate)}</h3>
+                            <h3>{formatDate(dates.checkin)}</h3>
                         </div>
                         <div>From 08:00</div>
                     </div>
@@ -126,7 +141,7 @@ function YourDetail() {
                     <div className="CheckOut">
                         <div>Check-Out</div>
                         <div className="CheckOutDate">
-                            <h3>{formatDate(dates.endDate)}</h3>
+                            <h3>{formatDate(dates.checkout)}</h3>
                         </div>
                         <div>Until 12:00</div>
                     </div>
