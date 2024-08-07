@@ -67,6 +67,5 @@
     "babel-jest": "^29.7.0",
     "jest": "^27.5.1",
     "supertest": "^7.0.0"
-  },
-  "type": "module"
+  }
 }
