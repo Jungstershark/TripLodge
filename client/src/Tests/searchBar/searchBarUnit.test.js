@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import SearchBar, { formatGuests } from './SearchBar';
+import SearchBar, { formatGuests } from '../../searchBar/searchBar.js';
 
 describe('SearchBar Component', () => {
   it('renders the search bar components correctly', () => {
