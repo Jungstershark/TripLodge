@@ -1,15 +1,15 @@
-// import React from 'react';
-// import { render, screen, fireEvent } from '@testing-library/react';
-// import '@testing-library/jest-dom/extend-expect';
-// import PaymentMethod from '../../PaymentMethod/paymentMethod.js';
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import PaymentMethod from '../../PaymentMethod/paymentMethod.js';
 
-// describe('PaymentMethod Component', () => {
-//   test('renders Credit/Debit Card and PayNow/PayLah options', () => {
-//     render(<PaymentMethod />);
+describe('PaymentMethod Component', () => {
+  test('renders Credit/Debit Card and PayNow/PayLah options', () => {
+    render(<PaymentMethod />);
 
-//     expect(screen.getByLabelText(/Credit\/Debit Card/i)).toBeInTheDocument();
-//     expect(screen.getByLabelText(/PayNow\/PayLah/i)).toBeInTheDocument();
-//   });
+    expect(screen.getByLabelText(/Credit\/Debit Card/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/PayNow\/PayLah/i)).toBeInTheDocument();
+  });
 
 //   test('renders CreditCard component when Credit/Debit Card is selected', () => {
 //     render(<PaymentMethod />);
@@ -38,4 +38,4 @@
 //     expect(creditCardImage).toBeInTheDocument();
 //     expect(payNowImage).toBeInTheDocument();
 //   });
-// });
+});

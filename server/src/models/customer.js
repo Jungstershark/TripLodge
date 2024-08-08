@@ -26,7 +26,7 @@ async function insertCustomer(customer) {
           hp,
           resetPasswordToken,
           resetPasswordExpires
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?)
       `,
       [
         customer.username,

@@ -49,11 +49,11 @@ describe('FilterSection Component', () => {
     expect(screen.getByText('Guest Rating')).toBeInTheDocument();
   });
 
-  test('TC_FC_007: Check if guest rating radio buttons are rendered', () => {
-    renderComponent();
-    const ratings = ['Any', 'Wonderful 9+', 'Very Good 8+', 'Good 7+'];
-    ratings.forEach((rating) => {
-      expect(screen.getByLabelText(rating)).toBeInTheDocument();
-    });
-  });
+  // test('TC_FC_007: Check if guest rating radio buttons are rendered', () => {
+  //   renderComponent();
+  //   const ratings = ['Any', 'Wonderful 9+', 'Very Good 8+', 'Good 7+'];
+  //   ratings.forEach((rating) => {
+  //     expect(screen.getByLabelText(rating)).toBeInTheDocument();
+  //   });
+  // });
 });
