@@ -1,13 +1,14 @@
 import React from "react";
 import PageHeader from "../pageHeader/pageHeader";
 import './Success.css'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function Success() {
   return (
-    <div>
+    <div className="container">
       <PageHeader/>
       <div className="Success">
-        <img className="greentick" src={process.env.PUBLIC_URL + "../images.png"} alt="Error displaying logo"></img>
+        <CheckCircleIcon fontSize="large" sx={{ color: "#50C878" }}/>
         <h1 className="BookingSuccess">Booking Successfull</h1>
         <div className="BookingInformation">We have sent your booking information to your email adress</div>
       </div>

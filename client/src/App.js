@@ -41,8 +41,7 @@
           <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/hotelSearch" element={<HotelSearch />} />
-              <Route path="/details" element={<YourDetail />} />
-              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout" element={<YourDetail />} />
               <Route path="/success" element={<Success />} />
               <Route path="/cancel" element={<Cancel />} />
               <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />

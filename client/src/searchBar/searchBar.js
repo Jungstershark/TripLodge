@@ -1,3 +1,4 @@
+// searchBar.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './searchBar.css';
@@ -5,6 +6,17 @@ import DestinationSearch from './destinationSearch/destinationSearch';
 import DateRangePickerComponent from './datePicker/datePicker';
 import GuestInput from './guestInput/guestInput';
 import SearchIcon from '@mui/icons-material/Search';
+
+export const formatGuests = (guests) => {
+  const totalGuests = guests.adults + guests.children;
+  if (totalGuests === 1) {
+    return '1';
+  } else if (guests.rooms === 1) {
+    return `${totalGuests}`;
+  } else {
+    return Array(guests.rooms).fill(totalGuests).join('|');
+  }
+};
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -14,19 +26,8 @@ const SearchBar = () => {
     startDate: new Date(),
     endDate: null,
   });
-  
-  const navigate = useNavigate();
 
-  const formatGuests = (guests) => {
-    const totalGuests = guests.adults + guests.children;
-    if (totalGuests === 1) {
-      return '1';
-    } else if (guests.rooms === 1) {
-      return `${totalGuests}`;
-    } else {
-      return Array(guests.rooms).fill(totalGuests).join('|');
-    }
-  };
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     if (destinationId && dates.startDate && dates.endDate) {

@@ -35,8 +35,12 @@ async function cancelBooking(req, res, next) {
 
     // Step 2: If refund successful (approved), remove booking from database
     try {
-        await updateBookingStatus(id, "cancelled");
-        res.send("Success: booking cancelled");
+        const result = await updateBookingStatus(id, "cancelled");
+        if (result == null) {
+            res.send("Failure: booking cannot be found");
+        } else {
+            res.send("Success: booking cancelled");
+        }
     } catch (error) {
         res.status(500).json({ error: error.message || error });
     }
@@ -103,22 +107,22 @@ async function createBooking(req, res, next) {
 
 async function createStripeCheckout(req, res, next) {
     const session = await stripe.checkout.sessions.create({
-    line_items: [
-        {
-        price_data: {
-            currency: 'sgd',
-            product_data: {
-                name: req.body.bookingInformation.hotelName
-            }, 
-            unit_amount: parseFloat(req.body.bookingInformation.price, 10)*100,
-        },
-        quantity: 1,
-        },
-    ],
-    metadata: req.body.bookingInformation, // metadata must be single object where values are strings (i.e. NO nested objects)
-    mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}/success`,
-    cancel_url: `${process.env.CLIENT_URL}/cancel`,
+        line_items: [
+            {
+            price_data: {
+                currency: 'sgd',
+                product_data: {
+                    name: req.body.bookingInformation.hotelName
+                }, 
+                unit_amount: parseFloat(req.body.bookingInformation.price, 10)*100,
+            },
+            quantity: 1,
+            },
+        ],
+        metadata: req.body.bookingInformation, // metadata must be single object where values are strings (i.e. NO nested objects)
+        mode: 'payment',
+        success_url: `${process.env.CLIENT_URL}/success`,
+        cancel_url: `${process.env.CLIENT_URL}/cancel`,
     });
     // console.log("Receive booking information: ", bookingInformation);
   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -168,12 +172,12 @@ async function stripeWebhook(req, res, next) {
             break;
             
         case 'refund.created':
-            const refund = stripeEvent.data.object;
+            const refund = event.data.object;
             console.log('Refund Created:', refund);
             break;
 
         case 'refund.updated':
-            const updatedRefund = stripeEvent.data.object;
+            const updatedRefund = event.data.object;
             console.log('Refund Updated:', updatedRefund);
             // Update the database with refund details (WIP)
             break;

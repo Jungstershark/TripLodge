@@ -22,6 +22,7 @@
     "dayjs": "^1.11.12",
     "html-react-parser": "^5.1.12",
     "matchmedia-polyfill": "^0.3.2",
+    "node-fetch": "^3.3.2",
     "react": "^18.3.1",
     "react-awesome-shapes": "^0.1.12",
     "react-date-range": "^2.0.1",

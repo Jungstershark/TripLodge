@@ -5,6 +5,7 @@ import db from "../../src/models/db.js";
 jest.mock('axios');
 
 // Mock the db module
+// Testing together with actual db (not mocked) is done in integration testing
 jest.mock('../../src/models/db.js', () => ({
     promisedConnectionPool: Promise.resolve({
         query: jest.fn(),
@@ -65,7 +66,8 @@ describe('Booking Model', () => {
                 123, 3, '2023-08-01', '2023-08-04', 2, 1, 'Special request',
                 'Deluxe', 500.00, 'Mr', 'John', 'Doe', 'PAY001', 'PAYEE001'
             );
-    
+            
+            expect(booking).toBeInstanceOf(Booking);
             expect(booking.bookingId).toBe(1);
             expect(booking.status).toBe('confirmed');
             expect(booking.destinationId).toBe('DEST001');

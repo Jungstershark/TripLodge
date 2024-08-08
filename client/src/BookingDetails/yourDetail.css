@@ -7,21 +7,21 @@
     position: relative;
     width: 40px;
     height: 40px;
-    top:-1800px;
+    top:-1822px;
     left: 115px;
 }
 
 .two{
     position: relative;
-    top: -1865px;
-    left: -15px;
+    top: -1888px;
+    left: -110px;
 
 }
 
 .three{
     position: relative;
-    top: -1925px;
-    left: 565px;
+    top: -1949px;
+    left: 471px;
 }
 
 
@@ -94,7 +94,7 @@
 
 .CheckOut{
     position: relative;
-    top: -140px;
+    top: -153px;
     left: 170px;
 
 }

@@ -1,25 +1,28 @@
-.Success{
-    position: relative;
+
+
+.Success {
     border-color: black;
-    padding: 50px;
+    padding: 4rem;
     height: fit-content;
-    width: 600px;
+    width: 37rem;
     text-align: center;
-    box-shadow:0 4px 8px rgba(0, 0, 0, 0.2);
-    left: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0 auto; /* Center horizontally */
+    position: relative; /* Allow absolute positioning of inner elements */
 }
 
-.greentick{
+.greentick {
     position: relative;
     height: 70px;
     width: 70px;
+    margin: 0 auto; /* Center horizontally */
 }
 
 .BookingSuccess {
     font-size: 24px;
     margin-top: 20px;
-  }
-  
+}
+
 .BookingInformation {
     font-size: 18px;
     margin-top: 10px;

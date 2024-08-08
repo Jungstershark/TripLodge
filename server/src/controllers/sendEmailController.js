@@ -37,8 +37,13 @@ async function sendBookingConfirmationEmail(booking, hotel, customerEmailAddress
     `
   }
 
-  let info = await transporter.sendMail(mailOptions);
-  console.log('Email sent: %s', info.messageId);
+  try {
+    let info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: %s', info.messageId);
+  } catch (error) {
+    console.error("Failed to send booking confirmation email: " + error);
+    throw error;
+  }
 }
 
 async function sendCancelBookingEmail(booking, hotel, customerEmailAddress) {
@@ -65,8 +70,13 @@ async function sendCancelBookingEmail(booking, hotel, customerEmailAddress) {
     `
   }
 
-  let info = await transporter.sendMail(mailOptions);
-  console.log('Email sent: %s', info.messageId);
+  try {
+    let info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: %s', info.messageId);
+  } catch (error) {
+    console.error("Failed to send booking confirmation email: " + error);
+    throw error;
+  }
 }
 
 export { sendBookingConfirmationEmail, sendCancelBookingEmail };

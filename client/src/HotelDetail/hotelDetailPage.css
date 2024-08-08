@@ -1,6 +1,6 @@
 .HotelDetailPage{
     overflow:hidden;
-    height: 280vh;
+    height: 200vh;
 }
 
 .HotelImageContainer{
@@ -208,6 +208,7 @@
 .ChooseYourRoom{
     position: relative;
     margin-top: 6rem;
+    margin-bottom: rem;
     width: fit-content;
     height: fit-content;
 }
@@ -266,11 +267,9 @@
 }
 
 .Onsuite,.NormalRoom,.QueenBed{
-    width: 350px;
-    height: 200px;
-    padding-bottom: 20px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;  
+    width: 20rem;
+    height: 14rem;
+    margin-bottom: 2rem;
 }
 
 

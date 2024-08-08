@@ -1,13 +1,12 @@
 .LandingPage {
     overflow: hidden;
-    height: 160vh;
+    height: 125vh;
 }
 
 h2{
     color: #846489;
     font-size: 32px;
     text-align:center;
-    padding-top: 2rem;
     padding-bottom: 0.5rem;
 }
 
@@ -20,8 +19,8 @@ h2{
 
 .hotel-container{
     margin-top: 1rem;
-    padding-left: 23rem;
-    padding-right: 23rem;
+    padding-left: 18rem;
+    padding-right: 18rem;
 }
 
 /* Centering the loading content */
