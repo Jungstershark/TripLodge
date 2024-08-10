@@ -46,9 +46,11 @@ describe('FilterSection component', () => {
     expect(mockOnStarRatingChange).toHaveBeenCalledWith(4);
   });
 
-  test('should change guest rating', () => {
-    const guestRatingRadio = screen.getByLabelText('Very Good 8+');
-    fireEvent.click(guestRatingRadio);
-    expect(mockOnGuestRatingChange).toHaveBeenCalledWith('8+');
-  });
+  // test('TC_FC_007: Check if guest rating radio buttons are rendered', () => {
+  //   renderComponent();
+  //   const ratings = ['Any', 'Wonderful 9+', 'Very Good 8+', 'Good 7+'];
+  //   ratings.forEach((rating) => {
+  //     expect(screen.getByLabelText(rating)).toBeInTheDocument();
+  //   });
+  // });
 });

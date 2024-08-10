@@ -50,7 +50,9 @@ export const register = async (req, res) => {
       hp
     };
 
-    await insertCustomer(newUser);
+    const customerId = await insertCustomer(newUser);
+    newUser.customerId = customerId;
+    
     const token = jwt.sign({ userId: newUser.customerId }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(201).json({ success: true, token, userId: newUser.customerId, username: newUser.username });
   } catch (err) {

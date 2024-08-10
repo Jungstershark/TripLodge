@@ -43,7 +43,8 @@ CREATE TABLE Booking (
 INSERT INTO Customer (username, email, password, hp) VALUES
 ('alice_wonder', 'alice@example.com', 'password123', '555-0001'),
 ('bob_builder', 'bob@example.com', '$2a$10$jpTFYBb3vJO161vIPTzyMOEahx0rlp/M4Kety9Q9P3JQW1rtmWqq.', '555-0002'),
-('carol_jones', 'carol@example.com', 'password789', '555-0003');
+('carol_jones', 'carol@example.com', 'password789', '555-0003'),
+('test_user', '50.003.c4g1@gmail.com ', '$2a$10$2Dwyy1XtOFfGADjmnUiXIePL5lmw9S1NM7itpripzgVj1CncS5LR6', '12345678');
 
 -- Insert sample data into the Booking table
 INSERT INTO Booking (status, destinationId, hotelName, hotelId, roomKey, customerId, numberOfNights, startDate, endDate, numAdults, numChildren, msgToHotel, roomTypes, price, guestSalutation, guestFirstName, guestLastName, paymentId, payeeId) VALUES
