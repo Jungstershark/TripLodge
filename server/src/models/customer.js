@@ -17,20 +17,18 @@ class Customer {
 async function insertCustomer(customer) {
   try {
     const pool = await db.promisedConnectionPool;
-    const [rows] = await pool.query(
+    const [result] = await pool.query(
       `
         INSERT INTO ${tableName} (
-          customerId, 
           username, 
           email, 
           password, 
           hp,
           resetPasswordToken,
           resetPasswordExpires
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?)
       `,
       [
-        customer.customerId,
         customer.username,
         customer.email,
         customer.password,
@@ -39,6 +37,7 @@ async function insertCustomer(customer) {
         customer.resetPasswordExpires
       ]
     );
+    return result.insertId; // return customerId (auto-increment primary key)
   } catch (error) {
     console.error('Database connection failed:', error);
     throw error;

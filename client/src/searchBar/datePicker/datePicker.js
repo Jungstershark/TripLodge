@@ -1,4 +1,3 @@
-// datePicker.js
 import React, { useState } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import { format } from 'date-fns';
@@ -28,23 +27,26 @@ const DateRangePickerComponent = ({ dates, setDates }) => {
   return (
     <div className="date-range-picker input-icon-container">
       <input
+        id="date-input"
         type="text"
         value={formattedDate}
         readOnly
         onClick={() => setShowCalendar(!showCalendar)}
         className="date-picker-input"
       />
-      <CalendarMonthIcon className="input-icon"/>
+      <CalendarMonthIcon className="input-icon" id="calendar-icon"/>
       {showCalendar && (
-        <div className="calendar-container">
+        <div className="calendar-container" id="calendar-container">
           <DateRangePicker
             ranges={[selectionRange]}
             onChange={handleSelect}
             moveRangeOnFirstSelection={false}
             className="calendar-element"
+            id="date-range-picker"
           />
           <button
             className="apply-button"
+            id="apply-button"
             onClick={() => setShowCalendar(false)}
           >
             Apply

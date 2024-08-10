@@ -7,7 +7,18 @@ import DateRangePickerComponent from './datePicker/datePicker';
 import GuestInput from './guestInput/guestInput';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = ({id}) => {
+export const formatGuests = (guests) => {
+  const totalGuests = guests.adults + guests.children;
+  if (totalGuests === 1) {
+    return '1';
+  } else if (guests.rooms === 1) {
+    return `${totalGuests}`;
+  } else {
+    return Array(guests.rooms).fill(totalGuests).join('|');
+  }
+};
+
+const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [destinationId, setDestinationId] = useState(null);
   const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });
@@ -15,19 +26,8 @@ const SearchBar = ({id}) => {
     startDate: new Date(),
     endDate: null,
   });
-  
-  const navigate = useNavigate();
 
-  const formatGuests = (guests) => {
-    const totalGuests = guests.adults + guests.children;
-    if (totalGuests === 1) {
-      return '1';
-    } else if (guests.rooms === 1) {
-      return `${totalGuests}`;
-    } else {
-      return Array(guests.rooms).fill(totalGuests).join('|');
-    }
-  };
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     if (destinationId && dates.startDate && dates.endDate) {

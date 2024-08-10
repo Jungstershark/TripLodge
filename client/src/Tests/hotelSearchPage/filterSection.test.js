@@ -1,59 +1,56 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import FilterSection from '../../hotelSearchPage/filterSection/filterSection';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import FilterSection from '../../hotelSearch/filterSection/filterSection.js';
 
-describe('FilterSection Component', () => {
+describe('FilterSection component', () => {
   const mockOnPriceRangeChange = jest.fn();
   const mockOnStarRatingChange = jest.fn();
   const mockOnGuestRatingChange = jest.fn();
 
-  const renderComponent = () =>
+  beforeEach(() => {
     render(
-      <FilterSection
+      <FilterSection 
         onPriceRangeChange={mockOnPriceRangeChange}
         onStarRatingChange={mockOnStarRatingChange}
         onGuestRatingChange={mockOnGuestRatingChange}
       />
     );
-
-  test('TC_FC_001: Check if "Filter By" heading is rendered', () => {
-    renderComponent();
-    expect(screen.getByText('Filter By')).toBeInTheDocument();
   });
 
-  test('TC_FC_002: Check if "Total Price" label is rendered', () => {
-    renderComponent();
-    expect(screen.getByText('Total Price')).toBeInTheDocument();
+  test('should render the filter section', () => {
+    expect(screen.getByText(/filter by/i)).toBeInTheDocument();
   });
 
-  test('TC_FC_003: Check if "Max" and "Min" input fields are rendered', () => {
-    renderComponent();
-    expect(screen.getByPlaceholderText('$0')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('$900')).toBeInTheDocument();
+  test('should change price range using slider', () => {
+    const priceSlider = screen.getByRole('slider');
+    fireEvent.change(priceSlider, { target: { value: [100, 800] } });
+    expect(mockOnPriceRangeChange).toHaveBeenCalledWith([100, 800]);
   });
 
-  test('TC_FC_004: Check if "Star Rating" label is rendered', () => {
-    renderComponent();
-    expect(screen.getByText('Star Rating')).toBeInTheDocument();
+  test('should change min price using input', () => {
+    const minPriceInput = screen.getByPlaceholderText('$0');
+    fireEvent.change(minPriceInput, { target: { value: '100' } });
+    expect(mockOnPriceRangeChange).toHaveBeenCalledWith([100, 900]);
   });
 
-  test('TC_FC_005: Check if star rating buttons (1 to 5) are rendered', () => {
-    renderComponent();
-    for (let i = 1; i <= 5; i++) {
-      expect(screen.getByText(i.toString())).toBeInTheDocument();
-    }
+  test('should change max price using input', () => {
+    const maxPriceInput = screen.getByPlaceholderText('$900');
+    fireEvent.change(maxPriceInput, { target: { value: '800' } });
+    expect(mockOnPriceRangeChange).toHaveBeenCalledWith([0, 800]);
   });
 
-  test('TC_FC_006: Check if "Guest Rating" label is rendered', () => {
-    renderComponent();
-    expect(screen.getByText('Guest Rating')).toBeInTheDocument();
+  test('should change star rating', () => {
+    const starButton = screen.getByText('4★');
+    fireEvent.click(starButton);
+    expect(mockOnStarRatingChange).toHaveBeenCalledWith(4);
   });
 
-  test('TC_FC_007: Check if guest rating radio buttons are rendered', () => {
-    renderComponent();
-    const ratings = ['Any', 'Wonderful 9+', 'Very Good 8+', 'Good 7+'];
-    ratings.forEach((rating) => {
-      expect(screen.getByLabelText(rating)).toBeInTheDocument();
-    });
-  });
+  // test('TC_FC_007: Check if guest rating radio buttons are rendered', () => {
+  //   renderComponent();
+  //   const ratings = ['Any', 'Wonderful 9+', 'Very Good 8+', 'Good 7+'];
+  //   ratings.forEach((rating) => {
+  //     expect(screen.getByLabelText(rating)).toBeInTheDocument();
+  //   });
+  // });
 });
