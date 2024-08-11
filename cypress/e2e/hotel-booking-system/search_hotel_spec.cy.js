@@ -54,7 +54,7 @@ describe('Search Hotel Use Case', () => {
 
     cy.get('.star-rating button').contains('5').click();
 
-    cy.wait(3000);
+    cy.wait(5000);
 
     // Step 7: System retrieves list of filtered matching hotels
     // Step 8: System displays list of filtered matching hotels

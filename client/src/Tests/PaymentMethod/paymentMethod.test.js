@@ -11,26 +11,32 @@ describe('PaymentMethod Component', () => {
     expect(screen.getByLabelText(/PayNow\/PayLah/i)).toBeInTheDocument();
   });
 
-//   test('renders CreditCard component when Credit/Debit Card is selected', () => {
-//     render(<PaymentMethod />);
+  test('renders CreditCard component when Credit/Debit Card is selected', () => {
+    render(<PaymentMethod />);
 
-//     const creditCardRadio = screen.getByLabelText(/Credit\/Debit Card/i);
-//     fireEvent.click(creditCardRadio);
+    const creditCardRadio = screen.getByLabelText(/Credit\/Debit Card/i);
 
-//     expect(screen.getByText(/Credit Card Form/i)).toBeInTheDocument(); // Assuming "Credit Card Form" text exists in the CreditCard component
-//   });
+    act(() => {
+      fireEvent.click(creditCardRadio);
+    });
 
-//   test('renders PayNow component when PayNow/PayLah is selected', () => {
-//     render(<PaymentMethod />);
+    expect(screen.getByText(/Credit Card Form/i)).toBeInTheDocument(); // Assuming "Credit Card Form" text exists in the CreditCard component
+  });
 
-//     const payNowRadio = screen.getByLabelText(/PayNow\/PayLah/i);
-//     fireEvent.click(payNowRadio);
+  test('renders PayNow component when PayNow/PayLah is selected', () => {
+    render(<PaymentMethod />);
 
-//     expect(screen.getByText(/PayNow Form/i)).toBeInTheDocument(); // Assuming "PayNow Form" text exists in the PayNow component
-//   });
+    const payNowRadio = screen.getByLabelText(/PayNow\/PayLah/i);
 
-//   test('images have correct alt text', () => {
-//     render(<PaymentMethod />);
+    act(() => {
+      fireEvent.click(payNowRadio);
+    });
+
+    expect(screen.getByText(/PayNow Form/i)).toBeInTheDocument(); // Assuming "PayNow Form" text exists in the PayNow component
+  });
+
+  test('images have correct alt text', () => {
+    render(<PaymentMethod />);
 
 //     const creditCardImage = screen.getByAltText(/Error displaying logo/i);
 //     const payNowImage = screen.getByAltText(/Error displaying logo/i);
