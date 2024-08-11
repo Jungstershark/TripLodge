@@ -157,6 +157,8 @@ async function stripeWebhook(req, res, next) {
                 payeeId
             }
 
+            console.log(combinedBookingInformationForDB);
+
             try {
                 // Send the combined booking information to the createBooking route
                 await axios.post('http://localhost:5000/booking/create', combinedBookingInformationForDB);
