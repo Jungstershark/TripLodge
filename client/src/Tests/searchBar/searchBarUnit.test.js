@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import SearchBar, { formatGuests } from '../../searchBar/searchBar';
+import SearchBar, { getGuestsCount } from '../../searchBar/searchBar';
 
 describe('SearchBar Component', () => {
   // it('renders the search bar components correctly', () => {
@@ -21,9 +21,9 @@ describe('SearchBar Component', () => {
   // });
 
   it('formats guests correctly', () => {
-    expect(formatGuests({ adults: 1, children: 0, rooms: 1 })).toBe('1');
-    expect(formatGuests({ adults: 2, children: 1, rooms: 1 })).toBe('3');
-    expect(formatGuests({ adults: 2, children: 2, rooms: 2 })).toBe('4|4');
+    expect(getGuestsCount({ adults: 1, children: 0, rooms: 1 })).toBe('1');
+    expect(getGuestsCount({ adults: 2, children: 1, rooms: 1 })).toBe('3');
+    expect(getGuestsCount({ adults: 2, children: 2, rooms: 2 })).toBe('4|4');
   });
 });
 

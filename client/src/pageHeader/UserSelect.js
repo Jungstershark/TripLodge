@@ -93,13 +93,7 @@ export default function UserSelect() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-            <MenuItem onClick={() => handleMenuItemClick('updateAccount')} sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            fontSize: '0.875rem',  // Smaller font size
-            }}>
-            <PermIdentityIcon sx={{ fontSize: 20, mr: 1 }} /> Personal Info
-            </MenuItem>
+
             <Divider orientation="vertical" flexItem sx={{  }} />
             <MenuItem onClick={() => handleMenuItemClick('viewBookings')} sx={{ 
             display: 'flex', 
