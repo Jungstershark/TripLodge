@@ -11,7 +11,13 @@ const login = async (email, password) => {
     });
     const data = await response.json();
     if (data.token) {
-      localStorage.setItem('user', JSON.stringify(data));
+      console.log(data.userId)
+      // Save the entire response data to local storage
+      localStorage.setItem('user', JSON.stringify({
+        userId: data.userId,
+        username: data.username,
+        token: data.token,
+      }));
     }
     return data;
   } catch (error) {
@@ -68,11 +74,43 @@ const resetPassword = async (token, password) => {
   }
 };
 
+const authenticateUser = async () => {
+  try {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user && user.token) {
+      const response = await fetch(`${API_URL}verify-token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.message === 'Token is valid') {
+        return {authenticated: true, userId: data.userId};
+      } else {
+        localStorage.removeItem('user');
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Error authenticating user:', error);
+    return false;
+  }
+};
+
+
 const authService = {
   login,
   register,
   forgotPassword,
   resetPassword,
+  authenticateUser
 };
 
 export default authService;

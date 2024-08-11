@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import { findUserByEmail, updateUser, insertCustomer, findUserByToken } from '../models/customer.js';
+import { decode } from 'punycode';
 
 dotenv.config();
 
@@ -137,5 +138,31 @@ export const resetPassword = async (req, res) => {
   } catch (error) {
     console.error('Server error:', error);
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+export const verifyToken = async (req, res) => {
+  const token = req.body.token || req.headers['authorization']?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'No token provided' });
+  }
+
+  try {
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(decoded);
+        }
+      });
+    });
+    console.log(decoded)
+
+    res.status(200).json({ success: true, message: 'Token is valid', userId: decoded.userId });
+  } catch (error) {
+    console.error('Token verification error:', error);
+    res.status(401).json({ success: false, message: 'Invalid or expired token' });
   }
 };

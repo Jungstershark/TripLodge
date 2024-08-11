@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/material';
 import { Rating } from '@mui/material';
 
-const HotelCard = ({ hotel, hotelImage, destinationId, checkin, checkout, guests }) => {
+const HotelCard = ({ hotel, hotelImage, destinationId, checkin, checkout, guests, numAdults, numChildren, numRooms }) => {
   const navigate = useNavigate();
 
   const handleCheckAvailability = () => {
@@ -12,7 +12,7 @@ const HotelCard = ({ hotel, hotelImage, destinationId, checkin, checkout, guests
     // console.log(`Navigating to /hotel/${hotel.hotel.id}`); // Debugging log
 
     navigate(`/hotel/${hotel.hotel.id}`, {
-      state: { destinationId, checkin, checkout, guests }
+      state: { destinationId, checkin, checkout, guests, numAdults, numChildren, numRooms }
     });
   };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import Amenities from '../Amenities/Amenities';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -13,7 +14,7 @@ function HotelDetailCard({ filteredRooms, hotel, dates, guests }) {
 
     const handleReserveClick = (room) => {
         const dataToPass = { hotel, room, dates, guests };
-        console.log(dataToPass);
+        console.log("hehe",dataToPass);
         navigate('/checkout', { state: dataToPass });
     };
 

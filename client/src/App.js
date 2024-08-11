@@ -1,22 +1,3 @@
-  // const sampleProps = {
-  //   hotelName: "The Fullerton Hotel",
-  //   customerEmailAddress: "john.doe@sutd.sg",
-  //   destinationId: "WD0M",
-  //   hotelId: "diH7",
-  //   roomKey: "er-D4BA4388A2DE0E55F420A507ADAC2D99-65404D626BF42BC093C32658D4174A36",
-  //   customerId: null,
-  //   numberOfNights: '6',
-  //   startDate: "2024-10-01",
-  //   endDate: "2024-10-07",
-  //   numAdults: '1',
-  //   numChildren: '1',
-  //   msgToHotel: "Please provide an extra bed.",
-  //   roomTypes: "320753924",
-  //   price: "3525.22",
-  //   guestSalutation: "Mr.",
-  //   guestFirstName: "John",
-  //   guestLastName: "Doe"
-  // };
   import React, { useContext } from 'react';
   import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
   import LandingPage from './landingPage/landingPage';
@@ -32,6 +13,7 @@
   import UserContext, { UserProvider } from './contexts/UserContext';
   import ForgotPassword from './UserAuth/forgotPasswordPage/forgotPasswordPage.js';
   import ResetPassword from './UserAuth/resetPassword/resetPassword.js';
+  import ViewBookings from './ViewBooking/ViewBooking.js';
   
   // Component to handle route-based redirection
   function AppRoutes() {
@@ -49,7 +31,8 @@
               <Route path="/hotel/:id" element={<HotelDetailPage />} />
               <Route path="/cancel-booking" element={<CancelBookingPage />} />
               <Route path="/forgot-password" element={<ForgotPassword/>}/>
-              <Route path="/reset-password/:token" element={<ResetPassword/>}/>
+              <Route path="/reset-password/:token" element={<ResetPassword/>}/>              
+              <Route path="/view-booking" element={<ViewBookings/>}/>              
               <Route path="*" element={<Navigate to="/" />} /> {/* Catch-all route */}
           </Routes>
       );

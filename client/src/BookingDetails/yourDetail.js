@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PageHeader from "../pageHeader/pageHeader";
@@ -6,12 +6,26 @@ import CurrentPage from "../SharedContent/currentPage";
 import CustomerDetail from "./customerDetail";
 import { useLocation } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
+import authService from "../UserAuth/authServices/authServices";
 import "./yourDetail.css";
 
 function YourDetail() {
+    const[userId, setUserId] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
     const { hotel, room, dates, guests } = location.state || {};
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            const result = await authService.authenticateUser();
+            if (result.authenticated) {
+                setUserId(result.userId);
+            } else {
+                navigate("/"); // Redirect to home or login if not authenticated
+            }
+        };
+        fetchUserId();
+    }, [navigate]);
 
     function getNumberOfNights(startDateString, endDateString) {
         // Create Date objects from date strings
@@ -59,7 +73,7 @@ function YourDetail() {
                 hotelName: hotel.name,
                 hotelId: hotel.id,
                 roomKey: room.key,
-                customerId: null, 
+                customerId: userId, 
                 numberOfNights: getNumberOfNights(dates.checkin, dates.checkout),
                 startDate: dates.checkin,
                 endDate: dates.checkout,
@@ -113,6 +127,8 @@ function YourDetail() {
     const tax = (price) => {
         return price - pricecalculation(price);
     };
+
+    console.log(userId);
 
     return (
         <>

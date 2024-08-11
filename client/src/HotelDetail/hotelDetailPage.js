@@ -19,18 +19,20 @@ function HotelDetailPage() {
     const [showMore, setShowMore] = useState(false);
     const [filter, setFilter] = useState('All');
     const [guests, setGuests] = useState({ adults: 1, children: 0, rooms: 1 });
-  const [dates, setDates] = useState({ checkin: '', checkout: '' });
+    const [dates, setDates] = useState({ checkin: '', checkout: '' });
 
   // Extract state from location
   const { state } = location;
   const checkinDate = state?.checkin || formatDate(new Date());
   const checkoutDate = state?.checkout || formatDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
-  const guestsCount = state?.guests || { adults: 1, children: 0, rooms: 1 };
+  const numAdults = state?.numAdults || 1;
+  const numChildren = state?.numChildren || 0;
+  const numRooms = state?.numRooms || 1;
 
   useEffect(() => {
     setDates({ checkin: checkinDate, checkout: checkoutDate });
-    setGuests(guestsCount);
-  }, [checkinDate, checkoutDate, guestsCount]);
+    setGuests({adults: numAdults, children: numChildren, rooms: numRooms});
+  }, [checkinDate, checkoutDate, numAdults, numChildren, numRooms]);
 
     // Format date function
     function formatDate(date) {

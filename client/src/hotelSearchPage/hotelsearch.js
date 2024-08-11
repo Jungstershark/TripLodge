@@ -20,11 +20,10 @@ function HotelSearch() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [noHotels, setNoHotels] = useState(false);
-
   const [priceRange, setPriceRange] = useState([0, 900]);
   const [starRating, setStarRating] = useState(null);
   const [guestRating, setGuestRating] = useState('any');
-
+  const { numRooms, numAdults, numChildren } = location.state || {};
   const observer = useRef();
 
   const fetchHotels = async (page) => {
@@ -178,7 +177,11 @@ function HotelSearch() {
               checkin={checkin}              // Added this line
               checkout={checkout}            // Added this line
               guests={guests}                // Added this line
-              hotelImage={`${item.hotel.imageDetails.prefix}1${item.hotel.imageDetails.suffix}`} />
+              numAdults={numAdults}
+              numChildren={numChildren}
+              numRooms={numRooms}
+              hotelImage={`${item.hotel.imageDetails.prefix}1${item.hotel.imageDetails.suffix}`}
+               />
             ))
           )}
           <div ref={observer} style={{ height: '1px', background: 'transparent' }}></div>

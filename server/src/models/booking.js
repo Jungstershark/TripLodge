@@ -159,7 +159,7 @@ async function findBookingByCustomerId(customerId) {
     );
 
     if (rows.length === 0) {
-      return null; // No booking found
+      return []; // No booking found
     }
 
     const bookings = rows.map(row => {

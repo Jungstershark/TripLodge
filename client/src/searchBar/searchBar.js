@@ -7,7 +7,7 @@ import DateRangePickerComponent from './datePicker/datePicker';
 import GuestInput from './guestInput/guestInput';
 import SearchIcon from '@mui/icons-material/Search';
 
-export const formatGuests = (guests) => {
+export const getGuestsCount = (guests) => {
   const totalGuests = guests.adults + guests.children;
   if (totalGuests === 1) {
     return '1';
@@ -37,10 +37,10 @@ const SearchBar = () => {
         checkout: dates.endDate.toISOString().split('T')[0],
         lang: 'en',
         currency: 'SGD',
-        guests: formatGuests(guests),
+        guests: getGuestsCount(guests)
       }).toString();
 
-      navigate(`/hotelSearch?${searchParams}`);
+      navigate(`/hotelSearch?${searchParams}`, {state: { numRooms: guests.rooms, numAdults: guests.adults, numChildren: guests.children }});
     }
   };
 
