@@ -22,49 +22,55 @@ const randomString = (length) => {
   return result;
 };
 
-// Fuzz test cases generator
-const generateFuzzTestCases = () => {
-  const cases = [];
-  for (let i = 0; i < 100; i++) { // Adjust the number of cases
-    cases.push({
-      name: `Fuzz Test Case ${i + 1}`,
-      value: randomString(Math.floor(Math.random() * 1000) + 1)
+// Function to perform the fuzzing test
+const runFuzzTest = async (logInterval, duration) => {
+  const endTime = Date.now() + duration;  // Duration in milliseconds
+  let testCount = 0;
+
+  while (Date.now() < endTime) {
+    const randomValue = randomString(Math.floor(Math.random() * 1000) + 1);
+    const { getByTestId } = render(<CustomerDetail onCustomerDetailChange={() => {}} />);
+
+    act(() => {
+      fireEvent.change(getByTestId("firstName"), { target: { value: randomValue } });
+      console.log(`Tested firstName with value: ${randomValue}`);
     });
+
+    act(() => {
+      fireEvent.change(getByTestId("lastName"), { target: { value: randomValue } });
+      console.log(`Tested lastName with value: ${randomValue}`);
+    });
+
+    act(() => {
+      fireEvent.change(getByTestId("country"), { target: { value: randomValue } });
+      console.log(`Tested country with value: ${randomValue}`);
+    });
+
+    act(() => {
+      fireEvent.change(getByTestId("telephone"), { target: { value: randomValue } });
+      console.log(`Tested telephone with value: ${randomValue}`);
+    });
+
+    testCount++;
+
+    // Log results at intervals
+    if (testCount % logInterval === 0) {
+      console.log(`Completed ${testCount} fuzz tests.`);
+    }
+
+    // Add a small delay to prevent overwhelming the system
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
   }
-  return cases;
+
+  console.log('Fuzzing test completed.');
 };
 
-// Run continuous fuzz testing
+// Run the fuzz test for a specified duration (e.g., 24 hours)
 describe("Continuous Fuzz Testing", () => {
-  const fuzzTestCases = generateFuzzTestCases();
+  const duration = 24 * 60 * 60 * 1000;  // 24 hours in milliseconds
+  const logInterval = 100;  // Log every 100 tests
 
-  fuzzTestCases.forEach((testCase) => {
-    test(testCase.name, () => {
-      const { getByTestId } = render(<CustomerDetail onCustomerDetailChange={() => {}} />);
-
-      act(() => {
-        const firstNameInput = getByTestId("firstName");
-        fireEvent.change(firstNameInput, { target: { value: testCase.value } });
-        console.log(`Tested firstName with value: ${testCase.value}`);
-      });
-
-      act(() => {
-        const lastNameInput = getByTestId("lastName");
-        fireEvent.change(lastNameInput, { target: { value: testCase.value } });
-        console.log(`Tested lastName with value: ${testCase.value}`);
-      });
-
-      act(() => {
-        const countryInput = getByTestId("country");
-        fireEvent.change(countryInput, { target: { value: testCase.value } });
-        console.log(`Tested country with value: ${testCase.value}`);
-      });
-
-      act(() => {
-        const telephoneInput = getByTestId("telephone");
-        fireEvent.change(telephoneInput, { target: { value: testCase.value } });
-        console.log(`Tested telephone with value: ${testCase.value}`);
-      });
-    });
-  });
+  it("runs fuzz testing for an extended period", async () => {
+    await runFuzzTest(logInterval, duration);
+  }, duration + 60000);  // Add some buffer time to the test duration
 });
