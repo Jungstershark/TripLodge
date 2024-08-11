@@ -23,25 +23,158 @@ describe("Hotel Search API Integration Tests", () => {
         jest.clearAllMocks();
     });
 
-    test("POST /search/destination/:id should return list of hotels for a given destination", async () => {
+    describe("POST /search/destination/:id", () => {
+        test("should return list of hotels for a given destination", async () => {
         
-        // Mock data returned depends on requested endpoint
-        axios.get.mockImplementation((endpoint, params) => {
-            if (endpoint === ascendaAPI.getHotelsByDestination) {
-                // getting hotel info by destination
-                return Promise.resolve({ data: [mockHotelData] }); // only one hotel in list
-            }
-            // else: get hotelPrice by destination
-            return Promise.resolve({data: {
-                searchCompleted: null,
-                completed: true,
-                status: null,
-                currency: "SGD",
-                hotels: [mockPriceData]
-            }});
+            // Mock data returned depends on requested endpoint
+            axios.get.mockImplementation((endpoint, params) => {
+                if (endpoint === ascendaAPI.getHotelsByDestination) {
+                    // getting hotel info by destination
+                    return Promise.resolve({ data: [mockHotelData] }); // only one hotel in list
+                }
+                // else: get hotelPrice by destination
+                return Promise.resolve({data: {
+                    searchCompleted: null,
+                    completed: true,
+                    status: null,
+                    currency: "SGD",
+                    hotels: [mockPriceData]
+                }});
+            });
+    
+            const res = await request(app)
+                .post(`/search/destination/w0Xm`)
+                .send({
+                    checkin: '2024-08-01',
+                    checkout: '2024-08-05',
+                    lang: 'en',
+                    currency: 'USD',
+                    guests: 2
+                });
+    
+            expect(res.statusCode).toBe(200);
+            expect(res.body.length).toBe(1); // only one hotel fetched
+            expect(res.body).toEqual([
+                { hotel: mockHotel, price: mockHotelPrice.price },
+            ]); 
         });
 
-        const res = await request(app)
+        test("should handle empty hotel list data from API", async () => {
+            axios.get.mockImplementation((endpoint, params) => {
+                if (endpoint === ascendaAPI.getHotelsByDestination) {
+                    // getting hotel info by destination
+                    return Promise.resolve({ data: [] }); // empty
+                }
+                // else: get hotelPrice by destination
+                return Promise.resolve({data: {
+                    searchCompleted: null,
+                    completed: true,
+                    status: null,
+                    currency: "SGD",
+                    hotels: [] // empty
+                }});
+            });
+    
+            const res = await request(app)
+                .post(`/search/destination/w0Xm`)
+                .send({
+                    checkin: '2024-08-01',
+                    checkout: '2024-08-05',
+                    lang: 'en',
+                    currency: 'USD',
+                    guests: 2
+                });
+    
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toEqual([]);
+        });
+
+    });
+
+    describe("POST /search/hotel/:id", () => {
+        test("should return hotel details with room information", async () => {
+
+            // Mock data returned depends on requested endpoint
+            axios.get.mockImplementation((endpoint, params) => {
+                if (endpoint === ascendaAPI.getHotel(mockHotelData.id)) {
+                    // getting hotel info by id
+                    return Promise.resolve({ data: mockHotelData }); 
+                }
+                // else: get room by hotel id;
+                return Promise.resolve({data: {
+                    searchCompleted: null,
+                    completed: true,
+                    status: null,
+                    currency: "SGD",
+                    rooms: [mockRoomData] // just one room in the list
+                }});
+            });
+    
+            const res = await request(app)
+                .post(`/search/hotel/${mockHotelData.id}`)
+                .send({
+                    destination_id: 'w0Xm',
+                    checkin: '2024-08-01',
+                    checkout: '2024-08-05',
+                    lang: 'en',
+                    currency: 'USD',
+                    guests: 2
+                });
+    
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toEqual({
+                hotel: mockHotel,
+                rooms: [mockRoom], // just one room
+            });
+        });
+
+        test("should handle hotel not found", async () => {
+            // Mock data returned depends on requested endpoint
+            axios.get.mockImplementation((endpoint, params) => {
+                if (endpoint === ascendaAPI.getHotel(mockHotelData.id)) {
+                    // getting hotel info by id
+                    return Promise.resolve({ data: {} }); 
+                }
+                // else: get room by hotel id;
+                return Promise.resolve({data: {
+                    searchCompleted: null,
+                    completed: true,
+                    status: null,
+                    currency: "SGD",
+                    rooms: [] // just one room in the list
+                }});
+            });
+    
+            const res = await request(app)
+                .post(`/search/hotel/nonexistent`)
+                .send({
+                    destination_id: 'w0Xm',
+                    checkin: '2024-08-01',
+                    checkout: '2024-08-05',
+                    lang: 'en',
+                    currency: 'USD',
+                    guests: 2
+                });
+    
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toEqual({
+                hotel: {},
+                rooms: [], 
+            });
+        });
+
+    });
+
+    test("Endpoints should handle Ascenda API 422 errors (return empty data rather than crash)", async () => {
+        jest.clearAllMocks();
+        axios.get.mockRejectedValue({
+            response: {
+              status: 422,
+              data: 'Unprocessable Entity'
+            }
+          });
+
+        const res1 = await request(app)
             .post(`/search/destination/w0Xm`)
             .send({
                 checkin: '2024-08-01',
@@ -51,34 +184,7 @@ describe("Hotel Search API Integration Tests", () => {
                 guests: 2
             });
 
-        expect(res.statusCode).toBe(200);
-        expect(res.body.length).toBe(1); // only one hotel fetched
-        expect(res.body).toEqual([
-            { hotel: mockHotel, price: mockHotelPrice.price },
-        ]);
-        
-    });
-
-    test("POST /search/hotel/:id should return hotel details with room information", async () => {
-
-        // Mock data returned depends on requested endpoint
-        axios.get.mockImplementation((endpoint, params) => {
-            if (endpoint === ascendaAPI.getHotel(mockHotelData.id)) {
-                // getting hotel info by id
-                console.log('yipee');
-                return Promise.resolve({ data: mockHotelData }); 
-            }
-            // else: get room by hotel id;
-            return Promise.resolve({data: {
-                searchCompleted: null,
-                completed: true,
-                status: null,
-                currency: "SGD",
-                rooms: [mockRoomData] // just one room in the list
-            }});
-        });
-
-        const res = await request(app)
+        const res2 = await request(app)
             .post(`/search/hotel/${mockHotelData.id}`)
             .send({
                 destination_id: 'w0Xm',
@@ -89,11 +195,9 @@ describe("Hotel Search API Integration Tests", () => {
                 guests: 2
             });
 
-        expect(res.statusCode).toBe(200);
-        expect(res.body).toEqual({
-            hotel: mockHotel,
-            rooms: [mockRoom], // just one room
-        });
+        // Does not crash
+        expect(res1.statusCode).toBe(200);
+        expect(res2.statusCode).toBe(200);
     });
 });
 
