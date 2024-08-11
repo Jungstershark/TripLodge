@@ -11,13 +11,13 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import UserContext from '../contexts/UserContext';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 export default function UserSelect() {
     const { user, logout } = useContext(UserContext);
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -29,14 +29,12 @@ export default function UserSelect() {
     const handleMenuItemClick = (action) => {
         handleClose();
         if (action === 'viewBookings') {
-            navigate(`/view-booking`); // Navigate to the bookings page
+            navigate('/bookings'); // Navigate to the bookings page
         } else if (action === 'logout') {
             logout(); // Call logout from UserContext
             navigate('/login'); // Navigate to login page
-        } else if (action === 'updateAccount') {
-            navigate('/personal-info');
+        }
     };
-}
 
     return (
         <React.Fragment>
@@ -91,14 +89,6 @@ export default function UserSelect() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-            <MenuItem onClick={() => handleMenuItemClick('updateAccount')} sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            fontSize: '0.875rem',  // Smaller font size
-            }}>
-            <PermIdentityIcon sx={{ fontSize: 20, mr: 1 }} /> Personal Info
-            </MenuItem>
-            <Divider orientation="vertical" flexItem sx={{  }} />
             <MenuItem onClick={() => handleMenuItemClick('viewBookings')} sx={{ 
             display: 'flex', 
             alignItems: 'center', 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './CancelBookingPage.css'; // Import the CSS file
-import PageHeader from '../pageHeader/pageHeader.js'
 
 const CancelBookingPage = () => {
   const [booking, setBooking] = useState(null);
@@ -53,7 +52,7 @@ const CancelBookingPage = () => {
             status: 'cancelled'
           }));
         } else {
-          console.error('Update booking status failed:', data.message);
+            console.error('Update booking status failed:', data.message);
         }
       } catch (error) {
         console.error('Refund failed:', error);
@@ -72,32 +71,29 @@ const CancelBookingPage = () => {
   }
 
   return (
-    <>
-      <PageHeader />
-      <div className="cancel-booking-page">
-        <h1>Cancel Booking</h1>
-        {booking ? (
-          <div className="booking-details">
-            <h2>Booking Details</h2>
-            <p><strong>Booking ID:</strong> {booking.bookingId}</p>
-            <p><strong>Hotel Name:</strong> {booking.hotelName}</p>
-            <p><strong>Room Type:</strong> {booking.roomTypes}</p>
-            <p><strong>Check-in Date:</strong> {booking.startDate}</p>
-            <p><strong>Check-out Date:</strong> {booking.endDate}</p>
-            <p><strong>Number of Guests:</strong> {booking.numAdults} adults, {booking.numChildren} children</p>
-            <p><strong>Price:</strong> ${booking.price}</p>
-            <br />
-            {booking.status === "cancelled" ? (
-              <p className="cancel-success-message">Booking successfully cancelled</p>
-            ) : (
-              <button onClick={handleCancel} className="cancel-button">Confirm Cancellation</button>
-            )}
-          </div>
-        ) : (
-          <p>No booking details found.</p>
-        )}
-      </div>
-    </>
+    <div className="cancel-booking-page">
+      <h1>Cancel Booking</h1>
+      {booking ? (
+        <div className="booking-details">
+          <h2>Booking Details</h2>
+          <p><strong>Booking ID:</strong> {booking.bookingId}</p>
+          <p><strong>Hotel Name:</strong> {booking.hotelName}</p>
+          <p><strong>Room Type:</strong> {booking.roomTypes}</p>
+          <p><strong>Check-in Date:</strong> {booking.startDate}</p>
+          <p><strong>Check-out Date:</strong> {booking.endDate}</p>
+          <p><strong>Number of Guests:</strong> {booking.numAdults} adults, {booking.numChildren} children</p>
+          <p><strong>Price:</strong> ${booking.price}</p>
+          <br/>
+          {booking.status==="cancelled" ? (
+            <p className="cancel-success-message">Booking successfully cancelled</p>
+          ) : (
+            <button onClick={handleCancel} className="cancel-button">Confirm Cancellation</button>
+          )}
+        </div>
+      ) : (
+        <p>No booking details found.</p>
+      )}
+    </div>
   );
 };
 
