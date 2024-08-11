@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="8" errors="0" time="0.336">
+  <testsuite name="Email Service Tests" errors="0" failures="8" skipped="0" timestamp="2024-08-11T10:06:20" time="0.305" tests="8">
+    <testcase classname="Email Service Tests sendBookingConfirmationEmail sends an email successfully" name="Email Service Tests sendBookingConfirmationEmail sends an email successfully" time="0.001">
+      <failure>TypeError: (0 , _sendEmailController.sendBookingConfirmationEmail) is not a function
+    at Object.&lt;anonymous&gt; (/Users/yangkun/hotel-booking-system-1/server/src/controllers/sendEmailController.js:41:46)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="Email Service Tests sendBookingConfirmationEmail throws an error if email fails to send" name="Email Service Tests sendBookingConfirmationEmail throws an error if email fails to send" time="0">
+      <failure>TypeError: (0 , _sendEmailController.sendBookingConfirmationEmail) is not a function
+    at Object.&lt;anonymous&gt; (/Users/yangkun/hotel-booking-system-1/server/src/controllers/sendEmailController.js:57:46)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="Email Service Tests sendCancelBookingEmail sends an email successfully" name="Email Service Tests sendCancelBookingEmail sends an email successfully" time="0">
+      <failure>TypeError: (0 , _sendEmailController.sendCancelBookingEmail) is not a function
+    at Object.&lt;anonymous&gt; (/Users/yangkun/hotel-booking-system-1/server/src/controllers/sendEmailController.js:66:40)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="Email Service Tests sendCancelBookingEmail throws an error if email fails to send" name="Email Service Tests sendCancelBookingEmail throws an error if email fails to send" time="0">
+      <failure>TypeError: (0 , _sendEmailController.sendCancelBookingEmail) is not a function
+    at Object.&lt;anonymous&gt; (/Users/yangkun/hotel-booking-system-1/server/src/controllers/sendEmailController.js:82:40)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="Email Service Tests sendBookingConfirmationEmail sends an email successfully" name="Email Service Tests sendBookingConfirmationEmail sends an email successfully" time="0.001">
+      <failure>TypeError: sendBookingConfirmationEmail is not a function
+    at Object.sendBookingConfirmationEmail (/Users/yangkun/hotel-booking-system-1/server/test/controllers/sendEmailController.test.js:40:18)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="Email Service Tests sendBookingConfirmationEmail throws an error if email fails to send" name="Email Service Tests sendBookingConfirmationEmail throws an error if email fails to send" time="0">
+      <failure>TypeError: sendBookingConfirmationEmail is not a function
+    at Object.sendBookingConfirmationEmail (/Users/yangkun/hotel-booking-system-1/server/test/controllers/sendEmailController.test.js:56:18)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="Email Service Tests sendCancelBookingEmail sends an email successfully" name="Email Service Tests sendCancelBookingEmail sends an email successfully" time="0">
+      <failure>TypeError: sendCancelBookingEmail is not a function
+    at Object.sendCancelBookingEmail (/Users/yangkun/hotel-booking-system-1/server/test/controllers/sendEmailController.test.js:65:18)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="Email Service Tests sendCancelBookingEmail throws an error if email fails to send" name="Email Service Tests sendCancelBookingEmail throws an error if email fails to send" time="0">
+      <failure>TypeError: sendCancelBookingEmail is not a function
+    at Object.sendCancelBookingEmail (/Users/yangkun/hotel-booking-system-1/server/test/controllers/sendEmailController.test.js:81:18)
+    at Promise.then.completed (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:121:9)
+    at run (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/Users/yangkun/hotel-booking-system-1/server/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

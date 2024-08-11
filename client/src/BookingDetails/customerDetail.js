@@ -15,6 +15,7 @@ function CustomerDetail({ onCustomerDetailChange }) {
                     name="firstName"
                     className='Name'
                     onChange={handleChange}
+                    data-testid="firstName"
                 />
             </div>
             <div className="LastNameContainer">
@@ -23,6 +24,7 @@ function CustomerDetail({ onCustomerDetailChange }) {
                     name="lastName"
                     className='Name'
                     onChange={handleChange}
+                    data-testid="lastName"
                 />
             </div>
             <div className="CountryContainer">
@@ -31,6 +33,7 @@ function CustomerDetail({ onCustomerDetailChange }) {
                     name="country"
                     className="other"
                     onChange={handleChange}
+                    data-testid="country"
                 />
             </div>
             <div className="TelephoneContainer">
@@ -39,6 +42,7 @@ function CustomerDetail({ onCustomerDetailChange }) {
                     name="telephone"
                     className="other"
                     onChange={handleChange}
+                    data-testid="telephone"
                 />
             </div>
         </div>
