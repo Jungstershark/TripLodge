@@ -132,7 +132,7 @@ After setting up the system, you can:
 
 3. **User Account:** Register, log in, and manage your account details, including saved bookings and payment information.
 <div align="center">
-    <img src="media/TripLodge_SignUp.jpg" alt="SignUp" width="700" height="466">
+    <img src="media/TripLodge_SignUp.png" alt="SignUp" width="700" height="466">
 </div>
 
 ## Testing
